@@ -54,3 +54,7 @@ func _ready():
 		
 			add_child(s)
 			
+
+
+#func _on_SwipeDetection_click(): #(use this for whatever event we use when the player clicks)
+	#print('hi')
