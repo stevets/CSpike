@@ -11,7 +11,7 @@ onready var timer = $Timer
 var swipe_start_position = Vector2()
 	
 func _input(event):
-	if not event is eventtype[1]:
+	if not event is eventtype[0]:
 		return
 	if event.pressed:
 		_start_detection(event.position)
