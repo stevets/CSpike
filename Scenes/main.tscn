@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -28,6 +28,9 @@ albedo_texture = ExtResource( 12 )
 
 [sub_resource type="QuadMesh" id=4]
 material = SubResource( 3 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 1, 1, 1 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 7 )
@@ -90,9 +93,14 @@ visible = false
 fov = 77.7
 size = 0.1
 far = 1000.0
+
+[node name="target" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -16.817, -30 )
+mesh = SubResource( 5 )
+material/0 = null
 [connection signal="click" from="." to="Player" method="_on_Main_click"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
-[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="playermove" from="Player" to="." method="_on_Player_playermove"]
