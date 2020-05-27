@@ -100,7 +100,7 @@ mesh = SubResource( 5 )
 material/0 = null
 [connection signal="click" from="." to="Player" method="_on_Main_click"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
+[connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
-[connection signal="playermove" from="Player" to="." method="_on_Player_playermove"]
+[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]

@@ -1,7 +1,7 @@
 extends KinematicBody
 
 signal destroy(objID)
-signal playermove()
+
 var res = false
 
 var red = ColorN("red", 1)
@@ -33,6 +33,8 @@ func _on_Main_swiped(direction):
 			#print("before right: ", playerpos)
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
 			#print("after right: ", ply.get_global_transform().origin.x)
+
+	
 	#print(ply.get_global_transform().origin.x)
 	#print("x = ",originx," y = ", originy," z = ", originz)
 #	space_state = get_world().direct_space_state
@@ -74,12 +76,18 @@ func _process(delta):
 				print(result.collider)
 				var objID = result.collider
 				emit_signal("destroy", objID)
-				emit_signal("playermove")
-			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
-				emit_signal("playermove")
+				
+#			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
+#				emit_signal("playermove")
 				
 		
 		res = false
 
 func _on_Main_click():
 	res = true
+
+
+func _on_Main_swipedup():
+	var ply = get_tree().get_root().get_node("Main/player1")
+	var playerpos = ply.get_global_transform().origin.x
+	ply.global_translate(Vector3(0,0,-1.1))

@@ -3,6 +3,7 @@ extends Node
 signal swiped(direction)
 #signal swipe_canceled(start_position)
 signal click()
+signal swipedup()
 
 onready var cubeinst = preload("res://Scenes/cube.tscn")
 onready var ballinst = preload("res://Scenes/ball.tscn")
@@ -96,8 +97,23 @@ func _end_detection(position):
 	timer.stop()
 	var direction = (position - swipe_start_position)
 	var swipedetection = 60
-	if direction.x >= swipedetection or direction.x <= -swipedetection:
-		emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
+	var hangle = 15
+	var vangle = 75
+	if direction.length() >= 60:
+		var swipeangle = direction.angle_to(Vector2(1, 0))*180/3.14
+		print(swipeangle)
+		if swipeangle <= hangle or swipeangle >= 180 - hangle:
+			if direction.x >= swipedetection or direction.x <= -swipedetection:
+				emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
+		elif swipeangle >= vangle or swipeangle <= 180 - vangle:
+			emit_signal('swipedup')
+		else:
+			print('swipe again')
+#		print(direction)
+#		print('lengthofvector', direction.length())
+#		print(direction.angle_to(Vector2(1, 0))*180/3.14)
+#	if direction.x >= swipedetection or direction.x <= -swipedetection:
+#		emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
 	else:
 		emit_signal('click')
 		print("click")
