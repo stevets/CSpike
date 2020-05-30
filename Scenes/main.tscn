@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -14,7 +14,9 @@
 [ext_resource path="res://Assets/Untitled-1.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/cubetex.tscn" type="PackedScene" id=13]
 [ext_resource path="res://VirtualWorld .ogg" type="AudioStream" id=14]
+[ext_resource path="res://Scenes/TitleScreen.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Assets/jsplash.jpg" type="Texture" id=16]
+[ext_resource path="res://Scenes/SettingScreen.tscn" type="PackedScene" id=17]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.156863, 0.141176, 0.141176, 1 )
@@ -117,10 +119,16 @@ autoplay = true
 transform = Transform( 10, 0, 0, 0, -1.74846e-06, 10, 0, -40, -4.37114e-07, 0, 0, -24.9278 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 6 )
+
+[node name="TitleScreen" parent="." instance=ExtResource( 15 )]
+visible = false
+
+[node name="SettingScreen" parent="." instance=ExtResource( 17 )]
+visible = false
 [connection signal="click" from="." to="Player" method="_on_Main_click"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]

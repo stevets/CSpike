@@ -98,7 +98,10 @@ func _on_GameTick_timeout():
 	ply.get_child(1).playing = true
 	var cam = get_tree().get_root().get_node("Main/Camera")
 	var playerpos = ply.get_global_transform().origin.x
+	var playerposz = ply.get_global_transform().origin.z
 	
 	ply.global_translate(Vector3(0,0,-1))
 	cam.global_translate(Vector3(0,0,-1))
 	ply.get_child(1).playing = false
+	if playerposz < -21:
+		get_tree().change_scene("res://Scenes/TitleScreen.tscn")
