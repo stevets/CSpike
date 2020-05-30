@@ -5,7 +5,7 @@ signal destroy(objID)
 var res = false
 
 var red = ColorN("red", 1)
-var dx = 1.1
+var dx = 1
 var space_state
 var result
 var colorcube
@@ -15,24 +15,16 @@ func _on_Main_swiped(direction):
 	var playerpos = ply.get_global_transform().origin.x
 	if direction.x >= 0:
 		#print("direction = ", direction.x)
-		if playerpos < 1.1:
-			#print("before left: ", playerpos)
-			ply.global_translate(Vector3(4.4,0,0))  #move character to the left
-			#print("after left: ", ply.get_global_transform().origin.x)
+		if playerpos < 1:
+			pass
 		else:
-			#print("before left: ", playerpos)
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
-			#print("after left: ", ply.get_global_transform().origin.x)
 	else:
 		print("direction = ", direction.x)
-		if playerpos > 4:
-			#print("before right: ", playerpos)
-			ply.global_translate(Vector3(-4.4, 0, 0)) #move character to the right
-			#print("after right: ", ply.get_global_transform().origin.x)
+		if playerpos > 3:
+			pass
 		else:
-			#print("before right: ", playerpos)
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
-			#print("after right: ", ply.get_global_transform().origin.x)
 
 	
 	#print(ply.get_global_transform().origin.x)
@@ -57,9 +49,9 @@ func _process(delta):
 		var originx = ply.get_global_transform().origin.x
 		var originy = ply.get_global_transform().origin.y
 		var originz = ply.get_global_transform().origin.z
-		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,-21))	
+		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,-21), [self])	
 		print("result ", result)
-		colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz))
+		colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
 		print("colorcube ", colorcube)
 		
 		
@@ -76,6 +68,8 @@ func _process(delta):
 				print(result.collider)
 				var objID = result.collider
 				emit_signal("destroy", objID)
+				#var ply = get_tree().get_root().get_node("Main/player1")
+				ply.get_child(3).playing = true
 				
 #			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 #				emit_signal("playermove")
@@ -85,9 +79,26 @@ func _process(delta):
 
 func _on_Main_click():
 	res = true
+	var ply = get_tree().get_root().get_node("Main/player1")
+	ply.get_child(2).playing = true
 
 
 func _on_Main_swipedup():
+	pass
+#	var ply = get_tree().get_root().get_node("Main/player1")
+#	var cam = get_tree().get_root().get_node("Main/Camera")
+#	var playerpos = ply.get_global_transform().origin.x
+#	ply.global_translate(Vector3(0,0,-1))
+#	cam.global_translate(Vector3(0,0,-1))
+
+
+func _on_GameTick_timeout():
+	
 	var ply = get_tree().get_root().get_node("Main/player1")
+	ply.get_child(1).playing = true
+	var cam = get_tree().get_root().get_node("Main/Camera")
 	var playerpos = ply.get_global_transform().origin.x
-	ply.global_translate(Vector3(0,0,-1.1))
+	
+	ply.global_translate(Vector3(0,0,-1))
+	cam.global_translate(Vector3(0,0,-1))
+	ply.get_child(1).playing = false

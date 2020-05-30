@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/weights_dropped.wav-b7a2d882a0c95c33891f04b994d6b604.sample"
+
+[deps]
+
+source_file="res://Assets/weights_dropped.wav"
+dest_files=[ "res://.import/weights_dropped.wav-b7a2d882a0c95c33891f04b994d6b604.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
