@@ -5,6 +5,8 @@ signal swiped(direction)
 signal click()
 signal swipedup()
 
+#onready var globals = get_node("/root/Globals")
+
 onready var cubeinst = preload("res://Scenes/cube.tscn")
 onready var ballinst = preload("res://Scenes/ball.tscn")
 onready var geminst = preload("res://Scenes/gem.tscn")
@@ -22,13 +24,21 @@ var yellow = ColorN("yellow", 1)
 var colorarray = [red, blue, green, yellow]
 var rng = RandomNumberGenerator.new()
 export var space = 1
-export var rows = 20
+var rows = 20
 export var columns = 5
 
 var ply : KinematicBody
 onready var tick = $GameTick
+onready var globals = $"/root/Globals"
+
+var game_started = true
+var game_began = false
+
+#var score = 0 
 
 func _ready():
+	$TitleScreen.set_visibility(true)
+	$MusicPlayer.volume_db = globals.music_volume
 	#Create game board with cubes and gems-------------------------------------------------
 	for  i in range(rows):
 		for j in range(columns):
@@ -77,12 +87,12 @@ func _ready():
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
 	print(ply.get_children())
-	tick.start(10)
+	
+	$HUD.hide()
 
 #------Swipe dectection and Click-----------------------------------------------
-func _process(delta):
-	pass
-	
+func _process(_delta):
+	$HUD.update_score()
 var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
@@ -118,19 +128,25 @@ func _end_detection(position):
 			emit_signal('swipedup')
 		else:
 			print('swipe again')
-	else:
+	elif game_started :
+		$EffectGunPlayer.volume_db = -80
 		emit_signal('click')
 		print("click")
+	else:
+		$EffectGunPlayer.volume_db = globals.effects_volume
+		emit_signal('click')
+		print("beganclick")
+			
 		
-	
+
 
 func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position)
 	
-#func _on_SwipeDetection_click(): #(use this for whatever event we use when the player clicks)
-	#print('hi')
 
-
-
-func _on_Player_playermove():
-	ply.global_translate(Vector3(0,0,-1.1))
+func _on_TitleScreen_start_game():
+	$TitleScreen.set_visibility(false)
+	$HUD.show()
+	tick.start(10)
+	game_started = true
+	$EffectGunPlayer.volume_db = -80

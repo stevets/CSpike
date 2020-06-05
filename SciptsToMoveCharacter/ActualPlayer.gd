@@ -2,14 +2,21 @@ extends KinematicBody
 
 signal destroy(objID)
 
-var res = false
+var fired_weapon = false
 
 var red = ColorN("red", 1)
 var dx = 1
 var space_state
 var result
 var colorcube
-	
+onready var globals = $"/root/Globals"
+onready var ply = get_tree().get_root().get_node("Main/player1")
+
+func _ready():
+	pass
+
+
+
 func _on_Main_swiped(direction):
 	var ply = get_tree().get_root().get_node("Main/player1")
 	var playerpos = ply.get_global_transform().origin.x
@@ -25,24 +32,10 @@ func _on_Main_swiped(direction):
 			pass
 		else:
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
-
-	
-	#print(ply.get_global_transform().origin.x)
-	#print("x = ",originx," y = ", originy," z = ", originz)
-#	space_state = get_world().direct_space_state
-#	#var ply = get_tree().get_root().get_node("Main/player1")
-#	var originx = ply.get_global_transform().origin.x
-#	var originy = ply.get_global_transform().origin.y
-#	var originz = ply.get_global_transform().origin.z
-#	result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,-21))	
-#	print("result ", result)
-#	colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz))
-#	print("colorcube ", colorcube)
-#	res = true
 	
 func _process(delta):
 	
-	while res:
+	while fired_weapon:
 		print("process running")
 		space_state = get_world().direct_space_state
 		var ply = get_tree().get_root().get_node("Main/player1")
@@ -75,10 +68,10 @@ func _process(delta):
 #				emit_signal("playermove")
 				
 		
-		res = false
+		fired_weapon = false
 
 func _on_Main_click():
-	res = true
+	fired_weapon = true
 	var ply = get_tree().get_root().get_node("Main/player1")
 	ply.get_child(2).playing = true
 
@@ -100,8 +93,16 @@ func _on_GameTick_timeout():
 	var playerpos = ply.get_global_transform().origin.x
 	var playerposz = ply.get_global_transform().origin.z
 	
+	globals.finalscore += 1
+#	var currentscore = int(score.text)
+#	score.text = str(currentscore + 1)
 	ply.global_translate(Vector3(0,0,-1))
 	cam.global_translate(Vector3(0,0,-1))
 	ply.get_child(1).playing = false
-	if playerposz < -21:
-		get_tree().change_scene("res://Scenes/TitleScreen.tscn")
+	if playerposz < -19:
+		#var globals = $"/root/Globals"
+		#globals.finalscore = currentscore
+		if globals.finalscore > globals.highscore:
+			globals.highscore = globals.finalscore
+		get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+

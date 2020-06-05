@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/lifeofleo.ogg-b02f6ff3740f6c1b690024c8ebbec4fe.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/lifeofleo.ogg"
+dest_files=[ "res://.import/lifeofleo.ogg-b02f6ff3740f6c1b690024c8ebbec4fe.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

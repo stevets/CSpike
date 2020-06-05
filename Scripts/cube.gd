@@ -1,7 +1,7 @@
 extends MeshInstance
 
 
-func _on_Player_destroy(objID):
+func _on_Player_destroy(_objID):
 	pass
 #	print("received signal", objID)
 #	print(self)
