@@ -19,6 +19,10 @@ func load_game():
 		# Get the saved dictionary from the next line in the save file
 		var node_data = parse_json(save_game.get_line())
 		print("Node Data: ", node_data)
-		highscore = node_data["highscore"]
+		if node_data.has("effectsvolume"):
+			music_volume = node_data["musicvolume"]
+			effects_volume = node_data["effectsvolume"]
+		elif node_data.has("highscore"):
+			highscore = node_data["highscore"]
 
 	save_game.close()

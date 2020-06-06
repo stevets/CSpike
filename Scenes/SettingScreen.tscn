@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/SettingScreen.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,10 @@ size = 63
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+
+[sub_resource type="StyleBoxFlat" id=3]
 
 [node name="SettingScreen" type="Control"]
 anchor_right = 1.0
@@ -60,6 +64,7 @@ align = 1
 margin_top = 303.0
 margin_right = 196.0
 margin_bottom = 319.0
+custom_styles/grabber_area = SubResource( 2 )
 min_value = -60.0
 max_value = 0.0
 step = 2.0
@@ -80,6 +85,7 @@ align = 1
 margin_top = 550.0
 margin_right = 196.0
 margin_bottom = 566.0
+custom_styles/grabber_area = SubResource( 3 )
 min_value = -60.0
 max_value = 0.0
 step = 2.0

@@ -23,6 +23,7 @@ var yellow = ColorN("yellow", 1)
 
 var colorarray = [red, blue, green, yellow]
 var rng = RandomNumberGenerator.new()
+var h_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
 export var columns = 5
@@ -43,6 +44,7 @@ func _ready():
 	for  i in range(rows):
 		for j in range(columns):
 			rng.randomize()
+			h_rng.randomize()
 			var my_random_number = rng.randi_range(0, 3)
 			var s = cubetexinst.instance()
 			

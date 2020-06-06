@@ -139,7 +139,9 @@ material/0 = SubResource( 6 )
 [node name="TitleScreen" parent="." instance=ExtResource( 15 )]
 visible = false
 
-[node name="SettingScreen" parent="." instance=ExtResource( 17 )]
+[node name="SettingScreen" parent="." groups=[
+"persist",
+] instance=ExtResource( 17 )]
 visible = false
 
 [node name="HighScoreScreen" parent="." groups=[

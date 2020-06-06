@@ -4,7 +4,6 @@ signal start_game
 
 #onready var mainscene = preload("res://Scenes/main.tscn")
 onready var globals = get_node("/root/Globals")
-onready var titlemusic = get_tree().get_root().get_node("Main/TitleMusicPlayer")
 onready var music = get_tree().get_root().get_node("Main/MusicPlayer")
 func _ready():
 	$CenterContainer/VBoxContainer/highscore.text = str(globals.highscore)
