@@ -12,7 +12,7 @@ onready var ballinst = preload("res://Scenes/ball.tscn")
 onready var geminst = preload("res://Scenes/gem.tscn")
 onready var coneinst = preload("res://Scenes/pyramid.tscn")
 onready var playinst = preload("res://Scenes/Player.tscn")
-onready var cubetexinst = preload("res://Scenes/cube.tscn")
+onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 
 
 var red = ColorN("red", 1)
@@ -52,9 +52,9 @@ func _ready():
 #			s.get_child(0).mesh.surface_get_material(0).albedo_color = colorarray[my_random_number]
 #			s.get_child(0).set_surface_material(0, unique_mat)
 
-#			var unique_mat = s.get_child(0).get_surface_material(0).duplicate()
-#			s.get_child(0).set_surface_material(0, unique_mat)
-#			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
+			var unique_mat = s.get_child(0).get_surface_material(0).duplicate()
+			s.get_child(0).set_surface_material(0, unique_mat)
+			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
 			if i > 5:
 				rng.randomize()
 				var vis_random = rng.randi_range(0,10)
