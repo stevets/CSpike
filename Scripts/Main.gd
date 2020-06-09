@@ -23,7 +23,7 @@ var yellow = ColorN("yellow", 1)
 
 var colorarray = [red, blue, green, yellow]
 var rng = RandomNumberGenerator.new()
-var h_rng = RandomNumberGenerator.new()
+var raise_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
 export var columns = 5
@@ -34,6 +34,7 @@ onready var globals = $"/root/Globals"
 
 var game_started = true
 var game_began = false
+var raise = 0
 
 #var score = 0 
 
@@ -44,7 +45,7 @@ func _ready():
 	for  i in range(rows):
 		for j in range(columns):
 			rng.randomize()
-			h_rng.randomize()
+			raise_rng.randomize()
 			var my_random_number = rng.randi_range(0, 3)
 			var s = cubetexinst.instance()
 			
@@ -59,27 +60,31 @@ func _ready():
 				rng.randomize()
 				var vis_random = rng.randi_range(0,10)
 				var my_random_numberp = rng.randi_range(0, 3)
-
+				raise = raise_rng.randi_range(0,1)
 				if vis_random == 1 or vis_random == 5 or vis_random == 9:
-					var p = ballinst.instance()
-					#p.translate(Vector3((j)*space, 1 ,-i* space))
-					var unique_matp = p.get_surface_material(0).duplicate()
-					p.set_surface_material(0, unique_matp)
-					p.get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-					add_child(p)
-					p.global_translate(Vector3(j*space, 0.8 ,-i* space))
+					s.get_child(0).get_child(1).mesh = SphereMesh.new()
+					s.get_child(0).get_child(1).create_trimesh_collision()
+					var unique_mat1 = SpatialMaterial.new()
+					#s.get_child(0).get_child(1)
+					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
+					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
+					add_child(s)
+					s.global_translate(Vector3((j * space), raise  ,-i * space))
 				elif vis_random == 2 or vis_random == 6:
-					var g = geminst.instance()
-					#g.translate(Vector3((j)*space, 1 ,-i* space))
-					g.rotate_x(45)
-					g.rotate_y(45)
-					var unique_matp = g.get_surface_material(0).duplicate()
-					g.set_surface_material(0, unique_matp)
-					g.get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-					add_child(g)
-					g.global_translate(Vector3(j*space, 0.8 ,-i* space))
-			add_child(s)
-			s.global_translate(Vector3((j * space), 0 ,-i * space))
+					s.get_child(0).get_child(1).mesh = CubeMesh.new()
+					s.get_child(0).get_child(1).create_trimesh_collision()
+					var unique_mat1 = SpatialMaterial.new()
+					#s.get_child(0).get_child(1)
+					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
+					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
+					add_child(s)
+					s.global_translate(Vector3((j * space), raise  ,-i * space))
+				else:
+					add_child(s)
+					s.global_translate(Vector3((j * space), 0 ,-i * space))
+			else:
+				add_child(s)
+				s.global_translate(Vector3((j * space), 0 ,-i * space))
 			#print(s.get_global_transform().origin)
 	#Add Player-----------------------------------------------------------------------------
 	ply = playinst.instance()
@@ -91,7 +96,6 @@ func _ready():
 	print(ply.get_children())
 	
 	$HUD.hide()
-
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
 	$HUD.update_score()

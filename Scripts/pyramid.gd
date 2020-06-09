@@ -4,5 +4,7 @@ extends MeshInstance
 
 
 func _on_Player_destroy(objID):
-	objID.get_parent().queue_free()
+	pass
+	
+		#objID.get_parent().queue_free()
 
