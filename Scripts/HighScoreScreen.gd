@@ -3,7 +3,7 @@ extends Control
 onready var globals = $"/root/Globals"
 onready var score = get_node("CenterContainer/VBoxContainer/score")
 onready var highscore = get_node("CenterContainer/VBoxContainer/newhighscore")
-
+onready var titlemusic = $"/root/Globalnode"
 #
 func _ready():
 	highscore.text = str(globals.highscore)
@@ -16,7 +16,7 @@ func _ready():
 
 func _on_Retry_pressed():
 	var _changescene = get_tree().change_scene("res://Scenes/main.tscn")
-	
+	titlemusic.get_node("TitleMusicPlayer").play()
 	
 func save():
 	var save_dict = {"highscore": globals.highscore}

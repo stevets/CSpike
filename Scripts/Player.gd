@@ -19,19 +19,34 @@ onready var didstart = get_tree().get_root().get_node("Main")
 
 func _on_Main_swiped(direction):
 	var ply = get_tree().get_root().get_node("Main/player1")
-	var playerpos = ply.get_global_transform().origin.x
+	space_state = get_world().direct_space_state
+	var playerposx = ply.get_global_transform().origin.x
+	var playerposy = ply.get_global_transform().origin.y
+	var playerposz = ply.get_global_transform().origin.z
+	var resultleft = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx - 1.5,playerposy,playerposz), [self])
+	var resultright = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx + 1.5,playerposy,playerposz), [self])
+	print("resultLeft:", resultleft)
+	print("resultRight:",resultright)
 	if direction.x >= 0:
 		#print("direction = ", direction.x)
-		if playerpos < 1:
+		if playerposx < 1:
 			pass
+		elif resultleft.has("collider"):
+			pass
+			
 		else:
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
+			
 	else:
 		print("direction = ", direction.x)
-		if playerpos > 3:
+		if playerposx > 3:
 			pass
+		elif resultright.has("collider"):
+			pass
+			
 		else:
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
+			
 	
 func _process(_delta):
 	
@@ -86,22 +101,24 @@ func _on_Main_swipedup():
 
 
 func _on_GameTick_timeout():
-	
 	var ply = get_tree().get_root().get_node("Main/player1")
-	rowchange.volume_db = globals.effects_volume
-	rowchange.play()
-	var cam = get_tree().get_root().get_node("Main/Camera")
-	#var playerpos = ply.get_global_transform().origin.x
+	space_state = get_world().direct_space_state
+	var playerposx = ply.get_global_transform().origin.x
+	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
-	
-	globals.finalscore += 1
-#	var currentscore = int(score.text)
-#	score.text = str(currentscore + 1)
-	ply.global_translate(Vector3(0,0,-1))
-	cam.global_translate(Vector3(0,0,-1))
-	if playerposz < -19:
-		#var globals = $"/root/Globals"
-		#globals.finalscore = currentscore
+	var resultfront = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
+	if resultfront.has("collider"):
+		if globals.finalscore > globals.highscore:
+			globals.highscore = globals.finalscore
+		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+	else:
+		rowchange.volume_db = globals.effects_volume
+		rowchange.play()
+		var cam = get_tree().get_root().get_node("Main/Camera")
+		globals.finalscore += 1
+		ply.global_translate(Vector3(0,0,-1))
+		cam.global_translate(Vector3(0,0,-1))
+	if playerposz < -18:
 		if globals.finalscore > globals.highscore:
 			globals.highscore = globals.finalscore
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
