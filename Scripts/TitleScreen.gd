@@ -6,7 +6,7 @@ signal start_game
 onready var globals = get_node("/root/Globals")
 onready var music = get_tree().get_root().get_node("Main/MusicPlayer")
 func _ready():
-	$CenterContainer/VBoxContainer/highscore.text = str(globals.highscore)
+	#$CenterContainer/VBoxContainer/highscore.text = str(globals.highscore)
 	print(str(globals.get_parent()))
 
 

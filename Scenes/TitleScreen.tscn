@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/TitleScreen.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/images/Portrait Launch Screens/ColorSpikeLogo.png" type="Texture" id=3]
+[ext_resource path="res://Assets/images/Portrait Launch Screens/BlackBackground.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 90
@@ -22,13 +24,9 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = 17.0
-margin_top = 309.0
-margin_right = 732.0
-margin_bottom = 1024.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_right = 500.0
+margin_bottom = 890.0
+texture = ExtResource( 4 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -37,39 +35,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 207.0
-margin_top = 539.0
-margin_right = 543.0
-margin_bottom = 795.0
+[node name="VSplitContainer" type="VSplitContainer" parent="CenterContainer"]
+margin_top = 200.0
+margin_bottom = 890.0
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VSplitContainer"]
+margin_right = 500.0
+margin_bottom = 186.0
+texture = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VSplitContainer"]
+margin_top = 300.0
+margin_right = 500.0
+margin_bottom = 588.0
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+custom_constants/separation = 20
 alignment = 1
 
-[node name="play" type="MenuButton" parent="CenterContainer/VBoxContainer"]
+[node name="play" type="MenuButton" parent="CenterContainer/VSplitContainer/VBoxContainer"]
 show_behind_parent = true
-margin_right = 336.0
+margin_right = 500.0
 margin_bottom = 99.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 custom_fonts/font = SubResource( 1 )
 text = "PLAY"
 
-[node name="settings" type="MenuButton" parent="CenterContainer/VBoxContainer"]
-margin_top = 103.0
-margin_right = 336.0
-margin_bottom = 202.0
+[node name="settings" type="MenuButton" parent="CenterContainer/VSplitContainer/VBoxContainer"]
+margin_top = 119.0
+margin_right = 500.0
+margin_bottom = 218.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 custom_fonts/font = SubResource( 1 )
 text = "Settings"
 
-[node name="highscore" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 206.0
-margin_right = 336.0
-margin_bottom = 256.0
+[node name="highscore" type="Label" parent="CenterContainer/VSplitContainer/VBoxContainer"]
+margin_top = 238.0
+margin_right = 500.0
+margin_bottom = 288.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 1
-[connection signal="pressed" from="CenterContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="CenterContainer/VSplitContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/VSplitContainer/VBoxContainer/settings" to="." method="_on_settings_pressed"]
