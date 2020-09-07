@@ -13,3 +13,6 @@ func show():
 	
 func update_score():
 	$ScoreBox/HBoxContainer/score.text = str(globals.finalscore)
+	
+func update_ammo():
+	$ScoreBox/HBoxContainer/ammo.text = str(globals.ammo)

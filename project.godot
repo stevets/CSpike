@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Color Spike"
-run/main_scene="res://Scenes/main.tscn"
+run/main_scene="res://Scenes/MainScreen.tscn"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.png"
@@ -28,10 +28,11 @@ Globalnode="*res://Scenes/Globalnode.tscn"
 
 [display]
 
-window/size/width=500
-window/size/height=890
+window/size/width=1000
+window/size/height=2000
+window/size/always_on_top=true
 window/size/test_width=500
-window/size/test_height=890
+window/size/test_height=1000
 window/per_pixel_transparency/allowed=true
 window/handheld/orientation="portrait"
 window/ios/hide_home_indicator=false
@@ -40,6 +41,7 @@ window/stretch/aspect="keep"
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
 environment/default_environment="res://default_env.tres"

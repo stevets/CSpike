@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -11,17 +11,16 @@
 [ext_resource path="res://Scripts/gem.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/cube.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scripts/pyramid.gd" type="Script" id=11]
-[ext_resource path="res://Assets/Untitled-1.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/newcube.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Assets/Music-Effects/layeredgunshot.wav" type="AudioStream" id=14]
-[ext_resource path="res://Scenes/TitleScreen.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Assets/jsplash.jpg" type="Texture" id=16]
 [ext_resource path="res://Scenes/SettingScreen.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Assets/Music-Effects/explosion.wav" type="AudioStream" id=18]
 [ext_resource path="res://Scenes/HighScoreScreen.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=20]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=21]
 [ext_resource path="res://Assets/Music-Effects/weights_dropped.wav" type="AudioStream" id=22]
+[ext_resource path="res://Scenes/MainScreen.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Scenes/Achievements.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.156863, 0.141176, 0.141176, 1 )
@@ -30,22 +29,11 @@ albedo_color = Color( 0.156863, 0.141176, 0.141176, 1 )
 material = SubResource( 1 )
 size = Vector2( 50, 50 )
 
-[sub_resource type="SpatialMaterial" id=3]
-flags_transparent = true
-flags_unshaded = true
-flags_albedo_tex_force_srgb = true
-albedo_texture = ExtResource( 12 )
-
-[sub_resource type="QuadMesh" id=4]
-material = SubResource( 3 )
-
 [sub_resource type="CylinderMesh" id=5]
 flip_faces = true
 
-[sub_resource type="SpatialMaterial" id=6]
-albedo_texture = ExtResource( 16 )
-metallic = 0.05
-metallic_specular = 0.54
+[sub_resource type="SpatialMaterial" id=10]
+albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 40
@@ -57,6 +45,34 @@ font_data = ExtResource( 20 )
 
 [sub_resource type="Theme" id=9]
 default_font = SubResource( 8 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=12]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 40
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 40
+font_data = ExtResource( 20 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 7 )
@@ -102,14 +118,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
 visible = false
 script = ExtResource( 9 )
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-visible = false
-
-[node name="MeshInstance" type="MeshInstance" parent="Sprite3D"]
-transform = Transform( 0.732436, 0, -0.680836, 0, 1, 0, 0.680836, 0, 0.732436, 0, 1.47475, -2.4422 )
-mesh = SubResource( 4 )
-material/0 = null
-
 [node name="cube" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
 visible = false
@@ -127,13 +135,10 @@ far = 1000.0
 stream = ExtResource( 4 )
 volume_db = 5.0
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="Background" type="MeshInstance" parent="."]
 transform = Transform( 10, 0, 0, 0, -1.74846e-06, 10, 0, -40, -4.37114e-07, 0, 0, -24.9278 )
 mesh = SubResource( 5 )
-material/0 = SubResource( 6 )
-
-[node name="TitleScreen" parent="." instance=ExtResource( 15 )]
-visible = false
+material/0 = SubResource( 10 )
 
 [node name="SettingScreen" parent="." groups=[
 "persist",
@@ -149,6 +154,7 @@ visible = false
 script = ExtResource( 21 )
 
 [node name="ScoreBox" type="MarginContainer" parent="HUD"]
+visible = false
 anchor_right = 1.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -158,25 +164,83 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="HUD/ScoreBox"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 980.0
+margin_bottom = 62.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/ScoreBox"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 480.0
+margin_right = 980.0
 margin_bottom = 62.0
-custom_constants/separation = 20
+custom_constants/separation = 45
+alignment = 1
 
-[node name="label" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
-margin_right = 101.0
+[node name="Score" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 38.0
+margin_right = 139.0
 margin_bottom = 42.0
 custom_fonts/font = SubResource( 7 )
 text = "Score"
 
 [node name="score" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
-margin_left = 121.0
-margin_right = 174.0
+margin_left = 184.0
+margin_right = 237.0
 margin_bottom = 42.0
 theme = SubResource( 9 )
+custom_fonts/font = SubResource( 11 )
 text = "100"
+
+[node name="Ammo" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 282.0
+margin_right = 392.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 1, 0, 0.329412, 1 )
+text = "Ammo"
+align = 2
+
+[node name="ammo" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 437.0
+margin_right = 458.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "0"
+align = 2
+
+[node name="Health" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 503.0
+margin_right = 621.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color = Color( 0.454902, 1, 0.00392157, 1 )
+text = "Health"
+
+[node name="health" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 666.0
+margin_right = 719.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 15 )
+text = "100"
+
+[node name="Coins" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 764.0
+margin_right = 856.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 16 )
+custom_colors/font_color = Color( 1, 0.984314, 0.0117647, 1 )
+text = "Coins"
+
+[node name="coins" type="Label" parent="HUD/ScoreBox/HBoxContainer"]
+margin_left = 901.0
+margin_right = 922.0
+margin_bottom = 42.0
+custom_fonts/font = SubResource( 17 )
+text = "0"
 
 [node name="EffectGunPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
@@ -193,12 +257,18 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
 visible = false
 
 [node name="mainnode" type="Node" parent="."]
+
+[node name="MainScreen" parent="." instance=ExtResource( 23 )]
+visible = false
+
+[node name="Achievements" parent="." instance=ExtResource( 24 )]
+visible = false
 [connection signal="click" from="." to="Player" method="_on_Main_click"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
-[connection signal="start_game" from="TitleScreen" to="." method="_on_TitleScreen_start_game"]
+[connection signal="start_game" from="MainScreen" to="." method="_on_MainScreen_start_game"]

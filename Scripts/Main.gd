@@ -13,6 +13,9 @@ onready var geminst = preload("res://Scenes/gem.tscn")
 onready var coneinst = preload("res://Scenes/pyramid.tscn")
 onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
+onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
+onready var medicbox = preload("res://Scenes/MedicBox.tscn")
+onready var music = $MusicPlayer
 
 
 var red = ColorN("red", 1)
@@ -22,6 +25,7 @@ var yellow = ColorN("yellow", 1)
 #var new_color = Color(1,1,1,1)
 
 var colorarray = [red, blue, green, yellow]
+
 var rng = RandomNumberGenerator.new()
 var raise_rng = RandomNumberGenerator.new()
 export var space = 1
@@ -39,8 +43,13 @@ var raise = 0
 #var score = 0 
 
 func _ready():
-	$TitleScreen.set_visibility(true)
+	var tokenArray = [ammobox, medicbox, ammobox]
+	music.play()
 	$MusicPlayer.volume_db = globals.music_volume
+	$HUD.show()
+	tick.start(10)
+	game_started = true
+	$EffectGunPlayer.volume_db = -80
 	#Create game board with cubes and gems-------------------------------------------------
 	for  i in range(rows):
 		for j in range(columns):
@@ -48,6 +57,7 @@ func _ready():
 			raise_rng.randomize()
 			var my_random_number = rng.randi_range(0, 3)
 			var s = cubetexinst.instance()
+			var duptoken
 			
 #			var unique_mat = s.get_child(0).mesh.surface_get_material(0).duplicate()
 #			s.get_child(0).mesh.surface_get_material(0).albedo_color = colorarray[my_random_number]
@@ -60,9 +70,10 @@ func _ready():
 				rng.randomize()
 				var vis_random = rng.randi_range(0,10)
 				var my_random_numberp = rng.randi_range(0, 3)
+				var my_random_assetbox = rng.randi_range(0, 3)
 				raise = raise_rng.randi_range(0,1)
 				if vis_random == 1 or vis_random == 5 or vis_random == 9:
-					s.get_child(0).get_child(1).mesh = SphereMesh.new()
+					s.get_child(0).get_child(1).mesh = PlaneMesh.new()
 					s.get_child(0).get_child(1).create_trimesh_collision()
 					var unique_mat1 = SpatialMaterial.new()
 					#s.get_child(0).get_child(1)
@@ -71,12 +82,26 @@ func _ready():
 					add_child(s)
 					s.global_translate(Vector3((j * space), raise  ,-i * space))
 				elif vis_random == 2 or vis_random == 6:
-					s.get_child(0).get_child(1).mesh = CubeMesh.new()
-					s.get_child(0).get_child(1).create_trimesh_collision()
-					var unique_mat1 = SpatialMaterial.new()
+					if my_random_assetbox == 0:
+						var token_node = tokenArray[0].instance()
+						duptoken = token_node.duplicate()
+					elif my_random_assetbox == 1:
+						var token_node = tokenArray[1].instance()
+						duptoken = token_node.duplicate()
+					elif my_random_assetbox == 2:
+						var token_node = tokenArray[1].instance()
+						duptoken = token_node.duplicate()
+					else:
+						continue
+					
+					s.get_child(0).get_child(1).add_child(duptoken)
+					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
+#					s.get_child(0).get_child(1).mesh = CubeMesh.new()
+					#s.get_child(0).get_child(1).create_trimesh_collision()
+					#var unique_mat1 = token_node.get_child(0).get_surface_material(0) #SpatialMaterial.new()
 					#s.get_child(0).get_child(1)
-					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
-					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
+					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
+#					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
 					s.global_translate(Vector3((j * space), raise  ,-i * space))
 				else:
@@ -95,10 +120,11 @@ func _ready():
 	ply.global_translate(Vector3(0, 0.8 ,0))
 	print(ply.get_children())
 	
-	$HUD.hide()
+	#$HUD.hide()
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
 	$HUD.update_score()
+	$HUD.update_ammo()
 var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
@@ -150,8 +176,21 @@ func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position)
 	
 
-func _on_TitleScreen_start_game():
-	$TitleScreen.set_visibility(false)
+
+#func _on_MainScreen_start_game():
+#	print("startgame")
+#	#$MainScreen.set_visibility(false)
+#	$MusicPlayer.play()
+#	$MainScreen.visible = false
+#	$HUD.show()
+#	tick.start(10)
+#	game_started = true
+#	$EffectGunPlayer.volume_db = -80
+
+
+func _on_MainScreen_start_game():
+	music.playing = true
+	music.volume_db = 0
 	$HUD.show()
 	tick.start(10)
 	game_started = true

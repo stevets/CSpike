@@ -2,8 +2,11 @@ extends Node
 
 var finalscore = 0
 var highscore = 1
+var ammo = 50
+var health = 100
+var coins = 0
 var gamerows = 20
-var music_volume = -6
+var music_volume = 0
 var effects_volume = -6
 func _ready():
 	load_game()

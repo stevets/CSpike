@@ -52,6 +52,10 @@ func _process(_delta):
 	
 	while fired_weapon:
 		print("process running")
+		globals.ammo -= 1
+		if globals.ammo <= 0:
+			_on_GameTick_timeout()
+		
 		space_state = get_world().direct_space_state
 		var ply = get_tree().get_root().get_node("Main/player1")
 		var originx = ply.get_global_transform().origin.x
@@ -68,9 +72,11 @@ func _process(_delta):
 			print("color2 ",color2)
 			print("colorblock ", colorblock)
 			print(result.position.z)
+			print(result.collider.get_parent().get_parent().name)
 			if color2 == colorblock:
 				print("destroy")
 				print(result.collider)
+				
 				var objID = result.collider
 				emit_signal("destroy", objID)
 				#var ply = get_tree().get_root().get_node("Main/player1")
@@ -79,7 +85,11 @@ func _process(_delta):
 				
 #			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 #				emit_signal("playermove")
-				
+			elif result.collider.get_parent().get_parent().name == "AmmoBox":
+				globals.ammo += 25
+				var objID = result.collider
+				objID.get_parent().queue_free()
+				emit_signal("destroy", objID)
 		
 		fired_weapon = false
 
@@ -122,4 +132,9 @@ func _on_GameTick_timeout():
 		if globals.finalscore > globals.highscore:
 			globals.highscore = globals.finalscore
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+	if globals.ammo == 0 or globals.health == 0:
+		if globals.finalscore > globals.highscore:
+			globals.highscore = globals.finalscore
+		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+		
 
