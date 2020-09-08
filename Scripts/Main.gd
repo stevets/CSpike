@@ -27,6 +27,7 @@ var yellow = ColorN("yellow", 1)
 var colorarray = [red, blue, green, yellow]
 
 var rng = RandomNumberGenerator.new()
+var rng1 = RandomNumberGenerator.new()
 var raise_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
@@ -43,7 +44,7 @@ var raise = 0
 #var score = 0 
 
 func _ready():
-	var tokenArray = [ammobox, medicbox, ammobox]
+	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
 	music.play()
 	$MusicPlayer.volume_db = globals.music_volume
 	$HUD.show()
@@ -67,10 +68,10 @@ func _ready():
 			s.get_child(0).set_surface_material(0, unique_mat)
 			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
 			if i > 5:
-				rng.randomize()
-				var vis_random = rng.randi_range(0,10)
-				var my_random_numberp = rng.randi_range(0, 3)
-				var my_random_assetbox = rng.randi_range(0, 3)
+				rng1.randomize()
+				var vis_random = rng1.randi_range(0,10)
+				var my_random_numberp = rng1.randi_range(0, 3)
+				var my_random_assetbox = rng1.randi_range(0, 3)
 				raise = raise_rng.randi_range(0,1)
 				if vis_random == 1 or vis_random == 5 or vis_random == 9:
 					s.get_child(0).get_child(1).mesh = PlaneMesh.new()
@@ -89,6 +90,9 @@ func _ready():
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
 					elif my_random_assetbox == 2:
+						var token_node = tokenArray[1].instance()
+						duptoken = token_node.duplicate()
+					elif my_random_assetbox == 3:
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
 					else:
