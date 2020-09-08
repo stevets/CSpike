@@ -16,3 +16,6 @@ func update_score():
 	
 func update_ammo():
 	$ScoreBox/HBoxContainer/ammo.text = str(globals.ammo)
+	
+func update_health():
+	$ScoreBox/HBoxContainer/health.text = str(globals.health)

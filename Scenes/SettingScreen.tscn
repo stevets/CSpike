@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/SettingScreen.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Game_theme.tres" type="Theme" id=3]
 [ext_resource path="res://Assets/images/Title Screen Buttons/TitleSETTINGS-01.png" type="Texture" id=4]
+[ext_resource path="res://Assets/checkbox.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 63
@@ -15,11 +16,17 @@ font_data = ExtResource( 2 )
 size = 60
 font_data = ExtResource( 2 )
 
+[sub_resource type="ProxyTexture" id=4]
+flags = 4
+base = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 65
+font_data = ExtResource( 2 )
+
 [sub_resource type="DynamicFont" id=3]
 size = 60
 font_data = ExtResource( 2 )
-
-[sub_resource type="StyleBoxFlat" id=4]
 
 [node name="SettingScreen" type="Control"]
 anchor_right = 1.0
@@ -71,17 +78,17 @@ custom_constants/separation = 120
 alignment = 1
 
 [node name="Back" type="MenuButton" parent="MarginContainer/VBoxContainer"]
-margin_top = 521.0
+margin_top = 401.0
 margin_right = 900.0
-margin_bottom = 593.0
+margin_bottom = 473.0
 custom_fonts/font = SubResource( 1 )
 text = "Back"
 items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false ]
 
 [node name="music" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 713.0
+margin_top = 593.0
 margin_right = 900.0
-margin_bottom = 775.0
+margin_bottom = 655.0
 size_flags_vertical = 1
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
@@ -89,41 +96,34 @@ text = "Music Volume"
 align = 1
 valign = 1
 
-[node name="music_volume" type="HSlider" parent="MarginContainer/VBoxContainer"]
-margin_top = 895.0
+[node name="music_volume" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+margin_top = 775.0
 margin_right = 900.0
-margin_bottom = 911.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-min_value = -30.0
-max_value = 0.0
-step = 2.0
-value = -6.0
-tick_count = 5
-ticks_on_borders = true
+margin_bottom = 1008.0
+custom_icons/checked = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+pressed = true
+text = "Music Volume"
+align = 1
 
 [node name="effects" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 1031.0
+margin_top = 1128.0
 margin_right = 900.0
-margin_bottom = 1093.0
+margin_bottom = 1190.0
 custom_fonts/font = SubResource( 3 )
 text = "Effects Volume"
 align = 1
 valign = 1
 
-[node name="effect_volume" type="HSlider" parent="MarginContainer/VBoxContainer" groups=[
+[node name="effect_volume" type="CheckBox" parent="MarginContainer/VBoxContainer" groups=[
 "persist",
 ]]
-margin_top = 1213.0
+margin_top = 1310.0
 margin_right = 900.0
-margin_bottom = 1229.0
-custom_styles/grabber_area = SubResource( 4 )
-min_value = -60.0
-max_value = 0.0
-step = 2.0
-value = -6.0
-tick_count = 2
-ticks_on_borders = true
+margin_bottom = 1349.0
+pressed = true
+text = "effects"
+align = 1
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_Back_pressed"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/music_volume" to="." method="_on_HSlider_value_changed"]
-[connection signal="value_changed" from="MarginContainer/VBoxContainer/effect_volume" to="." method="_on_effect_volume_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/music_volume" to="." method="_on_music_volume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/effect_volume" to="." method="_on_effect_volume_pressed"]

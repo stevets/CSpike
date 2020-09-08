@@ -90,6 +90,11 @@ func _process(_delta):
 				var objID = result.collider
 				objID.get_parent().queue_free()
 				emit_signal("destroy", objID)
+			elif result.collider.get_parent().get_parent().name == "MedicBox":
+				globals.health += 25
+				var objID = result.collider
+				objID.get_parent().queue_free()
+				emit_signal("destroy", objID)
 		
 		fired_weapon = false
 

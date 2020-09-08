@@ -129,6 +129,7 @@ func _ready():
 func _process(_delta):
 	$HUD.update_score()
 	$HUD.update_ammo()
+	$HUD.update_health()
 var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
