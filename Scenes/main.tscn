@@ -1,9 +1,8 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/pyramid.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Music-Effects/VirtualWorld .ogg" type="AudioStream" id=4]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/ball.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=7]
@@ -130,10 +129,6 @@ size = 0.1
 far = 1000.0
 
 [node name="GameTick" type="Timer" parent="."]
-
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-volume_db = 5.0
 
 [node name="Background" type="MeshInstance" parent="."]
 transform = Transform( 10, 0, 0, 0, -1.74846e-06, 10, 0, -40, -4.37114e-07, 0, 0, -24.9278 )
@@ -267,9 +262,9 @@ visible = false
 [connection signal="click" from="." to="Player" method="_on_Main_click"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="start_game" from="MainScreen" to="." method="_on_MainScreen_start_game"]

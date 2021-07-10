@@ -3,6 +3,8 @@ extends Node
 onready var globals = $"/root/Globalnode"
 
 onready var titlemusic = $TitleMusicPlayer
+onready var music = $MusicPlayer
+
 var finalscore = 0
 var highscore = 1
 var ammo = 50
