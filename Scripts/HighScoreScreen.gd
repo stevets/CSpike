@@ -11,12 +11,13 @@ func _ready():
 	globals.finalscore = 0
 	save_game()
 	
-
-
+func _on_SettingBack_pressed():
+	var _changescene = get_tree().change_scene("res://Scenes/MainScreen.tscn")
+	titlemusic.get_node("TitleMusicPlayer").play()
 
 func _on_Retry_pressed():
 	var _changescene = get_tree().change_scene("res://Scenes/main.tscn")
-	titlemusic.get_node("TitleMusicPlayer").play()
+#	titlemusic.get_node("TitleMusicPlayer").play()
 	
 func save():
 	var save_dict = {"highscore": globals.highscore}
@@ -75,3 +76,5 @@ func load_game():
 #				continue
 #			new_object.set(i, node_data[i])
 	save_game.close()
+
+
