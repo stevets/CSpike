@@ -23,7 +23,7 @@ func load_game():
 		var node_data = parse_json(save_game.get_line())
 		print("Node Data: ", node_data)
 		if node_data.has("effectsvolume"):
-			music_volume = node_data["musicvolume"]
+			#music_volume = node_data["musicvolume"]
 			effects_volume = node_data["effectsvolume"]
 		elif node_data.has("highscore"):
 			highscore = node_data["highscore"]

@@ -91,6 +91,7 @@ margin_right = 800.0
 margin_bottom = 1242.0
 expand = false
 stretch_mode = 0
+
 [connection signal="pressed" from="Menu/VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/AchievementsButton" to="." method="_on_AchievementsButton_pressed"]

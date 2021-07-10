@@ -27,6 +27,7 @@ func save_game():
 	save_game.open("user://savegame.save", File.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group("persist")
 	for node in save_nodes:
+		print("node  ",save_nodes)
 		# Check the node is an instanced scene so it can be instanced again during load
 #		if node.filename.empty():
 #			print("persistent node '%s' is not an instanced scene, skipped" % node.name)

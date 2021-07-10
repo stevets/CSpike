@@ -8,7 +8,7 @@ func _ready():
 	pass
 	
 func save():
-	var save_dict = {"musicvolume": globals.music_volume, "effectsvolume": globals.effects_volume}
+	var save_dict = {"musicvolume": globals.music_volume,"effectsvolume": globals.effects_volume}
 	return save_dict
 	
 func _on_Back_pressed():
