@@ -1,6 +1,6 @@
 extends Control
 
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 onready var titlemusic = $"/root/Globalnode"
 
 

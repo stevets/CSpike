@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 
 func _ready():
 	pass # Replace with function body.

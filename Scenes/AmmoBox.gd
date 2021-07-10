@@ -11,7 +11,7 @@ func _ready():
 	randg.randomize()
 	var myrand = randg.randi_range(0,180)
 	rotation.y = myrand
-func _process(delta):
+func _process(_delta):
 	#rotation.y = myrand
 	#rotation.y += 0.25*delta
 	pass

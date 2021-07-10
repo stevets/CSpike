@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 
 func _ready():
 	pass # Replace with function body.
@@ -19,3 +19,6 @@ func update_ammo():
 	
 func update_health():
 	$ScoreBox/HBoxContainer/health.text = str(globals.health)
+	
+func update_coins():
+	$ScoreBox/HBoxContainer/coins.text = str(globals.coins)

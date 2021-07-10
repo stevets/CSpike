@@ -9,7 +9,7 @@ var dx = 1
 var space_state
 var result
 var colorcube
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 #onready var ply = get_tree().get_root().get_node("Main/player1")
 onready var gunshot = get_tree().get_root().get_node("Main/EffectGunPlayer")
 onready var bomb = get_tree().get_root().get_node("Main/EffectBombPlayer")

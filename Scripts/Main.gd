@@ -5,7 +5,7 @@ signal swiped(direction)
 signal click()
 signal swipedup()
 
-#onready var globals = get_node("/root/Globals")
+#onready var globals = get_node("/root/Globalnode")
 
 onready var cubeinst = preload("res://Scenes/cube.tscn")
 onready var ballinst = preload("res://Scenes/ball.tscn")
@@ -35,7 +35,7 @@ export var columns = 5
 
 var ply : KinematicBody
 onready var tick = $GameTick
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 
 var game_started = true
 var game_began = false
@@ -193,10 +193,10 @@ func _on_Timer_timeout():
 #	$EffectGunPlayer.volume_db = -80
 
 
-func _on_MainScreen_start_game():
-	music.playing = true
-	music.volume_db = 0
-	$HUD.show()
-	tick.start(10)
-	game_started = true
-	$EffectGunPlayer.volume_db = -80
+#func _on_MainScreen_start_game():
+#	music.playing = true
+#	music.volume_db = 0
+#	$HUD.show()
+#	tick.start(10)
+#	game_started = true
+#	$EffectGunPlayer.volume_db = -80

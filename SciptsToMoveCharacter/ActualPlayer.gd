@@ -9,7 +9,7 @@ var dx = 1
 var space_state
 var result
 var colorcube
-onready var globals = $"/root/Globals"
+onready var globals = $"/root/Globalnode"
 onready var ply = get_tree().get_root().get_node("Main/player1")
 
 func _ready():
@@ -100,7 +100,7 @@ func _on_GameTick_timeout():
 	cam.global_translate(Vector3(0,0,-1))
 	ply.get_child(1).playing = false
 	if playerposz < -19:
-		#var globals = $"/root/Globals"
+		#var globals = $"/root/Globalnode"
 		#globals.finalscore = currentscore
 		if globals.finalscore > globals.highscore:
 			globals.highscore = globals.finalscore

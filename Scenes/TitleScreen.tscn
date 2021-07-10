@@ -67,5 +67,6 @@ margin_bottom = 288.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 1
+
 [connection signal="pressed" from="CenterContainer/VSplitContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="CenterContainer/VSplitContainer/VBoxContainer/settings" to="." method="_on_settings_pressed"]
