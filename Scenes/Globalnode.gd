@@ -1,9 +1,12 @@
 extends Node
 
-onready var globals = $"/root/Globalnode"
+#onready var globals = $"/root/Globalnode"
 
 onready var titlemusic = $TitleMusicPlayer
-onready var music = $MusicPlayer
+onready var gamemusic = $GameMusicPlayer
+onready var gunshot = $EffectGunPlayer
+onready var hitsound = $EffectHitSoundPlayer
+onready var rowchangetick = $EffectRowChangePlayer
 
 var finalscore = 0
 var highscore = 1
@@ -15,9 +18,14 @@ var music_volume = 0
 var effects_volume = -6
 
 func _ready():
-	titlemusic.volume_db = globals.music_volume
-	load_game()
+	titlemusic.volume_db = music_volume
+	gamemusic.volume_db = music_volume
+	gunshot.volume_db = effects_volume
+	hitsound.volume_db = effects_volume
+	rowchangetick.volume_db = effects_volume
+	#load_game()
 	print(highscore)	
+
 
 	
 func load_game():
@@ -64,12 +72,14 @@ func save_game():
 	save_game.open("user://savegame.save", File.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group("persist")
 	for node in save_nodes:
-		print("node  ",save_nodes)
+		print("node  ",node.name)
 		# Check the node is an instanced scene so it can be instanced again during load
-#		if node.filename.empty():
-#			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-#			continue
-
+		#		if node.filename.empty():
+		#			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+		#			continue
+		if node.filename.empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
 		# Check the node has a save function
 		if !node.has_method("save"):
 			print("persistent node '%s' is missing a save() function, skipped" % node.name)

@@ -28,7 +28,9 @@ font_data = ExtResource( 2 )
 size = 60
 font_data = ExtResource( 2 )
 
-[node name="SettingScreen" type="Control"]
+[node name="SettingScreen" type="Control" groups=[
+"persist",
+]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -115,9 +117,7 @@ text = "Effects Volume"
 align = 1
 valign = 1
 
-[node name="effects_volume" type="CheckBox" parent="MarginContainer/VBoxContainer" groups=[
-"persist",
-]]
+[node name="effects_volume" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 margin_top = 1310.0
 margin_right = 900.0
 margin_bottom = 1349.0

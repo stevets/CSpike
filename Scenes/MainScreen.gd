@@ -1,12 +1,10 @@
 extends Control
 
 signal start_game
+onready var globals = $"/root/Globalnode"
 
-#onready var music = get_tree().get_root().get_node("Main/MusicPlayer")
-#onready var music = get_tree().get_root().get_node("Main")
 
 func _ready():
-	#print("test", music)
 	pass # Replace with function body.
 
 
@@ -15,10 +13,10 @@ func set_visibility(isvisible):
 
 
 func _on_Play_pressed():
-	get_tree().change_scene("res://Scenes/main.tscn")
+	var _chscene = get_tree().change_scene("res://Scenes/main.tscn")
 	emit_signal("start_game")
-	get_node("/root/Globalnode").get_child(0).playing = false
-	#music.name()
+	globals.titlemusic.playing = false
+
 
 
 func _on_SettingsButton_pressed():

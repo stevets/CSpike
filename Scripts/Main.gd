@@ -15,7 +15,6 @@ onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
 onready var medicbox = preload("res://Scenes/MedicBox.tscn")
-#onready var music = $MusicPlayer
 
 
 var red = ColorN("red", 1)
@@ -45,14 +44,11 @@ var raise = 0
 
 func _ready():
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
-	#music.play()
-	globals.music.play()
-	#$MusicPlayer.volume_db = globals.music_volume
-	#globals.music.volume_db = globals.music_volume  FIND THE ERRORS!!!!!!!!!!!!!
+	globals.gamemusic.play()
 	$HUD.show()
 	tick.start(10)
 	game_started = true
-	$EffectGunPlayer.volume_db = -80
+	#$EffectGunPlayer.volume_db = -80---------------------------------
 	#Create game board with cubes and gems-------------------------------------------------
 	for  i in range(rows):
 		for j in range(columns):
@@ -168,11 +164,11 @@ func _end_detection(position):
 		else:
 			print('swipe again')
 	elif game_started :
-		$EffectGunPlayer.volume_db = -80
+		#$EffectGunPlayer.volume_db = -80
 		emit_signal('click')
 		print("click")
 	else:
-		$EffectGunPlayer.volume_db = globals.effects_volume
+		globals.gunshot.volume_db = globals.effects_volume
 		emit_signal('click')
 		print("beganclick")
 			

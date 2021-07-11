@@ -10,10 +10,6 @@ var space_state
 var result
 var colorcube
 onready var globals = $"/root/Globalnode"
-#onready var ply = get_tree().get_root().get_node("Main/player1")
-onready var gunshot = get_tree().get_root().get_node("Main/EffectGunPlayer")
-onready var bomb = get_tree().get_root().get_node("Main/EffectBombPlayer")
-onready var rowchange = get_tree().get_root().get_node("Main/EffectRowChangePlayer")
 onready var didstart = get_tree().get_root().get_node("Main")
 
 
@@ -80,8 +76,8 @@ func _process(_delta):
 				var objID = result.collider
 				emit_signal("destroy", objID)
 				#var ply = get_tree().get_root().get_node("Main/player1")
-				bomb.volume_db = globals.effects_volume
-				bomb.play()
+				globals.hitsound.volume_db = globals.effects_volume
+				globals.hitsound.play()
 				
 #			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 #				emit_signal("playermove")
@@ -100,7 +96,7 @@ func _process(_delta):
 
 func _on_Main_click():
 	fired_weapon = true
-	gunshot.play()
+	globals.gunshot.play()
 	
 	didstart.game_started = false
 	
@@ -127,8 +123,8 @@ func _on_GameTick_timeout():
 			globals.highscore = globals.finalscore
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	else:
-		rowchange.volume_db = globals.effects_volume
-		rowchange.play()
+		globals.rowchangetick.volume_db = globals.effects_volume
+		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("Main/Camera")
 		globals.finalscore += 1
 		ply.global_translate(Vector3(0,0,-1))

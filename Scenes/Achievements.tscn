@@ -52,4 +52,5 @@ margin_bottom = 387.0
 custom_fonts/font = SubResource( 1 )
 text = "BACK"
 flat = true
+
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_Button_pressed"]
