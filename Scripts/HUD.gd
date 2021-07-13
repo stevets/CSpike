@@ -12,13 +12,13 @@ func show():
 	$ScoreBox.show()
 	
 func update_score():
-	$ScoreBox/HBoxContainer/score.text = str(globals.finalscore)
+	$ScoreBox/HBoxContainer/score.text = str(globals.game_data["finalscore"])
 	
 func update_ammo():
-	$ScoreBox/HBoxContainer/ammo.text = str(globals.ammo)
+	$ScoreBox/HBoxContainer/ammo.text = str(globals.game_data["ammo"])
 	
 func update_health():
-	$ScoreBox/HBoxContainer/health.text = str(globals.health)
+	$ScoreBox/HBoxContainer/health.text = str(globals.game_data["health"])
 	
 func update_coins():
-	$ScoreBox/HBoxContainer/coins.text = str(globals.coins)
+	$ScoreBox/HBoxContainer/coins.text = str(globals.game_data["coins"])

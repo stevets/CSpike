@@ -15,7 +15,7 @@ func _on_Back_pressed():
 
 
 func _on_effect_volume_pressed():
-	globals.effects_volume = -60
+	globals.game_data["effectsvolume"] = -60
 
 
 func _on_music_volume_pressed():
@@ -23,8 +23,5 @@ func _on_music_volume_pressed():
 	globals.titlemusic.playing = musicv
 	
 func save():
-	var save_dict = {"highscore": globals.highscore,
-					"coins": globals.coins,
-					"musicvolume": globals.music_volume,
-					"effectsvolume": globals.effects_volume}
+	var save_dict = globals.game_data
 	return save_dict

@@ -93,7 +93,7 @@ func _on_GameTick_timeout():
 	var playerpos = ply.get_global_transform().origin.x
 	var playerposz = ply.get_global_transform().origin.z
 	
-	globals.finalscore += 1
+	globals.game_data["finalscore"] += 1
 #	var currentscore = int(score.text)
 #	score.text = str(currentscore + 1)
 	ply.global_translate(Vector3(0,0,-1))
@@ -101,8 +101,8 @@ func _on_GameTick_timeout():
 	ply.get_child(1).playing = false
 	if playerposz < -19:
 		#var globals = $"/root/Globalnode"
-		#globals.finalscore = currentscore
-		if globals.finalscore > globals.highscore:
-			globals.highscore = globals.finalscore
+		#globals.game_data["finalscore"] = currentscore
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 

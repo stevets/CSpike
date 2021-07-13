@@ -168,7 +168,7 @@ func _end_detection(position):
 		emit_signal('click')
 		print("click")
 	else:
-		globals.gunshot.volume_db = globals.effects_volume
+		globals.gunshot.volume_db = globals.game_data["effectsvolume"]
 		emit_signal('click')
 		print("beganclick")
 			

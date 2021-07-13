@@ -1,11 +1,11 @@
 extends Control
 
-signal start_game
+#signal start_game
 onready var globals = $"/root/Globalnode"
 
 
 func _ready():
-	pass # Replace with function body.
+	$Menu/HBoxContainer/highscore.text = str(globals.game_data["highscore"])
 
 
 func set_visibility(isvisible):
@@ -14,7 +14,7 @@ func set_visibility(isvisible):
 
 func _on_Play_pressed():
 	var _chscene = get_tree().change_scene("res://Scenes/main.tscn")
-	emit_signal("start_game")
+	#emit_signal("start_game")
 	globals.titlemusic.playing = false
 
 
@@ -29,3 +29,4 @@ func _on_AchievementsButton_pressed():
 
 func _on_NoAdsButton_pressed():
 	pass # Replace with function body.
+ 

@@ -48,8 +48,8 @@ func _process(_delta):
 	
 	while fired_weapon:
 		print("process running")
-		globals.ammo -= 1
-		if globals.ammo <= 0:
+		globals.game_data["ammo"] -= 1
+		if globals.game_data["ammo"] <= 0:
 			_on_GameTick_timeout()
 		
 		space_state = get_world().direct_space_state
@@ -76,18 +76,18 @@ func _process(_delta):
 				var objID = result.collider
 				emit_signal("destroy", objID)
 				#var ply = get_tree().get_root().get_node("Main/player1")
-				globals.hitsound.volume_db = globals.effects_volume
+				globals.hitsound.volume_db = globals.game_data["effectsvolume"]
 				globals.hitsound.play()
 				
 #			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 #				emit_signal("playermove")
 			elif result.collider.get_parent().get_parent().name == "AmmoBox":
-				globals.ammo += 25
+				globals.game_data["ammo"] += 25
 				var objID = result.collider
 				objID.get_parent().queue_free()
 				emit_signal("destroy", objID)
 			elif result.collider.get_parent().get_parent().name == "MedicBox":
-				globals.health += 25
+				globals.game_data["health"] += 25
 				var objID = result.collider
 				objID.get_parent().queue_free()
 				emit_signal("destroy", objID)
@@ -119,23 +119,23 @@ func _on_GameTick_timeout():
 	var playerposz = ply.get_global_transform().origin.z
 	var resultfront = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
 	if resultfront.has("collider"):
-		if globals.finalscore > globals.highscore:
-			globals.highscore = globals.finalscore
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	else:
-		globals.rowchangetick.volume_db = globals.effects_volume
+		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
 		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("Main/Camera")
-		globals.finalscore += 1
+		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))
 	if playerposz < -18:
-		if globals.finalscore > globals.highscore:
-			globals.highscore = globals.finalscore
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
-	if globals.ammo == 0 or globals.health == 0:
-		if globals.finalscore > globals.highscore:
-			globals.highscore = globals.finalscore
+	if globals.game_data["ammo"] == 0 or globals.game_data["health"] == 0:
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		
 

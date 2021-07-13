@@ -1,6 +1,6 @@
 extends Node
 
-#onready var globals = $"/root/Globalnode"
+onready var globals = $"/root/Globalnode"
 
 onready var titlemusic = $TitleMusicPlayer
 onready var gamemusic = $GameMusicPlayer
@@ -16,6 +16,13 @@ var coins = 0
 var gamerows = 20
 var music_volume = 0
 var effects_volume = -6
+onready var game_data = {"finalscore": globals.finalscore,
+						"highscore": globals.highscore,
+						"coins": globals.coins,
+						"musicvolume": globals.music_volume,
+						"effectsvolume": globals.effects_volume,
+						"ammo": globals.ammo,
+						"health": globals.health}
 
 func _ready():
 	titlemusic.volume_db = music_volume
@@ -23,7 +30,7 @@ func _ready():
 	gunshot.volume_db = effects_volume
 	hitsound.volume_db = effects_volume
 	rowchangetick.volume_db = effects_volume
-	#load_game()
+	load_game()
 	print(highscore)	
 
 
@@ -48,13 +55,7 @@ func load_game():
 		# Get the saved dictionary from the next line in the save file
 		var node_data = parse_json(load_game.get_line())
 		print("Node Data: ", node_data)
-		if node_data.has("effectsvolume"):
-			#music_volume = node_data["musicvolume"]
-			effects_volume = node_data["effectsvolume"]
-		elif node_data.has("highscore"):
-			highscore = node_data["highscore"]
-		elif node_data.has("coins"):
-			coins = node_data["coins"]
+		game_data = node_data
 		# Firstly, we need to create the object and add it to the tree and set its position.
 #		var new_object = load(node_data["filename"]).instance()
 #		get_node(node_data["parent"]).add_child(new_object)
@@ -66,7 +67,7 @@ func load_game():
 #				continue
 #			new_object.set(i, node_data[i])
 	load_game.close()
-	
+
 func save_game():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
@@ -89,6 +90,7 @@ func save_game():
 		var node_data = node.call("save")
 		# Store the save dictionary as a new line in the save file
 		save_game.store_line(to_json(node_data))
+		break
 	save_game.close()	
 
 

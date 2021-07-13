@@ -15,6 +15,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _on_Button_pressed():
 	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")
