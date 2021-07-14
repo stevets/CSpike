@@ -1,6 +1,5 @@
 extends Control
 
-#signal start_game
 onready var globals = $"/root/Globalnode"
 
 
@@ -14,7 +13,6 @@ func set_visibility(isvisible):
 
 func _on_Play_pressed():
 	var _chscene = get_tree().change_scene("res://Scenes/main.tscn")
-	#emit_signal("start_game")
 	globals.titlemusic.playing = false
 
 
