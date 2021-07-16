@@ -10,7 +10,7 @@ var space_state
 var result
 var colorcube
 var spiritdetected = false
-var ammogun = true
+
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
 
@@ -80,7 +80,7 @@ func _process(_delta):
 				print(result.position.z)
 				print(result.collider.get_parent().get_parent().name)
 				print(color2)
-				if color2 == colorblock:
+				if color2 == colorblock and globals.ammogun:
 					print("destroy")
 					print(result.collider)
 					
@@ -150,3 +150,11 @@ func _on_GameTick_timeout():
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		
 
+
+
+
+func _on_Button_pressed():
+	if globals.ammogun == false:
+		globals.ammogun = true
+	else:
+		globals.ammogun = false
