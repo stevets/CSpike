@@ -21,7 +21,6 @@ onready var game_data = {"finalscore": globals.finalscore,
 						"coins": globals.coins,
 						"musicvolume": globals.music_volume,
 						"effectsvolume": globals.effects_volume,
-						"ammo": globals.ammo,
 						"health": globals.health}
 
 func _ready():

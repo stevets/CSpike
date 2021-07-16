@@ -1,6 +1,6 @@
 extends Spatial
 
-
+var spirit = false
 
 func _on_Player_destroy(objID):
 	print(objID.get_parent().name)

@@ -39,6 +39,7 @@ onready var globals = $"/root/Globalnode"
 var game_started = true
 var game_began = false
 var raise = 0
+var spirit = true
 
 #var score = 0 
 
@@ -105,6 +106,11 @@ func _ready():
 					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
 #					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
+					if raise == 1 and spirit == true:
+						s.get_child(0).get_surface_material(0).emission_enabled = true
+						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						spirit = false
+						s.spirit = true
 					s.global_translate(Vector3((j * space), raise  ,-i * space))
 				else:
 					add_child(s)
