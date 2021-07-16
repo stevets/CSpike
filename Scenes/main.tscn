@@ -277,7 +277,7 @@ visible = false
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]

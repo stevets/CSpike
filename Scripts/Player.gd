@@ -70,8 +70,10 @@ func _process(_delta):
 			var tokenboxes = result.collider.get_parent().get_parent().get_parent().name
 			print("tokenboxes: ", tokenboxes)
 			if colorglow.get_child(0).name == "basecube":
-				spiritdetected = result.collider.get_parent().get_parent()
-			if !spiritdetected.spirit or tokenboxes == "token":
+				spiritdetected = result.collider.get_parent().get_parent().spirit
+			if colorglow.get_child(0).name == "Medicbox" or colorglow.get_child(0).name == "Ammobox":
+				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
+			if !spiritdetected or tokenboxes == "token":
 				print("color2 ",color2)
 				print("colorblock ", colorblock)
 				print(result.position.z)
