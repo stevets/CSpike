@@ -10,6 +10,7 @@ var space_state
 var result
 var colorcube
 var spiritdetected = false
+var ammogun = true
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
 

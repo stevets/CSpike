@@ -40,6 +40,8 @@ var game_started = true
 var game_began = false
 var raise = 0
 var spirit = true
+ 
+
 
 #var score = 0 
 
@@ -109,6 +111,7 @@ func _ready():
 					if raise == 1 and spirit == true:
 						s.get_child(0).get_surface_material(0).emission_enabled = true
 						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						globals.spiritlocation = s
 						spirit = false
 						s.spirit = true
 					s.global_translate(Vector3((j * space), raise  ,-i * space))
