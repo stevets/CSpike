@@ -75,6 +75,8 @@ font_path = "res://Assets/Fonts/Piximisa.ttf"
 
 [sub_resource type="DynamicFont" id=16]
 size = 100
+outline_size = 10
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 15 )
 
 [node name="Main" type="Node"]
@@ -250,13 +252,30 @@ margin_bottom = 42.0
 custom_fonts/font = SubResource( 14 )
 text = "0"
 
-[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer"]
+[node name="FireButtons" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
 margin_top = 1442.0
 margin_right = 960.0
 margin_bottom = 1552.0
+alignment = 1
+
+[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
+margin_left = 88.0
+margin_right = 488.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 400, 110 )
 custom_fonts/font = SubResource( 16 )
-text = "SWITCH"
-align = 0
+text = "SWAP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
+margin_left = 492.0
+margin_right = 872.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 380, 110 )
+custom_fonts/font = SubResource( 16 )
+text = "Fire"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -281,4 +300,5 @@ visible = false
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/Button" to="Player" method="_on_Button_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button" to="Player" method="_on_Button_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button2" to="Player" method="_on_Button2_pressed"]

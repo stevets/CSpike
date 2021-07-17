@@ -137,6 +137,10 @@ func _process(_delta):
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
+	if globals.ammogun == false:
+		$HUD.update_spirit_gun()
+	else:
+		$HUD.update_spirit_gun()
 var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
@@ -172,14 +176,15 @@ func _end_detection(position):
 			emit_signal('swipedup')
 		else:
 			print('swipe again')
-	elif game_started :
-		#$EffectGunPlayer.volume_db = -80
-		emit_signal('click')
-		print("click")
+#	elif game_started :
+#		#$EffectGunPlayer.volume_db = -80
+#		emit_signal('click')
+#		print("click")
 	else:
-		globals.gunshot.volume_db = globals.game_data["effectsvolume"]
-		emit_signal('click')
-		print("beganclick")
+#		globals.gunshot.volume_db = globals.game_data["effectsvolume"]
+#		emit_signal('click')
+#		print("beganclick")
+		pass
 			
 		
 
