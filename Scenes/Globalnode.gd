@@ -16,6 +16,8 @@ var coins = 0
 var gamerows = 20
 var music_volume = 0
 var effects_volume = -6
+var spiritlocation
+var ammogun = true
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,

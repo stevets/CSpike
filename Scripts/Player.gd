@@ -1,6 +1,8 @@
 extends KinematicBody
 
 signal destroy(objID)
+signal click()
+signal resetgun()
 
 var fired_weapon = false
 
@@ -10,6 +12,7 @@ var space_state
 var result
 var colorcube
 var spiritdetected = false
+
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
 
@@ -67,17 +70,21 @@ func _process(_delta):
 			var color2 = result.collider.get_parent().get_surface_material(0).albedo_color
 			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
 			var colorglow = result.collider.get_parent().get_parent()
-			var tokenboxes = result.collider.get_parent().get_parent().get_parent().name
+			var tokenboxes = result.collider.get_parent().name
 			print("tokenboxes: ", tokenboxes)
 			if colorglow.get_child(0).name == "basecube":
-				spiritdetected = result.collider.get_parent().get_parent()
-			if !spiritdetected.spirit or tokenboxes == "token":
+				spiritdetected = result.collider.get_parent().get_parent().spirit
+				print("SPIRIT was detected: ", spiritdetected)
+			if colorglow.get_child(0).name == "Medicbox" or colorglow.get_child(0).name == "Ammobox":
+				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
+				#print("spirit was detected: ", spiritdetected)
+			if !spiritdetected or tokenboxes == "token":
 				print("color2 ",color2)
 				print("colorblock ", colorblock)
 				print(result.position.z)
 				print(result.collider.get_parent().get_parent().name)
 				print(color2)
-				if color2 == colorblock:
+				if color2 == colorblock and globals.ammogun:
 					print("destroy")
 					print(result.collider)
 					
@@ -90,23 +97,37 @@ func _process(_delta):
 	#			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 	#				emit_signal("playermove")
 				elif result.collider.get_parent().get_parent().name == "AmmoBox":
-					globals.ammo += 25
-					var objID = result.collider
-					objID.get_parent().queue_free()
-					emit_signal("destroy", objID)
+					if globals.ammogun == true:
+						globals.ammo += 25
+						var objID = result.collider
+						objID.get_parent().queue_free()
+						emit_signal("destroy", objID)
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
-					globals.game_data["health"] += 25
-					var objID = result.collider
-					objID.get_parent().queue_free()
-					emit_signal("destroy", objID)
-		
+					if globals.ammogun == true:
+						globals.game_data["health"] += 25
+						var objID = result.collider
+						objID.get_parent().queue_free()
+						emit_signal("destroy", objID)
+				elif globals.ammogun == false:
+					print("hello", result.collider.get_parent().name)
+					colorglow.spirit = true
+					globals.ammogun = true
+					emit_signal("resetgun")
+					colorglow.get_child(0).get_surface_material(0).emission_enabled = true
+					colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+					globals.spiritlocation.spirit = false
+					globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
+					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
+					globals.spiritlocation = colorglow
+							
 		fired_weapon = false
 
 func _on_Main_click():
-	fired_weapon = true
-	globals.gunshot.play()
-	
-	didstart.game_started = false
+#	fired_weapon = true
+#	globals.gunshot.play()
+#
+#	didstart.game_started = false
+	pass
 	
 
 
@@ -147,3 +168,20 @@ func _on_GameTick_timeout():
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		
 
+
+
+
+func _on_Button_pressed():
+	if globals.ammogun == false:
+		globals.ammogun = true
+	elif globals.ammogun == true:
+		globals.ammogun = false
+
+
+func _on_Button2_pressed():
+	if didstart.game_started:
+		fired_weapon = true
+		globals.gunshot.play()
+		#didstart.game_started = false
+		#emit_signal('click')
+		#print("click")

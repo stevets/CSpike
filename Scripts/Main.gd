@@ -40,6 +40,8 @@ var game_started = true
 var game_began = false
 var raise = 0
 var spirit = true
+ 
+
 
 #var score = 0 
 
@@ -109,6 +111,7 @@ func _ready():
 					if raise == 1 and spirit == true:
 						s.get_child(0).get_surface_material(0).emission_enabled = true
 						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						globals.spiritlocation = s
 						spirit = false
 						s.spirit = true
 					s.global_translate(Vector3((j * space), raise  ,-i * space))
@@ -134,6 +137,10 @@ func _process(_delta):
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
+	if globals.ammogun == false:
+		$HUD.update_spirit_gun()
+	else:
+		$HUD.update_spirit_gun()
 var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
@@ -169,14 +176,15 @@ func _end_detection(position):
 			emit_signal('swipedup')
 		else:
 			print('swipe again')
-	elif game_started :
-		#$EffectGunPlayer.volume_db = -80
-		emit_signal('click')
-		print("click")
+#	elif game_started :
+#		#$EffectGunPlayer.volume_db = -80
+#		emit_signal('click')
+#		print("click")
 	else:
-		globals.gunshot.volume_db = globals.game_data["effectsvolume"]
-		emit_signal('click')
-		print("beganclick")
+#		globals.gunshot.volume_db = globals.game_data["effectsvolume"]
+#		emit_signal('click')
+#		print("beganclick")
+		pass
 			
 		
 
