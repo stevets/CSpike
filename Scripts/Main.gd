@@ -39,7 +39,9 @@ onready var globals = $"/root/Globalnode"
 var game_started = true
 var game_began = false
 var raise = 0
+var firstraise = 0
 var spirit = true
+var bomb = false
  
 
 
@@ -69,6 +71,17 @@ func _ready():
 			s.get_child(0).set_surface_material(0, unique_mat)
 			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
 			if i > 5:
+				if i == 6 and j == 0:
+					firstraise = 1
+#					s.get_child(0).get_child(1).add_child(duptoken)
+#					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
+#					add_child(s)
+					s.get_child(0).get_surface_material(0).emission_enabled = true
+					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+					globals.spiritlocation = s
+					spirit = false
+					s.spirit = true
+#					add_child(s)
 				rng1.randomize()
 				var vis_random = rng1.randi_range(0,10)
 				var my_random_numberp = rng1.randi_range(0, 3)
@@ -82,7 +95,11 @@ func _ready():
 					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
 					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
-					s.global_translate(Vector3((j * space), raise  ,-i * space))
+					if firstraise == 1:
+						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
+						firstraise = 0
+					else:
+						s.global_translate(Vector3((j * space), raise  ,-i * space))
 				elif vis_random == 2 or vis_random == 6:
 					if my_random_assetbox == 0:
 						var token_node = tokenArray[0].instance()
@@ -108,13 +125,18 @@ func _ready():
 					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
 #					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
-					if raise == 1 and spirit == true:
-						s.get_child(0).get_surface_material(0).emission_enabled = true
-						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
-						globals.spiritlocation = s
-						spirit = false
-						s.spirit = true
-					s.global_translate(Vector3((j * space), raise  ,-i * space))
+#					if raise == 1 and spirit == true:
+#						s.get_child(0).get_surface_material(0).emission_enabled = true
+#						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+#						globals.spiritlocation = s
+#						spirit = false
+#						s.spirit = true
+#					s.global_translate(Vector3((j * space), raise  ,-i * space))
+					if firstraise == 1:
+						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
+						firstraise = 0
+					else:
+						s.global_translate(Vector3((j * space), raise  ,-i * space))
 				else:
 					add_child(s)
 					s.global_translate(Vector3((j * space), 0 ,-i * space))
@@ -137,6 +159,16 @@ func _process(_delta):
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
+#	var ply = get_tree().get_root().get_node("Main/player1").space_state
+#	var space_state
+#	space_state = get_world().direct_space_state
+#	var ply = get_tree().get_root().get_node("Main/player1")
+#	var originx = ply.get_global_transform().origin.x
+#	var originy = ply.get_global_transform().origin.y
+#	var originz = ply.get_global_transform().origin.z
+#	var spiritposz = globals.spiritlocation.get_global_transform().origin.z
+#	if globals.ammo <= 0 or spiritposz > originz:
+#		_on_GameTick_timeout()
 	if globals.ammogun == false:
 		$HUD.update_spirit_gun()
 	else:

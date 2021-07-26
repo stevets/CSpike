@@ -19,7 +19,7 @@ func update_ammo():
 	$ScoreBox/VBoxContainer/HBoxContainer/ammo.text = str(globals.ammo)
 	
 func update_health():
-	$ScoreBox/VBoxContainer/HBoxContainer/health.text = str(globals.game_data["health"])
+	$ScoreBox/VBoxContainer/HBoxContainer/health.text = str(globals.health)
 	
 func update_coins():
 	$ScoreBox/VBoxContainer/HBoxContainer/coins.text = str(globals.game_data["coins"])

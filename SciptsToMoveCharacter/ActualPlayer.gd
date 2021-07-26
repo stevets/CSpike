@@ -42,7 +42,7 @@ func _process(delta):
 		var originx = ply.get_global_transform().origin.x
 		var originy = ply.get_global_transform().origin.y
 		var originz = ply.get_global_transform().origin.z
-		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,-21), [self])	
+		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])	
 		print("result ", result)
 		colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
 		print("colorcube ", colorcube)

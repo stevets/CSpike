@@ -14,10 +14,14 @@ func _on_SettingBack_pressed():
 	var _changescene = get_tree().change_scene("res://Scenes/MainScreen.tscn")
 	globals.gamemusic.playing = false
 	globals.titlemusic.play()
+	globals.ammo = 50
+	globals.health = 100
 
 func _on_Retry_pressed():
 	globals.save_game()
 	var _changescene = get_tree().change_scene("res://Scenes/main.tscn")
+	globals.ammo = 50
+	globals.health = 100
 	
 func save():
 	var save_dict = globals.game_data

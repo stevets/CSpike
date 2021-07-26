@@ -49,22 +49,31 @@ func _on_Main_swiped(direction):
 			
 	
 func _process(_delta):
-	
+	space_state = get_world().direct_space_state
+	var ply = get_tree().get_root().get_node("Main/player1")
+	var originx = ply.get_global_transform().origin.x
+	var originy = ply.get_global_transform().origin.y
+	var originz = ply.get_global_transform().origin.z
+	var spiritposz = globals.spiritlocation.get_global_transform().origin.z	
+	if globals.ammo <= 0 or spiritposz > originz:
+		_on_GameTick_timeout()
 	while fired_weapon:
 		print("process running")
-		globals.ammo -= 1
-		if globals.ammo <= 0:
-			_on_GameTick_timeout()
+		globals.ammo -= 1	
+#		space_state = get_world().direct_space_state
+#		var ply = get_tree().get_root().get_node("Main/player1")
+#		var originx = ply.get_global_transform().origin.x
+#		var originy = ply.get_global_transform().origin.y
+#		var originz = ply.get_global_transform().origin.z
+#		var spiritposz = globals.spiritlocation.get_global_transform().origin.z
+#		if globals.ammo <= 0 or spiritposz > originz:
+#			_on_GameTick_timeout()
 		
-		space_state = get_world().direct_space_state
-		var ply = get_tree().get_root().get_node("Main/player1")
-		var originx = ply.get_global_transform().origin.x
-		var originy = ply.get_global_transform().origin.y
-		var originz = ply.get_global_transform().origin.z
-		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,-21), [self])	
+		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])	
 		print("result ", result)
 		colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
 		print("colorcube ", colorcube)
+		
 		
 		if result and colorcube:
 			var color2 = result.collider.get_parent().get_surface_material(0).albedo_color
@@ -104,7 +113,7 @@ func _process(_delta):
 						emit_signal("destroy", objID)
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
 					if globals.ammogun == true:
-						globals.game_data["health"] += 25
+						globals.health += 25
 						var objID = result.collider
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
@@ -162,7 +171,7 @@ func _on_GameTick_timeout():
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
-	if globals.ammo == 0 or globals.game_data["health"] == 0:
+	if globals.ammo == 0 or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")

@@ -18,12 +18,15 @@ var music_volume = 0
 var effects_volume = -6
 var spiritlocation
 var ammogun = true
+var raycast_length = -8
+var lastcubeposition
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,
 						"musicvolume": globals.music_volume,
 						"effectsvolume": globals.effects_volume,
-						"health": globals.health}
+#						"health": globals.health
+						}
 
 func _ready():
 	titlemusic.volume_db = music_volume
