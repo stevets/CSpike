@@ -4,6 +4,8 @@ signal swiped(direction)
 #signal swipe_canceled(start_position)
 signal click()
 signal swipedup()
+signal selfdestruct(plyposz)
+signal createrow()
 
 #onready var globals = get_node("/root/Globalnode")
 
@@ -42,6 +44,7 @@ var raise = 0
 var firstraise = 0
 var spirit = true
 var bomb = false
+var time1 = 200
  
 
 
@@ -49,10 +52,13 @@ var bomb = false
 
 func _ready():
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
+	var grouplist
 	globals.gamemusic.play()
 	$HUD.show()
 	tick.start(10)
 	game_started = true
+	_createGameBoard(0 , rows)
+	
 	#$EffectGunPlayer.volume_db = -80---------------------------------
 	#Create game board with cubes and gems-------------------------------------------------
 	for  i in range(rows):
@@ -61,6 +67,9 @@ func _ready():
 			raise_rng.randomize()
 			var my_random_number = rng.randi_range(0, 3)
 			var s = cubetexinst.instance()
+			if s.translation.x != 10:
+				s.add_to_group("cubes")
+			grouplist = get_tree().get_nodes_in_group("cubes")
 			var duptoken
 			
 #			var unique_mat = s.get_child(0).mesh.surface_get_material(0).duplicate()
@@ -73,15 +82,11 @@ func _ready():
 			if i > 5:
 				if i == 6 and j == 0:
 					firstraise = 1
-#					s.get_child(0).get_child(1).add_child(duptoken)
-#					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
-#					add_child(s)
 					s.get_child(0).get_surface_material(0).emission_enabled = true
 					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 					globals.spiritlocation = s
 					spirit = false
 					s.spirit = true
-#					add_child(s)
 				rng1.randomize()
 				var vis_random = rng1.randi_range(0,10)
 				var my_random_numberp = rng1.randi_range(0, 3)
@@ -125,13 +130,7 @@ func _ready():
 					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
 #					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
-#					if raise == 1 and spirit == true:
-#						s.get_child(0).get_surface_material(0).emission_enabled = true
-#						s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
-#						globals.spiritlocation = s
-#						spirit = false
-#						s.spirit = true
-#					s.global_translate(Vector3((j * space), raise  ,-i * space))
+
 					if firstraise == 1:
 						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
 						firstraise = 0
@@ -139,12 +138,17 @@ func _ready():
 						s.global_translate(Vector3((j * space), raise  ,-i * space))
 				else:
 					add_child(s)
-					s.global_translate(Vector3((j * space), 0 ,-i * space))
+					if firstraise == 1:
+						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
+						firstraise = 0
+					else:
+						s.global_translate(Vector3((j * space), 0  ,-i * space))
 			else:
 				add_child(s)
 				s.global_translate(Vector3((j * space), 0 ,-i * space))
 			#print(s.get_global_transform().origin)
 	#Add Player-----------------------------------------------------------------------------
+	
 	ply = playinst.instance()
 	var scaleply = 0.25
 	ply.scale = Vector3(scaleply,scaleply,scaleply)
@@ -156,9 +160,11 @@ func _ready():
 	#$HUD.hide()
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
+	time1 -= 1
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
+	emit_signal("selfdestruct", ply.translation.z)
 #	var ply = get_tree().get_root().get_node("Main/player1").space_state
 #	var space_state
 #	space_state = get_world().direct_space_state
@@ -225,7 +231,8 @@ func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position)
 	
 
-
+func _createGameBoard(i , row):
+	pass
 #func _on_MainScreen_start_game():
 #	print("startgame")
 #	#$MainScreen.set_visibility(false)
@@ -244,3 +251,7 @@ func _on_Timer_timeout():
 #	tick.start(10)
 #	game_started = true
 #	$EffectGunPlayer.volume_db = -80
+
+
+func _on_Main_createrow():
+	_createGameBoard(21, 1)
