@@ -2,10 +2,9 @@ extends Node
 
 signal swiped(direction)
 #signal swipe_canceled(start_position)
-signal click()
 signal swipedup()
 signal selfdestruct(plyposz)
-signal createrow()
+
 
 #onready var globals = get_node("/root/Globalnode")
 
@@ -53,102 +52,14 @@ var firstrow = 0
 #var score = 0 
 
 func _ready():
-	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
-	var grouplist
+	globals.game_data["finalscore"] = globals.finalscore
 	globals.gamemusic.play()
 	$HUD.show()
 	tick.start(10)
 	game_started = true
-	_createGameBoard(0 , firstrow, lastrow)
+	_createGameBoard(firstrow, lastrow)
 	
-	#$EffectGunPlayer.volume_db = -80---------------------------------
-	#Create game board with cubes and gems-------------------------------------------------
-##	for  i in range(rows):
-##		for j in range(columns):
-##			rng.randomize()
-##			raise_rng.randomize()
-##			var my_random_number = rng.randi_range(0, 3)
-##			var s = cubetexinst.instance()
-##			if s.translation.x != 10:
-##				s.add_to_group("cubes")
-##			grouplist = get_tree().get_nodes_in_group("cubes")
-##			var duptoken
-			
-#			var unique_mat = s.get_child(0).mesh.surface_get_material(0).duplicate()
-#			s.get_child(0).mesh.surface_get_material(0).albedo_color = colorarray[my_random_number]
-#			s.get_child(0).set_surface_material(0, unique_mat)
 
-##			var unique_mat = s.get_child(0).get_surface_material(0).duplicate()
-##		s.get_child(0).set_surface_material(0, unique_mat)
-##			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
-##			if i > 5:
-##				if i == 6 and j == 0:
-##					firstraise = 1
-##					s.get_child(0).get_surface_material(0).emission_enabled = true
-##					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
-##					globals.spiritlocation = s
-##					spirit = false
-##					s.spirit = true
-##				rng1.randomize()
-##				var vis_random = rng1.randi_range(0,10)
-##				var my_random_numberp = rng1.randi_range(0, 3)
-##				var my_random_assetbox = rng1.randi_range(0, 3)
-##				raise = raise_rng.randi_range(0,1)
-##				if vis_random == 1 or vis_random == 5 or vis_random == 9:
-##					s.get_child(0).get_child(1).mesh = PlaneMesh.new()
-##					s.get_child(0).get_child(1).create_trimesh_collision()
-##					var unique_mat1 = SpatialMaterial.new()
-##					#s.get_child(0).get_child(1)
-##					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
-##					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-##					add_child(s)
-##					if firstraise == 1:
-##						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
-##						firstraise = 0
-##					else:
-##						s.global_translate(Vector3((j * space), raise  ,-i * space))
-##				elif vis_random == 2 or vis_random == 6:
-##					if my_random_assetbox == 0:
-##						var token_node = tokenArray[0].instance()
-##						duptoken = token_node.duplicate()
-##					elif my_random_assetbox == 1:
-##						var token_node = tokenArray[1].instance()
-##						duptoken = token_node.duplicate()
-##					elif my_random_assetbox == 2:
-##					var token_node = tokenArray[1].instance()
-##						duptoken = token_node.duplicate()
-##					elif my_random_assetbox == 3:
-##						var token_node = tokenArray[1].instance()
-##						duptoken = token_node.duplicate()
-##					else:
-##						continue
-					
-##					s.get_child(0).get_child(1).add_child(duptoken)
-##					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
-#					s.get_child(0).get_child(1).mesh = CubeMesh.new()
-					#s.get_child(0).get_child(1).create_trimesh_collision()
-					#var unique_mat1 = token_node.get_child(0).get_surface_material(0) #SpatialMaterial.new()
-					#s.get_child(0).get_child(1)
-					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
-#					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-##					add_child(s)
-
-##					if firstraise == 1:
-##						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
-##						firstraise = 0
-##					else:
-##						s.global_translate(Vector3((j * space), raise  ,-i * space))
-##				else:
-##					add_child(s)
-##					if firstraise == 1:
-##						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
-##						firstraise = 0
-##					else:
-##						s.global_translate(Vector3((j * space), 0  ,-i * space))
-##			else:
-##				add_child(s)
-##				s.global_translate(Vector3((j * space), 0 ,-i * space))
-			#print(s.get_global_transform().origin)
 	#Add Player-----------------------------------------------------------------------------
 	
 	ply = playinst.instance()
@@ -157,7 +68,7 @@ func _ready():
 	ply.name = "player1"
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
-	print(ply.get_children())
+#	print(ply.get_children())
 	
 	#$HUD.hide()
 #------Swipe dectection and Click-----------------------------------------------
@@ -170,17 +81,7 @@ func _process(_delta):
 	if globals.cubedestroyed == true:
 		_on_Main_createrow()
 		globals.cubedestroyed = false
-#		firstrow = lastrow
-#	var ply = get_tree().get_root().get_node("Main/player1").space_state
-#	var space_state
-#	space_state = get_world().direct_space_state
-#	var ply = get_tree().get_root().get_node("Main/player1")
-#	var originx = ply.get_global_transform().origin.x
-#	var originy = ply.get_global_transform().origin.y
-#	var originz = ply.get_global_transform().origin.z
-#	var spiritposz = globals.spiritlocation.get_global_transform().origin.z
-#	if globals.ammo <= 0 or spiritposz > originz:
-#		_on_GameTick_timeout()
+
 	if globals.ammogun == false:
 		$HUD.update_spirit_gun()
 	else:
@@ -212,7 +113,7 @@ func _end_detection(position):
 	var vangle = 75
 	if direction.length() >= 60:
 		var swipeangle = direction.angle_to(Vector2(1, 0))*180/3.14
-		print(swipeangle)
+#		print(swipeangle)
 		if swipeangle <= hangle or swipeangle >= 180 - hangle:
 			if direction.x >= swipedetection or direction.x <= -swipedetection:
 				emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
@@ -237,10 +138,9 @@ func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position)
 	
 
-func _createGameBoard(k, firstrow, lastrow):
+func _createGameBoard(_firstrow, _lastrow):
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
-	var grouplist
-	for  i in range(firstrow, lastrow):
+	for  i in range(_firstrow, _lastrow):
 		for j in range(columns):
 			rng.randomize()
 			raise_rng.randomize()
@@ -248,7 +148,6 @@ func _createGameBoard(k, firstrow, lastrow):
 			var s = cubetexinst.instance()
 			if s.translation.x != 10:
 				s.add_to_group("cubes")
-			grouplist = get_tree().get_nodes_in_group("cubes")
 			var duptoken
 			
 #			var unique_mat = s.get_child(0).mesh.surface_get_material(0).duplicate()
@@ -349,5 +248,4 @@ func _createGameBoard(k, firstrow, lastrow):
 func _on_Main_createrow():
 	firstrow = lastrow
 	lastrow = lastrow + 1
-	print("lastrow: ", lastrow)
-	_createGameBoard(firstrow, firstrow, lastrow)
+	_createGameBoard(firstrow, lastrow)

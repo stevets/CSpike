@@ -138,6 +138,7 @@ far = 1000.0
 
 [node name="Background" type="MeshInstance" parent="."]
 transform = Transform( 10, 0, 0, 0, -1.74846e-06, 10, 0, -40, -4.37114e-07, 0, 0, -24.9278 )
+visible = false
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
@@ -294,15 +295,13 @@ visible = false
 [node name="Achievements" parent="." instance=ExtResource( 24 )]
 visible = false
 
-[connection signal="click" from="." to="Player" method="_on_Main_click"]
-[connection signal="createrow" from="." to="." method="_on_Main_createrow"]
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button" to="Player" method="_on_Button_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button2" to="Player" method="_on_Button2_pressed"]

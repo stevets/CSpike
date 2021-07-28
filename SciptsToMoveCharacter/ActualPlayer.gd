@@ -27,7 +27,7 @@ func _on_Main_swiped(direction):
 		else:
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
 	else:
-		print("direction = ", direction.x)
+#		print("direction = ", direction.x)
 		if playerpos > 3:
 			pass
 		else:
@@ -36,7 +36,7 @@ func _on_Main_swiped(direction):
 func _process(delta):
 	
 	while fired_weapon:
-		print("process running")
+		print("fired weapon process running")
 		space_state = get_world().direct_space_state
 		var ply = get_tree().get_root().get_node("Main/player1")
 		var originx = ply.get_global_transform().origin.x
@@ -53,11 +53,11 @@ func _process(delta):
 		if result and colorcube:
 			var color2 = result.collider.get_parent().get_surface_material(0).albedo_color
 			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
-			print("color2 ",color2)
-			print("colorblock ", colorblock)
-			print(result.position.z)
+#			print("color2 ",color2)
+#			print("colorblock ", colorblock)
+#			print(result.position.z)
 			if color2 == colorblock:
-				print("destroy")
+#				print("destroy")
 				print(result.collider)
 				var objID = result.collider
 				emit_signal("destroy", objID)

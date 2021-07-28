@@ -7,7 +7,7 @@ onready var highscore = get_node("CenterContainer/VBoxContainer/newhighscore")
 func _ready():
 	highscore.text = str(globals.game_data["highscore"])
 	score.text = str(globals.game_data["finalscore"])
-	globals.game_data["finalscore"] = 0         
+#	globals.game_data["finalscore"] = 0         
 	
 func _on_SettingBack_pressed():
 	globals.save_game()

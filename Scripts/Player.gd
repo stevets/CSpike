@@ -1,8 +1,6 @@
 extends KinematicBody
 
 signal destroy(objID)
-signal click()
-signal resetgun()
 
 var fired_weapon = false
 
@@ -25,8 +23,8 @@ func _on_Main_swiped(direction):
 	var playerposz = ply.get_global_transform().origin.z
 	var resultleft = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx - 1.5,playerposy,playerposz), [self])
 	var resultright = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx + 1.5,playerposy,playerposz), [self])
-	print("resultLeft:", resultleft)
-	print("resultRight:",resultright)
+#	print("resultLeft:", resultleft)
+#	print("resultRight:",resultright)
 	if direction.x >= 0:
 		#print("direction = ", direction.x)
 		if playerposx < 1:
@@ -38,7 +36,7 @@ func _on_Main_swiped(direction):
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
 			
 	else:
-		print("direction = ", direction.x)
+#		print("direction = ", direction.x)
 		if playerposx > 3:
 			pass
 		elif resultright.has("collider"):
@@ -58,7 +56,7 @@ func _process(_delta):
 	if globals.ammo <= 0 or spiritposz > originz:
 		_on_GameTick_timeout()
 	while fired_weapon:
-		print("process running")
+		print("fired weapon process running")
 		globals.ammo -= 1	
 #		space_state = get_world().direct_space_state
 #		var ply = get_tree().get_root().get_node("Main/player1")
@@ -70,9 +68,9 @@ func _process(_delta):
 #			_on_GameTick_timeout()
 		
 		result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])	
-		print("result ", result)
+#		print("result ", result)
 		colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
-		print("colorcube ", colorcube)
+#		print("colorcube ", colorcube)
 		
 		
 		if result and colorcube:
@@ -80,7 +78,7 @@ func _process(_delta):
 			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
 			var colorglow = result.collider.get_parent().get_parent()
 			var tokenboxes = result.collider.get_parent().name
-			print("tokenboxes: ", tokenboxes)
+#			print("tokenboxes: ", tokenboxes)
 			if colorglow.get_child(0).name == "basecube":
 				spiritdetected = result.collider.get_parent().get_parent().spirit
 				print("SPIRIT was detected: ", spiritdetected)
@@ -88,14 +86,14 @@ func _process(_delta):
 				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
 				#print("spirit was detected: ", spiritdetected)
 			if !spiritdetected or tokenboxes == "token":
-				print("color2 ",color2)
-				print("colorblock ", colorblock)
-				print(result.position.z)
-				print(result.collider.get_parent().get_parent().name)
-				print(color2)
+#				print("color2 ",color2)
+#				print("colorblock ", colorblock)
+#				print(result.position.z)
+#				print(result.collider.get_parent().get_parent().name)
+#				print(color2)
 				if color2 == colorblock and globals.ammogun:
-					print("destroy")
-					print(result.collider)
+#					print("destroy")
+#					print(result.collider)
 					
 					var objID = result.collider
 					emit_signal("destroy", objID)
@@ -118,15 +116,16 @@ func _process(_delta):
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
 				elif globals.ammogun == false:
-					print("hello", result.collider.get_parent().name)
+#					print("hello", result.collider.get_parent().name)
 					colorglow.spirit = true
 					globals.ammogun = true
-					emit_signal("resetgun")
+#					emit_signal("resetgun")
+					globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
+#					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
 					colorglow.get_child(0).get_surface_material(0).emission_enabled = true
 					colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 					globals.spiritlocation.spirit = false
-					globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
-					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
+					
 					globals.spiritlocation = colorglow
 							
 		fired_weapon = false
@@ -150,6 +149,7 @@ func _on_Main_swipedup():
 
 
 func _on_GameTick_timeout():
+	print("gamedata: ", globals.game_data)
 	var ply = get_tree().get_root().get_node("Main/player1")
 	space_state = get_world().direct_space_state
 	var playerposx = ply.get_global_transform().origin.x
@@ -167,10 +167,6 @@ func _on_GameTick_timeout():
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))
-#	if playerposz < -18:
-#		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-#			globals.game_data["highscore"] = globals.game_data["finalscore"]
-#		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	if globals.ammo == 0 or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
