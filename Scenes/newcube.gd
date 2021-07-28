@@ -1,6 +1,7 @@
 extends Spatial
 
 var spirit = false 
+onready var globals = $"/root/Globalnode"
 
 
 
@@ -27,7 +28,7 @@ func _on_Main_selfdestruct(plyposz):
 			if member.translation.x != 10:
 				member.remove_from_group("cubes")
 				member.queue_free()
-				emit_signal("createrow")
+				globals.cubedestroyed = true
 #	var instpath =  "/root/Main/@newcube@"
 #	print("player pos: ", plyposz)
 #	for i in 145:
@@ -42,3 +43,5 @@ func _on_Main_selfdestruct(plyposz):
 #	print(nnodeposz, " ",plyposz, " self name: ", self.name)
 #	if nnodeposz >plyposz:
 #		self.queue_free()
+
+

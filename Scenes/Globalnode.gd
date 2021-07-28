@@ -20,6 +20,7 @@ var spiritlocation
 var ammogun = true
 var raycast_length = -8
 var lastcubeposition
+var cubedestroyed = false
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,

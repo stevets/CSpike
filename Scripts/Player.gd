@@ -167,10 +167,10 @@ func _on_GameTick_timeout():
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))
-	if playerposz < -18:
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+#	if playerposz < -18:
+#		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+#			globals.game_data["highscore"] = globals.game_data["finalscore"]
+#		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	if globals.ammo == 0 or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
