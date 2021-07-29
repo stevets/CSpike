@@ -166,24 +166,26 @@ func _createGameBoard(_firstrow, _lastrow):
 					spirit = false
 					s.spirit = true
 				rng1.randomize()
-				var vis_random = rng1.randi_range(0,10)
+				var vis_random = rng1.randi_range(0,4)
 				var my_random_numberp = rng1.randi_range(0, 3)
 				var my_random_assetbox = rng1.randi_range(0, 3)
 				raise = raise_rng.randi_range(0,1)
-				if vis_random == 1 or vis_random == 5 or vis_random == 9:
-					s.get_child(0).get_child(1).mesh = PlaneMesh.new()
-					s.get_child(0).get_child(1).create_trimesh_collision()
-					var unique_mat1 = SpatialMaterial.new()
-					#s.get_child(0).get_child(1)
-					s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
-					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-					add_child(s)
+				if vis_random == 1:
 					if firstraise == 1:
+						add_child(s)
 						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
 						firstraise = 0
 					else:
-						s.global_translate(Vector3((j * space), raise  ,-i * space))
-				elif vis_random == 2 or vis_random == 6:
+						s.get_child(0).get_child(1).mesh = PlaneMesh.new()
+						s.get_child(0).get_child(1).create_trimesh_collision()
+						var unique_mat1 = SpatialMaterial.new()
+						#s.get_child(0).get_child(1)
+						s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
+						s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
+						s.get_child(0).get_child(1).name = "bomb"
+						add_child(s)
+						s.global_translate(Vector3((j * space), 1  ,-i * space))
+				elif vis_random == 2:
 					if my_random_assetbox == 0:
 						var token_node = tokenArray[0].instance()
 						duptoken = token_node.duplicate()
@@ -220,7 +222,7 @@ func _createGameBoard(_firstrow, _lastrow):
 						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
 						firstraise = 0
 					else:
-						s.global_translate(Vector3((j * space), 0  ,-i * space))
+						s.global_translate(Vector3((j * space), raise  ,-i * space))
 			else:
 				add_child(s)
 				s.global_translate(Vector3((j * space), 0 ,-i * space))

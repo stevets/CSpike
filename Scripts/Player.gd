@@ -160,18 +160,21 @@ func _on_GameTick_timeout():
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+	elif globals.ammo == 0 or globals.health == 0:
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+	elif globals.spiritdied:
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	else:
 		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
 		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("Main/Camera")
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
-		cam.global_translate(Vector3(0,0,-1))
-	if globals.ammo == 0 or globals.health == 0:
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
-		
+		cam.global_translate(Vector3(0,0,-1))	
 
 
 

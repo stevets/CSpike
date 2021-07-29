@@ -6,9 +6,15 @@ onready var globals = $"/root/Globalnode"
 
 
 func _on_Player_destroy(objID):
-#	print(objID.get_parent().name)
 	if objID.get_parent().name.find("basecube") == 0:
-		objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+		if objID.get_parent().translation.y == 0:
+			objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+		elif  objID.get_parent().translation.y == -0.5: 
+			if objID.get_parent().get_child(1).name == "bomb":
+				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+				objID.get_parent().get_child(1).queue_free()
+			else:
+				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 	if objID.get_parent().name == "token":
 		objID.get_parent().queue_free()
 		
@@ -24,9 +30,7 @@ func _on_Main_selfdestruct(plyposz):
 	for member in mygroup:
 		cubeposz = member.translation.z
 		if cubeposz > plyposz and member.spirit:
-			if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-				globals.game_data["highscore"] = globals.game_data["finalscore"]
-			var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+			globals.spiritdied = true
 		elif cubeposz > plyposz+1:
 			if member.translation.x != 10:
 				member.remove_from_group("cubes")
