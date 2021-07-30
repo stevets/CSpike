@@ -118,7 +118,7 @@ func _process(_delta):
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
 				elif globals.ammogun == false:
-					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
+#					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
 						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
 							result.collider.get_parent().get_child(1).get_child(0).visible = true
@@ -208,4 +208,6 @@ func _on_Button2_pressed():
 
 func _on_BombTick_timeout():
 	print("Bomb Exploded")
+	if bombexploded.get_parent().get_parent().spirit:
+		globals.health -= 50
 	bombexploded.queue_free()
