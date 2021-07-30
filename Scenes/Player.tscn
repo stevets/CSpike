@@ -16,3 +16,8 @@ shape = SubResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
 mesh = SubResource( 2 )
 material/0 = null
+
+[node name="BombTick" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="BombTick" to="." method="_on_BombTick_timeout"]

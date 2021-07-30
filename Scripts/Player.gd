@@ -10,6 +10,7 @@ var space_state
 var result
 var colorcube
 var spiritdetected = false
+var bombexploded
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
@@ -121,7 +122,8 @@ func _process(_delta):
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
 						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
 							result.collider.get_parent().get_child(1).get_child(0).visible = true
-#							bombtick.start(3)
+							bombtick.start(5)
+							bombexploded = result.collider.get_parent().get_child(1)
 							print("hi", result.collider.get_parent().get_child(1).get_child(0).name)
 #					print("hello", result.collider.get_parent().name)
 					
@@ -202,3 +204,8 @@ func _on_Button2_pressed():
 		#didstart.game_started = false
 		#emit_signal('click')
 		#print("click")
+
+
+func _on_BombTick_timeout():
+	print("Bomb Exploded")
+	bombexploded.queue_free()

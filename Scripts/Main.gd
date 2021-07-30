@@ -33,7 +33,7 @@ var raise_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
 export var columns = 5
-onready var bombtimer = $BombTimer
+
 
 var ply : KinematicBody
 onready var tick = $GameTick
@@ -181,7 +181,7 @@ func _createGameBoard(_firstrow, _lastrow):
 						var bomb_node = bombinst.instance()
 						var dupbomb = bomb_node.duplicate()
 						s.get_child(0).get_child(1).add_child(dupbomb)
-						s.get_child(0).get_child(1).create_trimesh_collision()
+#						s.get_child(0).get_child(1).create_trimesh_collision()
 		#				var unique_mat1 = SpatialMaterial.new()
 						#s.get_child(0).get_child(1)
 		#				s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
@@ -261,5 +261,3 @@ func _on_Main_createrow():
 
 
 
-func _on_BombTick_timeout():
-	print("bomb exploded")
