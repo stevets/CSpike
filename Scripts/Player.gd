@@ -13,6 +13,7 @@ var spiritdetected = false
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
+onready var bombtick = $BombTick
 
 
 func _on_Main_swiped(direction):
@@ -116,7 +117,15 @@ func _process(_delta):
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
 				elif globals.ammogun == false:
+					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
+					if result.collider.get_parent().get_child(1).has_node("bomb"):
+						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
+							result.collider.get_parent().get_child(1).get_child(0).visible = true
+#							bombtick.start(3)
+							print("hi", result.collider.get_parent().get_child(1).get_child(0).name)
 #					print("hello", result.collider.get_parent().name)
+					
+#						print(result.collider.get_parent().get_child(1).get_child(0).name)
 					colorglow.spirit = true
 					globals.ammogun = true
 #					emit_signal("resetgun")
@@ -125,7 +134,7 @@ func _process(_delta):
 					colorglow.get_child(0).get_surface_material(0).emission_enabled = true
 					colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 					globals.spiritlocation.spirit = false
-					
+				
 					globals.spiritlocation = colorglow
 							
 		fired_weapon = false

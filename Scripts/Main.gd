@@ -16,6 +16,7 @@ onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
 onready var medicbox = preload("res://Scenes/MedicBox.tscn")
+onready var bombinst = preload("res://Scenes/bomb.tscn")
 
 
 var red = ColorN("red", 1)
@@ -32,6 +33,7 @@ var raise_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
 export var columns = 5
+onready var bombtimer = $BombTimer
 
 var ply : KinematicBody
 onready var tick = $GameTick
@@ -176,13 +178,17 @@ func _createGameBoard(_firstrow, _lastrow):
 						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
 						firstraise = 0
 					else:
-						s.get_child(0).get_child(1).mesh = PlaneMesh.new()
+						var bomb_node = bombinst.instance()
+						var dupbomb = bomb_node.duplicate()
+						s.get_child(0).get_child(1).add_child(dupbomb)
 						s.get_child(0).get_child(1).create_trimesh_collision()
-						var unique_mat1 = SpatialMaterial.new()
+		#				var unique_mat1 = SpatialMaterial.new()
 						#s.get_child(0).get_child(1)
-						s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
-						s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-						s.get_child(0).get_child(1).name = "bomb"
+		#				s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
+		#				s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
+		#				s.get_child(0).get_child(1).name = "bomb"
+		##				s.get_child(0).get_child(1).visible = false
+						bomb = true
 						add_child(s)
 						s.global_translate(Vector3((j * space), 1  ,-i * space))
 				elif vis_random == 2:
@@ -251,3 +257,9 @@ func _on_Main_createrow():
 	firstrow = lastrow
 	lastrow = lastrow + 1
 	_createGameBoard(firstrow, lastrow)
+
+
+
+
+func _on_BombTick_timeout():
+	print("bomb exploded")

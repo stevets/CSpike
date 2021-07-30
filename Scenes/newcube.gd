@@ -12,6 +12,7 @@ func _on_Player_destroy(objID):
 		elif  objID.get_parent().translation.y == -0.5: 
 			if objID.get_parent().get_child(1).name == "bomb":
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+				print("bomb destruction: ", objID.get_parent().get_child(1).name)
 				objID.get_parent().get_child(1).queue_free()
 			else:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))

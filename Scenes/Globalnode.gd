@@ -7,6 +7,7 @@ onready var gamemusic = $GameMusicPlayer
 onready var gunshot = $EffectGunPlayer
 onready var hitsound = $EffectHitSoundPlayer
 onready var rowchangetick = $EffectRowChangePlayer
+#onready var bombtimer = get_tree().get_node("BombTimer")
 
 var finalscore = 0
 var highscore = 1
