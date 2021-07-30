@@ -210,4 +210,4 @@ func _on_BombTick_timeout():
 	print("Bomb Exploded")
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
-	bombexploded.queue_free()
+	bombexploded.get_child(0).queue_free()
