@@ -10,10 +10,12 @@ func _on_Player_destroy(objID):
 		if objID.get_parent().translation.y == 0:
 			objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 		elif  objID.get_parent().translation.y == -0.5: 
-			if objID.get_parent().get_child(1).name == "bomb":
-				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
-				print("bomb destruction: ", objID.get_parent().get_child(1).name)
-				objID.get_parent().get_child(1).queue_free()
+			print("bomb detection: ", objID.get_parent().get_child(1).name)
+			if objID.get_parent().get_child(1).has_node("bomb"):
+				if objID.get_parent().get_child(1).get_child(0).name == "bomb":
+					objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+					print("bomb destruction: ", objID.get_parent().get_child(1).get_child(0).name)
+					objID.get_parent().get_child(1).get_child(0).queue_free()
 			else:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 	if objID.get_parent().name == "token":
