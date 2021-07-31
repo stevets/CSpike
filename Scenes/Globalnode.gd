@@ -7,6 +7,8 @@ onready var gamemusic = $GameMusicPlayer
 onready var gunshot = $EffectGunPlayer
 onready var hitsound = $EffectHitSoundPlayer
 onready var rowchangetick = $EffectRowChangePlayer
+onready var bombexplode = $EffectBombExplodePlayer
+onready var bombticking = $EffectBombTickingPlayer
 #onready var bombtimer = get_tree().get_node("BombTimer")
 
 var finalscore = 0
@@ -23,6 +25,10 @@ var raycast_length = -8
 var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
+var noammo = "You ran out of ammo!"
+var nohealth = "You ran out of health!"
+var crashed = "You crashed into a block!"
+var output
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,

@@ -55,7 +55,7 @@ func _process(_delta):
 	var originy = ply.get_global_transform().origin.y
 	var originz = ply.get_global_transform().origin.z
 	var spiritposz = globals.spiritlocation.get_global_transform().origin.z	
-	if globals.ammo <= 0 or spiritposz > originz:
+	if globals.ammo <= 0 or spiritposz > originz or globals.health <= 0:
 		_on_GameTick_timeout()
 	while fired_weapon:
 		print("fired weapon process running")
@@ -122,6 +122,7 @@ func _process(_delta):
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
 						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
 							result.collider.get_parent().get_child(1).get_child(0).visible = true
+							globals.bombticking.play()
 							bombtick.start(5)
 							bombexploded = result.collider.get_parent().get_child(1)
 							print("hi", result.collider.get_parent().get_child(1).get_child(0).name)
@@ -170,10 +171,17 @@ func _on_GameTick_timeout():
 	if resultfront.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		globals.output = globals.crashed
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
-	elif globals.ammo == 0 or globals.health == 0:
+	elif globals.ammo == 0:# or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		globals.output = globals.noammo
+		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+	elif globals.health == 0:
+		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
+			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		globals.output = globals.nohealth
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 	elif globals.spiritdied:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
@@ -211,3 +219,5 @@ func _on_BombTick_timeout():
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
 	bombexploded.get_child(0).queue_free()
+	globals.bombticking.stop()
+	globals.bombexplode.play()

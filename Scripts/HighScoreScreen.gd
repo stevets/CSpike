@@ -3,10 +3,12 @@ extends Control
 onready var globals = $"/root/Globalnode"
 onready var score = get_node("CenterContainer/VBoxContainer/score")
 onready var highscore = get_node("CenterContainer/VBoxContainer/newhighscore")
-#
+onready var outputfeedback = get_node("CenterContainer/VBoxContainer/outputfeedback")
+
 func _ready():
 	highscore.text = str(globals.game_data["highscore"])
 	score.text = str(globals.game_data["finalscore"])
+	outputfeedback.text = str(globals.output)
 #	globals.game_data["finalscore"] = 0         
 	
 func _on_SettingBack_pressed():
