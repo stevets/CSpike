@@ -11,6 +11,8 @@ var result
 var colorcube
 var spiritdetected = false
 var bombexploded
+var bombset = false
+var bombtwo = false
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
@@ -120,25 +122,33 @@ func _process(_delta):
 				elif globals.ammogun == false:
 #					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
-						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
-							result.collider.get_parent().get_child(1).get_child(0).visible = true
-							globals.bombticking.play()
-							bombtick.start(5)
-							bombexploded = result.collider.get_parent().get_child(1)
-							print("hi", result.collider.get_parent().get_child(1).get_child(0).name)
+						if bombset:
+							bombtwo = true
+						if result.collider.get_parent().get_child(1).get_child(0).name == "bomb" and !bombset:
+							if !bombset:
+								result.collider.get_parent().get_child(1).get_child(0).visible = true
+								globals.bombticking.play()
+								bombtick.start(5)
+								bombexploded = result.collider.get_parent().get_child(1)
+								print("hi", result.collider.get_parent().get_child(1).get_child(0).name)
+								bombset = true
+					else:
+						bombtwo = false			
 #					print("hello", result.collider.get_parent().name)
 					
 #						print(result.collider.get_parent().get_child(1).get_child(0).name)
-					colorglow.spirit = true
-					globals.ammogun = true
-#					emit_signal("resetgun")
-					globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
-#					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
-					colorglow.get_child(0).get_surface_material(0).emission_enabled = true
-					colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
-					globals.spiritlocation.spirit = false
-				
-					globals.spiritlocation = colorglow
+					if !bombtwo:
+#						if bombset and result.collider.get_parent().get_child(1).has_node("bomb"):
+						colorglow.spirit = true
+						globals.ammogun = true
+	#					emit_signal("resetgun")
+						globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
+	#					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
+						colorglow.get_child(0).get_surface_material(0).emission_enabled = true
+						colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						globals.spiritlocation.spirit = false
+#						bombset = true
+						globals.spiritlocation = colorglow
 							
 		fired_weapon = false
 
@@ -216,6 +226,9 @@ func _on_Button2_pressed():
 
 func _on_BombTick_timeout():
 	print("Bomb Exploded")
+	bombset = false
+	bombtwo = false
+	print("Bombtwo: ", bombtwo)
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
 	bombexploded.get_child(0).queue_free()
