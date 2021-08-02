@@ -261,3 +261,15 @@ func _on_Main_createrow():
 
 
 
+
+
+func _on_Button_pressed():
+	var paused = get_tree().paused
+	print("paused: ", paused)
+	if paused:
+		$Popup.hide()
+		get_tree().paused = false
+	else:
+		$Popup.show()
+		get_tree().paused = true
+		

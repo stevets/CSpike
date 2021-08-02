@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -70,6 +70,10 @@ font_data = ExtResource( 20 )
 size = 40
 font_data = ExtResource( 20 )
 
+[sub_resource type="DynamicFont" id=17]
+size = 63
+font_data = ExtResource( 20 )
+
 [sub_resource type="DynamicFontData" id=15]
 font_path = "res://Assets/Fonts/Piximisa.ttf"
 
@@ -78,6 +82,14 @@ size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 15 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 80
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=19]
+size = 80
+font_data = ExtResource( 20 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 7 )
@@ -184,20 +196,27 @@ margin_right = 980.0
 margin_bottom = 1980.0
 custom_constants/separation = 1400
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
+margin_right = 960.0
+margin_bottom = 118.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreHBox" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer"]
 margin_right = 960.0
 margin_bottom = 42.0
 custom_constants/separation = 45
 alignment = 1
 
-[node name="Score" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="Score" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 38.0
 margin_right = 139.0
 margin_bottom = 42.0
 custom_fonts/font = SubResource( 5 )
 text = "Score"
 
-[node name="score" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="score" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 184.0
 margin_right = 237.0
 margin_bottom = 42.0
@@ -205,7 +224,7 @@ theme = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 text = "100"
 
-[node name="Ammo" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="Ammo" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 282.0
 margin_right = 392.0
 margin_bottom = 42.0
@@ -214,7 +233,7 @@ custom_colors/font_color = Color( 1, 0, 0.329412, 1 )
 text = "Ammo"
 align = 2
 
-[node name="ammo" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="ammo" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 437.0
 margin_right = 458.0
 margin_bottom = 42.0
@@ -223,7 +242,7 @@ custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "0"
 align = 2
 
-[node name="Health" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="Health" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 503.0
 margin_right = 621.0
 margin_bottom = 42.0
@@ -231,14 +250,14 @@ custom_fonts/font = SubResource( 11 )
 custom_colors/font_color = Color( 0.454902, 1, 0.00392157, 1 )
 text = "Health"
 
-[node name="health" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="health" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 666.0
 margin_right = 719.0
 margin_bottom = 42.0
 custom_fonts/font = SubResource( 12 )
 text = "100"
 
-[node name="Coins" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="Coins" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 764.0
 margin_right = 856.0
 margin_bottom = 42.0
@@ -246,17 +265,26 @@ custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 0.984314, 0.0117647, 1 )
 text = "Coins"
 
-[node name="coins" type="Label" parent="HUD/ScoreBox/VBoxContainer/HBoxContainer"]
+[node name="coins" type="Label" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox"]
 margin_left = 901.0
 margin_right = 922.0
 margin_bottom = 42.0
 custom_fonts/font = SubResource( 14 )
 text = "0"
 
+[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 167.0
+margin_bottom = 118.0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 17 )
+text = "PAUSE"
+align = 0
+
 [node name="FireButtons" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
-margin_top = 1442.0
+margin_top = 1518.0
 margin_right = 960.0
-margin_bottom = 1552.0
+margin_bottom = 1628.0
 alignment = 1
 
 [node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
@@ -295,13 +323,45 @@ visible = false
 [node name="Achievements" parent="." instance=ExtResource( 24 )]
 visible = false
 
+[node name="Popup" type="Popup" parent="."]
+pause_mode = 2
+margin_left = 200.0
+margin_top = 200.0
+margin_right = 600.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Popup/VBoxContainer"]
+margin_right = 291.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 18 )
+text = "Paused"
+
+[node name="Button" type="Button" parent="Popup/VBoxContainer"]
+margin_top = 87.0
+margin_right = 291.0
+margin_bottom = 176.0
+custom_fonts/font = SubResource( 19 )
+text = "UNPAUSE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button" to="Player" method="_on_Button_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button2" to="Player" method="_on_Button2_pressed"]
+[connection signal="pressed" from="Popup/VBoxContainer/Button" to="." method="_on_Button_pressed"]
