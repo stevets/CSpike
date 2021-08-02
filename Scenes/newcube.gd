@@ -1,6 +1,7 @@
 extends Spatial
 
 var spirit = false 
+var coin = 10
 onready var globals = $"/root/Globalnode"
 
 

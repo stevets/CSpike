@@ -110,12 +110,14 @@ func _process(_delta):
 				elif result.collider.get_parent().get_parent().name == "AmmoBox":
 					if globals.ammogun == true:
 						globals.ammo += 25
+						globals.game_data["coins"] += 5
 						var objID = result.collider
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
 					if globals.ammogun == true:
 						globals.health += 25
+						globals.game_data["coins"] += 5
 						var objID = result.collider
 						objID.get_parent().queue_free()
 						emit_signal("destroy", objID)
@@ -171,7 +173,6 @@ func _on_Main_swipedup():
 
 
 func _on_GameTick_timeout():
-	print("gamedata: ", globals.game_data)
 	var ply = get_tree().get_root().get_node("Main/player1")
 	space_state = get_world().direct_space_state
 	var playerposx = ply.get_global_transform().origin.x
@@ -183,20 +184,24 @@ func _on_GameTick_timeout():
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.crashed
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+		globals.save_game()
 	elif globals.ammo == 0:# or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.noammo
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
-	elif globals.health == 0:
+		globals.save_game()
+	elif globals.health <= 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.nohealth
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+		globals.save_game()
 	elif globals.spiritdied:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
+		globals.save_game()
 	else:
 		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
 		globals.rowchangetick.play()

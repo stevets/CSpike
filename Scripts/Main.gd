@@ -79,6 +79,7 @@ func _process(_delta):
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
+	$HUD.update_coins()
 	emit_signal("selfdestruct", ply.translation.z)
 	if globals.cubedestroyed == true:
 		_on_Main_createrow()
