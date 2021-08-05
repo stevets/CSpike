@@ -163,8 +163,9 @@ func _createGameBoard(_firstrow, _lastrow):
 			if i > 5:
 				if i == 6 and j == 0:
 					firstraise = 1
-					s.get_child(0).get_surface_material(0).emission_enabled = true
-					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+					s.get_child(0).get_child(2).emitting = true
+#					s.get_child(0).get_surface_material(0).emission_enabled = true
+#					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 					globals.spiritlocation = s
 					spirit = false
 					s.spirit = true

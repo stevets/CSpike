@@ -144,10 +144,12 @@ func _process(_delta):
 						colorglow.spirit = true
 						globals.ammogun = true
 	#					emit_signal("resetgun")
-						globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
+#						globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
+						globals.spiritlocation.get_child(0).get_child(2).emitting = false
 	#					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
-						colorglow.get_child(0).get_surface_material(0).emission_enabled = true
-						colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						colorglow.get_child(0).get_child(2).emitting = true
+#						colorglow.get_child(0).get_surface_material(0).emission_enabled = true
+#						colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 						globals.spiritlocation.spirit = false
 #						bombset = true
 						globals.spiritlocation = colorglow
