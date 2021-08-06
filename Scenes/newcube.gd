@@ -3,17 +3,30 @@ extends Spatial
 var spirit = false 
 var coin = 10
 onready var globals = $"/root/Globalnode"
+onready var main = get_tree().get_root().get_node("Main")
 
 
 
 func _on_Player_destroy(objID):
 	if objID.get_parent().name.find("basecube") == 0:
 		if objID.get_parent().translation.y == 0:
-			objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
+			if globals.skillgun:
+				if objID.get_parent().get_child(1).has_node("bomb"):
+					objID.get_parent().global_translate(Vector3(0, -1 ,0))
+					print("bomb destruction: ", objID.get_parent().get_child(1).get_child(0).name)
+					objID.get_parent().get_child(1).get_child(0).queue_free()
+#					globals.skillgun = false
+				else:
+					objID.get_parent().global_translate(Vector3(0, -1 ,0))
+#					globals.skillgun = false
+			elif !globals.skillgun:
+				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 		elif  objID.get_parent().translation.y == -0.5: 
 #			print("bomb detection: ", objID.get_parent().get_child(1).name)
 			if objID.get_parent().get_child(1).has_node("bomb"):
 				if objID.get_parent().get_child(1).get_child(0).name == "bomb":
+					if globals.bombexplodedcheck == objID:
+						globals.bombticking.stop()
 					objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 					print("bomb destruction: ", objID.get_parent().get_child(1).get_child(0).name)
 					objID.get_parent().get_child(1).get_child(0).queue_free()

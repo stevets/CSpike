@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -83,11 +83,20 @@ outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 16 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFontData" id=18]
+font_path = "res://Assets/Fonts/Piximisa.ttf"
+
+[sub_resource type="DynamicFont" id=19]
+size = 100
+outline_size = 10
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 18 )
+
+[sub_resource type="DynamicFont" id=20]
 size = 80
 font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=21]
 size = 80
 font_data = ExtResource( 20 )
 
@@ -284,13 +293,21 @@ align = 0
 [node name="FireButtons" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
 margin_top = 1518.0
 margin_right = 960.0
-margin_bottom = 1628.0
+margin_bottom = 1742.0
 alignment = 1
 
-[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
-modulate = Color( 1, 1, 1, 0.490196 )
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
 margin_left = 88.0
-margin_right = 488.0
+margin_right = 872.0
+margin_bottom = 224.0
+
+[node name="FirstHBox" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer"]
+margin_right = 784.0
+margin_bottom = 110.0
+
+[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox"]
+modulate = Color( 1, 1, 1, 0.490196 )
+margin_right = 400.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 400, 110 )
 custom_fonts/font = SubResource( 17 )
@@ -299,10 +316,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
+[node name="Button2" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox"]
 modulate = Color( 1, 1, 1, 0.494118 )
-margin_left = 492.0
-margin_right = 872.0
+margin_left = 404.0
+margin_right = 784.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 380, 110 )
 custom_fonts/font = SubResource( 17 )
@@ -310,6 +327,20 @@ text = "Fire"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SecondHBox" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer"]
+margin_top = 114.0
+margin_right = 784.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 0, 110 )
+
+[node name="SkillGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox"]
+modulate = Color( 1, 1, 1, 0.490196 )
+margin_right = 784.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 784, 0 )
+custom_fonts/font = SubResource( 19 )
+text = "SKILL GUN"
 
 [node name="newcube" parent="." groups=[
 "cubes",
@@ -342,14 +373,14 @@ margin_bottom = 40.0
 [node name="Label" type="Label" parent="Popup/VBoxContainer"]
 margin_right = 291.0
 margin_bottom = 83.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 20 )
 text = "Paused"
 
 [node name="Button" type="Button" parent="Popup/VBoxContainer"]
 margin_top = 87.0
 margin_right = 291.0
 margin_bottom = 176.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 21 )
 text = "UNPAUSE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -364,6 +395,7 @@ __meta__ = {
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button" to="Player" method="_on_Button_pressed"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/Button2" to="Player" method="_on_Button2_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button" to="Player" method="_on_Button_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button2" to="Player" method="_on_Button2_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox/SkillGun" to="Player" method="_on_SkillGun_pressed"]
 [connection signal="pressed" from="Popup/VBoxContainer/Button" to="." method="_on_Button_pressed"]

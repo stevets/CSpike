@@ -28,8 +28,8 @@ func update_coins():
 	
 func update_spirit_gun():
 	if globals.ammogun == false:
-		$ScoreBox/VBoxContainer/FireButtons/Button.get("custom_fonts/font").outline_color = Color(1,0,0,1)
-		$ScoreBox/VBoxContainer/FireButtons/Button.text = "Spirit Gun"
+		$ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button.get("custom_fonts/font").outline_color = Color(1,0,0,1)
+		$ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button.text = "Spirit Gun"
 	elif globals.ammogun == true:
-		$ScoreBox/VBoxContainer/FireButtons/Button.get("custom_fonts/font").outline_color = Color(0,0,0,1)
-		$ScoreBox/VBoxContainer/FireButtons/Button.text = "Regular Gun"
+		$ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button.get("custom_fonts/font").outline_color = Color(0,0,0,1)
+		$ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button.text = "Regular Gun"
