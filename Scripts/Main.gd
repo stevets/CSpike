@@ -161,9 +161,9 @@ func _createGameBoard(_firstrow, _lastrow):
 #			s.get_child(0).mesh.surface_get_material(0).albedo_color = colorarray[my_random_number]
 #			s.get_child(0).set_surface_material(0, unique_mat)
 
-			var unique_mat = s.get_child(0).get_surface_material(0).duplicate()
-			s.get_child(0).set_surface_material(0, unique_mat)
-			s.get_child(0).get_surface_material(0).albedo_color = colorarray[my_random_number]
+			var unique_mat = s.get_child(0).get_surface_material(1).duplicate()
+			s.get_child(0).set_surface_material(1, unique_mat)
+			s.get_child(0).get_surface_material(1).albedo_color = colorarray[my_random_number]
 			if i > 5:
 				if i == 6 and j == 0:
 					firstraise = 1
