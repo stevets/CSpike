@@ -3,6 +3,7 @@
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/pyramid.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/newcube.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/ball.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=7]
@@ -10,7 +11,6 @@
 [ext_resource path="res://Scripts/gem.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/cube.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scripts/pyramid.gd" type="Script" id=11]
-[ext_resource path="res://Scenes/newcubebak.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/SettingScreen.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/HighScoreScreen.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=20]
@@ -343,12 +343,6 @@ rect_min_size = Vector2( 784, 0 )
 custom_fonts/font = SubResource( 19 )
 text = "SKILL GUN"
 
-[node name="newcube" parent="." groups=[
-"cubes",
-] instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
-visible = false
-
 [node name="mainnode" type="Node" parent="."]
 
 [node name="MainScreen" parent="." instance=ExtResource( 23 )]
@@ -387,12 +381,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="newcube" parent="." groups=[
+"cubes",
+] instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+visible = false
+
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

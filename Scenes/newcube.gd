@@ -37,6 +37,9 @@ func _on_Player_destroy(objID):
 			else:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5
+	if objID.get_parent().translation.y <= -1:
+		print(objID.get_parent().get_surface_material(0).emission_enabled)
+		objID.get_parent().get_surface_material(0).emission_enabled = false
 	if objID.get_parent().name == "token":
 		objID.get_parent().queue_free()
 		
