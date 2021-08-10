@@ -1,5 +1,6 @@
 extends Node
 
+
 signal swiped(direction)
 #signal swipe_canceled(start_position)
 signal swipedup()
@@ -17,6 +18,7 @@ onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
 onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
+onready var timer = $Timer
 
 
 var red = ColorN("red", 1)
@@ -38,6 +40,7 @@ export var columns = 5
 var ply : KinematicBody
 onready var tick = $GameTick
 onready var globals = $"/root/Globalnode"
+onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 var game_started = true
 var game_began = false
@@ -48,6 +51,7 @@ var bomb = false
 var time1 = 200
 var lastrow = rows
 var firstrow = 0
+var swipe_start_position = Vector2(0,0)
  
 
 
@@ -93,11 +97,11 @@ func _process(_delta):
 		$HUD.update_spirit_gun()
 	else:
 		$HUD.update_spirit_gun()
-var eventtype = [InputEventMouseButton, InputEventScreenTouch]
+#var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
-onready var timer = $Timer
-var swipe_start_position = Vector2(0,0)
+#onready var timer = $Timer
+#var swipe_start_position = Vector2(0,0)
 	
 func _input(event):
 	if not event is eventtype[0]:
@@ -124,8 +128,8 @@ func _end_detection(position):
 		if swipeangle <= hangle or swipeangle >= 180 - hangle:
 			if direction.x >= swipedetection or direction.x <= -swipedetection:
 				emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
-		elif swipeangle >= vangle or swipeangle <= 180 - vangle:
-			emit_signal('swipedup')
+#		elif swipeangle >= vangle or swipeangle <= 180 - vangle:
+#			emit_signal('swipedup')
 		else:
 			print('swipe again')
 #	elif game_started :
@@ -178,7 +182,7 @@ func _createGameBoard(_firstrow, _lastrow):
 					s.spirit = true
 				rng1.randomize()
 				var vis_random = rng1.randi_range(0,4)
-				var my_random_numberp = rng1.randi_range(0, 3)
+				var _my_random_numberp = rng1.randi_range(0, 3)
 				var my_random_assetbox = rng1.randi_range(0, 3)
 				raise = raise_rng.randi_range(0,1)
 				if vis_random == 1:

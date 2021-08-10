@@ -104,6 +104,7 @@ font_data = ExtResource( 20 )
 script = ExtResource( 7 )
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.818249, 0.47238, -0.327606, -0.353236, 0.0364519, 0.934824, 0.453534, 0.880641, 0.137035, 0, 1.31753, -2.5403 )
@@ -390,10 +391,10 @@ visible = false
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
-[connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button" to="Player" method="_on_Button_pressed"]

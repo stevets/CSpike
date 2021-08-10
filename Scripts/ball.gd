@@ -2,7 +2,7 @@ extends MeshInstance
 
 
 #
-func _on_Player_destroy(objID):
+func _on_Player_destroy(_objID):
 #	print(objID.get_parent().name.find("ball"))
 #	print(objID.get_parent().get_children())
 #	if objID.get_parent().name.find("ball") == 1:

@@ -6,7 +6,6 @@ var fired_weapon = false
 
 var red = ColorN("red", 1)
 var dx = 1
-var space_state
 var result
 var colorcube
 var spiritdetected = false
@@ -17,74 +16,68 @@ var bombnew
 var bombtwosound = false
 var objID
 var color2 = null
-var resultfront 
+var resultfront
+var originx
+var originy
+var originz
+var resultleft
+var resultright
+var ply
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
+onready var space_state = get_world().direct_space_state
+#onready var ply = get_tree().get_root().get_node("Main/player1")
 onready var bombtick = $BombTick
 
-
+func _ready():
+	pass
+#	var ply = get_tree().get_root().get_node("Main/player1")
+	
 func _on_Main_swiped(direction):
-	var ply = get_tree().get_root().get_node("Main/player1")
-	space_state = get_world().direct_space_state
-	var playerposx = ply.get_global_transform().origin.x
-	var playerposy = ply.get_global_transform().origin.y
-	var playerposz = ply.get_global_transform().origin.z
-	var resultleft = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx - 1.5,playerposy,playerposz), [self])
-	var resultright = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx + 1.5,playerposy,playerposz), [self])
-#	print("resultLeft:", resultleft)
-#	print("resultRight:",resultright)
+	originx = ply.get_global_transform().origin.x
+	originy = ply.get_global_transform().origin.y
+	originz = ply.get_global_transform().origin.z
+#	resultfront = space_state.intersect_ray(Vector3(originx+1,originy,originz), Vector3(originx +1,originy,originz + globals.raycast_length), [self])
+	resultleft = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx - 1.5,originy,originz), [self])
+	resultright = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx + 1.5,originy,originz), [self])
 	if direction.x >= 0:
-		#print("direction = ", direction.x)
-		if playerposx < 1:
+		if originx < 1:
 			pass
-		elif resultleft.has("collider"):
-			pass
-			
-		else:
-			if resultfront == null:
-				pass
-			else:
-				if resultfront.has("collider"):
-					resultfront.collider.get_parent().get_surface_material(0).emission_enabled = false
+		elif !resultleft.has("collider"):
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
-			resultfront = space_state.intersect_ray(Vector3(playerposx-1,playerposy,playerposz), Vector3(playerposx-1 ,playerposy,playerposz + globals.raycast_length), [self])
+		resultfront = space_state.intersect_ray(Vector3(originx-1,originy,originz), Vector3(originx-1 ,originy,originz + globals.raycast_length), [self])
 	else:
-#		print("direction = ", direction.x)
-		if playerposx > 3:
+		if originx > 3:
 			pass
-		elif resultright.has("collider"):
-			pass
-			
-		else:
-			if resultfront == null:
-				pass
-			else:
-				if resultfront.has("collider"):
-					resultfront.collider.get_parent().get_surface_material(0).emission_enabled = false
+		elif !resultright.has("collider"):
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
-			resultfront = space_state.intersect_ray(Vector3(playerposx+1,playerposy,playerposz), Vector3(playerposx +1,playerposy,playerposz + globals.raycast_length), [self])
+		resultfront = space_state.intersect_ray(Vector3(originx+1,originy,originz), Vector3(originx +1,originy,originz + globals.raycast_length), [self])
 	
 func _process(_delta):
 	space_state = get_world().direct_space_state
 	var resultgone
-	var ply = get_tree().get_root().get_node("Main/player1")
-	var originx = ply.get_global_transform().origin.x
-	var originy = ply.get_global_transform().origin.y
-	var originz = ply.get_global_transform().origin.z
+	ply = get_tree().get_root().get_node("Main/player1")
+	originx = ply.get_global_transform().origin.x
+	originy = ply.get_global_transform().origin.y
+	originz = ply.get_global_transform().origin.z
 	var spiritposz = globals.spiritlocation.get_global_transform().origin.z	
 	if globals.ammo <= 0 or spiritposz > originz or globals.health <= 0:
 		_on_GameTick_timeout()
 	result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
 	colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
-	if result.has("collider") and result.collider.get_parent().translation.y >= 0:
-		result.collider.get_parent().get_surface_material(0).emission_enabled = true
+	if result.has("collider") and result.collider.get_parent().translation.y >= 0 and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox":
+		if resultfront != null: 
+			if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
+				resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 		resultfront = result
-	while fired_weapon:
+		resultfront.collider.get_parent().get_surface_material(0).emission = Color(1,0,0,1)
+		resultfront.collider.get_parent().get_surface_material(0).emission_enabled = true
+	if fired_weapon:
 		print("fired weapon process running")
 		globals.ammo -= 1	
 		if globals.skillgun and result:
-			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
+#			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
 			var colorglow = result.collider.get_parent().get_parent()
 			var tokenboxes = result.collider.get_parent().name
 #			print("tokenboxes: ", tokenboxes)
@@ -95,20 +88,20 @@ func _process(_delta):
 				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
 				#print("spirit was detected: ", spiritdetected)
 			if !spiritdetected or tokenboxes == "token":
-				globals.skillgun == false	
-				var objID = result.collider
+#				globals.skillgun == false	
+				objID = result.collider
 				emit_signal("destroy", objID)
 				resultfront = null
 					#var ply = get_tree().get_root().get_node("Main/player1")
 				globals.hitsound.volume_db = globals.game_data["effectsvolume"]
 				globals.hitsound.play()
-				print(result.collider)
+#				print(result.collider)
 					
 	#			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
 	#				emit_signal("playermove")
 				if result.collider.get_parent().get_parent().name == "AmmoBox":
 #					if globals.skillgun == true:
-						globals.skillgun == false
+#						globals.skillgun == false
 						globals.ammo += 25
 						globals.game_data["coins"] += 5
 						objID = result.collider
@@ -120,7 +113,7 @@ func _process(_delta):
 						resultfront = null
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
 #					if globals.skillgun == true:
-						globals.skillgun == false	
+#						globals.skillgun == false	
 						globals.health += 25
 						globals.game_data["coins"] += 5
 						objID = result.collider
@@ -132,7 +125,7 @@ func _process(_delta):
 						resultfront = null
 				elif result.collider.get_parent().get_child(1).has_node("bomb"):
 					if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
-						globals.skillgun == false
+#						globals.skillgun == false
 #						if bombexploded.has_node("bomb"):
 						if globals.bombexplodedcheck == result.collider:
 							globals.bombticking.stop()
@@ -160,7 +153,7 @@ func _process(_delta):
 				#print("spirit was detected: ", spiritdetected)
 			if !spiritdetected or tokenboxes == "token":
 				if color2 == colorblock and globals.ammogun:
-					var objID = result.collider
+					objID = result.collider
 #					globals.skillgun = false
 					emit_signal("destroy", objID)
 					globals.hitsound.volume_db = globals.game_data["effectsvolume"]
@@ -170,18 +163,18 @@ func _process(_delta):
 #						globals.skillgun = false
 						globals.ammo += 25
 						globals.game_data["coins"] += 5
-						var objID = result.collider
+						objID = result.collider
 						objID.get_parent().queue_free()
-						emit_signal("destroy", objID)
+#						emit_signal("destroy", objID)
 						resultfront = null
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
 					if globals.ammogun == true:
 #						globals.skillgun = false
 						globals.health += 25
 						globals.game_data["coins"] += 5
-						var objID = result.collider
+						objID = result.collider
 						objID.get_parent().queue_free()
-						emit_signal("destroy", objID)
+#						emit_signal("destroy", objID)
 						resultfront = null
 				elif globals.ammogun == false:
 #					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
@@ -243,8 +236,8 @@ func _on_GameTick_timeout():
 	var playerposx = ply.get_global_transform().origin.x
 	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
-	var resultfront = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
-	if resultfront.has("collider"):
+	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
+	if resultfrontcollide.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.crashed

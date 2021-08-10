@@ -25,6 +25,10 @@ config/icon="res://icon.png"
 Globalnode="*res://Scenes/Globalnode.tscn"
 MobileAds="*res://addons/admob/scripts/MobileAds.gd"
 
+[debug]
+
+settings/stdout/verbose_stdout=true
+
 [display]
 
 window/size/width=1000
@@ -40,7 +44,11 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/admob/plugin.cfg", "res://addons/gut/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/admob/plugin.cfg" )
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
