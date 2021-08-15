@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Default-Landscape-736h@3x.png-bda56e81f2644ce4667072f634fed177.stex"
+path="res://.import/Spotlight40x40.png-84d4918511237a4587497ecb3173a207.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ColorSpike/Images.xcassets/LaunchImage.launchimage/Default-Landscape-736h@3x.png"
-dest_files=[ "res://.import/Default-Landscape-736h@3x.png-bda56e81f2644ce4667072f634fed177.stex" ]
+source_file="res://Assets/images/Spotlight40x40.png"
+dest_files=[ "res://.import/Spotlight40x40.png-84d4918511237a4587497ecb3173a207.stex" ]
 
 [params]
 

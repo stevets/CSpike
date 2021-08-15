@@ -14,7 +14,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Color Spike"
+config/name="Spirit Jump"
 run/main_scene="res://Scenes/MainScreen.tscn"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
