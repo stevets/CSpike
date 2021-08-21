@@ -38,7 +38,7 @@ export var columns = 5
 
 
 var ply : KinematicBody
-onready var tick = $GameTick
+onready var gametick = $GameTick
 onready var globals = $"/root/Globalnode"
 onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
@@ -59,9 +59,9 @@ var swipe_start_position = Vector2(0,0)
 
 func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
-	globals.gamemusic.play()
+	globals.gameplaymusic.play()
 	$HUD.show()
-	tick.start(10)
+	gametick.start(10)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
 	
@@ -79,24 +79,26 @@ func _ready():
 	#$HUD.hide()
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
+	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left * 10
+	print("gametick:", gametick.time_left)
 	time1 -= 1
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
 	$HUD.update_coins()
 	if globals.game_data["coins"] <= 9:
-		$HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox/SkillGun.visible = false
+		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = false
 	else:
-		$HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox/SkillGun.visible = true
+		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = true
 	emit_signal("selfdestruct", ply.translation.z)
 	if globals.cubedestroyed == true:
 		_on_Main_createrow()
 		globals.cubedestroyed = false
 
-	if globals.ammogun == false:
-		$HUD.update_spirit_gun()
-	else:
-		$HUD.update_spirit_gun()
+#	if globals.ammogun == false:
+#		$HUD.update_spirit_gun()
+#	else:
+#		$HUD.update_spirit_gun()
 #var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
@@ -127,6 +129,7 @@ func _end_detection(position):
 #		print(swipeangle)
 		if swipeangle <= hangle or swipeangle >= 180 - hangle:
 			if direction.x >= swipedetection or direction.x <= -swipedetection:
+				globals.swipe.play()
 				emit_signal('swiped', Vector2(-sign(direction.x), 0.0))
 #		elif swipeangle >= vangle or swipeangle <= 180 - vangle:
 #			emit_signal('swipedup')

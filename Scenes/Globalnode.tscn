@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Assets/Music-Effects/lifeofleo.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/Globalnode.gd" type="Script" id=2]
@@ -9,14 +9,28 @@
 [ext_resource path="res://Scenes/mixkit-bomb-explosion-in-battle-2800.wav" type="AudioStream" id=7]
 [ext_resource path="res://Scenes/clock-ticking-1.mp3" type="AudioStream" id=8]
 [ext_resource path="res://Assets/mixkit-metal-hammer-hit-833.mp3" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Music-Effects/Swipeeffect.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Music-Effects/MagicSpell.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Music-Effects/Alarmgun.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Music-Effects/180DUNDUNDUN.ogg" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Music-Effects/Alarmswipe.ogg" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Music-Effects/gameintro.ogg" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Music-Effects/Menu-Button-Press.ogg" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Music-Effects/gameplaybackground.ogg" type="AudioStream" id=17]
 
 [node name="Globalnode" type="Node"]
 script = ExtResource( 2 )
 
+[node name="AlarmGunPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+
+[node name="EffectSwipePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -5.909
+
 [node name="TitleMusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 volume_db = -17.074
-autoplay = true
 
 [node name="GameMusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
@@ -24,10 +38,11 @@ volume_db = 5.0
 
 [node name="EffectGunPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-volume_db = 5.0
+volume_db = -80.0
 
 [node name="EffectHitSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+volume_db = -80.0
 
 [node name="EffectRowChangePlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
@@ -41,3 +56,22 @@ volume_db = 16.0
 
 [node name="EffectSpiritHitBomb2Player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
+
+[node name="EffectMagicSpellPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+
+[node name="AlarmSwipePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+
+[node name="EndGamePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+
+[node name="GameIntroPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+
+[node name="MenuButtonPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+
+[node name="GamePlayBackingPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+volume_db = -13.709

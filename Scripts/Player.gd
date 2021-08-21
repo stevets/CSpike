@@ -7,7 +7,7 @@ var fired_weapon = false
 var red = ColorN("red", 1)
 var dx = 1
 var result
-var colorcube
+var colorbasecube
 var spiritdetected = false
 var bombexploded
 var bombset = false
@@ -32,7 +32,6 @@ onready var bombtick = $BombTick
 
 func _ready():
 	pass
-#	var ply = get_tree().get_root().get_node("Main/player1")
 	
 func _on_Main_swiped(direction):
 	originx = ply.get_global_transform().origin.x
@@ -43,15 +42,19 @@ func _on_Main_swiped(direction):
 	resultright = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx + 1.5,originy,originz), [self])
 	if direction.x >= 0:
 		if originx < 1:
-			pass
+			globals.alarmswipe.play()
 		elif !resultleft.has("collider"):
 			ply.global_translate(Vector3(-dx,0,0))  #move character to the left
+		else:
+			globals.alarmswipe.play()
 		resultfront = space_state.intersect_ray(Vector3(originx-1,originy,originz), Vector3(originx-1 ,originy,originz + globals.raycast_length), [self])
 	else:
 		if originx > 3:
-			pass
+			globals.alarmswipe.play()
 		elif !resultright.has("collider"):
 			ply.global_translate(Vector3(dx, 0, 0)) #move character to the right
+		else:
+			globals.alarmswipe.play()
 		resultfront = space_state.intersect_ray(Vector3(originx+1,originy,originz), Vector3(originx +1,originy,originz + globals.raycast_length), [self])
 	
 func _process(_delta):
@@ -65,68 +68,63 @@ func _process(_delta):
 	if globals.ammo <= 0 or spiritposz > originz or globals.health <= 0:
 		_on_GameTick_timeout()
 	result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
-	colorcube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
+	colorbasecube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
 	if result.has("collider") and result.collider.get_parent().translation.y >= 0 and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox":
 		if resultfront != null: 
 			if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
 				resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 		resultfront = result
-		resultfront.collider.get_parent().get_surface_material(0).emission = Color(1,0,0,1)
+		resultfront.collider.get_parent().get_surface_material(0).emission = Color(0.8,0,0,1)
 		resultfront.collider.get_parent().get_surface_material(0).emission_enabled = true
+	else:
+		if resultfront != null: 
+			if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
+				resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
+		resultfront = null
+#-------------------------FIRED WEAPON------------------------------------------------------------------------
 	if fired_weapon:
-		print("fired weapon process running")
-		globals.ammo -= 1	
+#		print("fired weapon process running")
+#		globals.ammo -= 1	
 		if globals.skillgun and result:
-#			var colorblock =  colorcube.collider.get_parent().get_surface_material(0).albedo_color
-			var colorglow = result.collider.get_parent().get_parent()
+#			var colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(0).albedo_color
+			var resultroot = result.collider.get_parent().get_parent()
 			var tokenboxes = result.collider.get_parent().name
-#			print("tokenboxes: ", tokenboxes)
-			if colorglow.get_child(0).name == "basecube":
+#			-------------Check if spirit is true or false---Skillgun is true------------------------------------
+			if resultroot.get_child(0).name == "basecube":
 				spiritdetected = result.collider.get_parent().get_parent().spirit
-				print("SPIRIT was detected: ", spiritdetected)
-			if colorglow.get_child(0).name == "Medicbox" or colorglow.get_child(0).name == "Ammobox":
+			elif resultroot.get_child(0).name == "Medicbox" or resultroot.get_child(0).name == "Ammobox":
 				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
-				#print("spirit was detected: ", spiritdetected)
-			if !spiritdetected or tokenboxes == "token":
-#				globals.skillgun == false	
+			else:
+				print("basecube, Medicbox and Ammobox were not found in resultroot:", resultroot)
+#			-------------------------------------------------------------------------------------
+			if !spiritdetected: # or tokenboxes == "token":
 				objID = result.collider
 				emit_signal("destroy", objID)
 				resultfront = null
-					#var ply = get_tree().get_root().get_node("Main/player1")
-				globals.hitsound.volume_db = globals.game_data["effectsvolume"]
+#				globals.hitsound.volume_db = globals.game_data["effectsvolume"]
 				globals.hitsound.play()
-#				print(result.collider)
-					
-	#			elif abs(ply.get_global_transform().origin.z-result.position.z) > 2:
-	#				emit_signal("playermove")
 				if result.collider.get_parent().get_parent().name == "AmmoBox":
-#					if globals.skillgun == true:
-#						globals.skillgun == false
-						globals.ammo += 25
-						globals.game_data["coins"] += 5
-						objID = result.collider
-						objID.get_parent().queue_free()
-						emit_signal("destroy", objID)
-						resultgone = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
-						if resultgone.collider != objID:
-							result.collider.get_parent().get_surface_material(0).emission_enabled = false
-						resultfront = null
+					globals.ammo += 25
+					globals.game_data["coins"] += 5
+					objID = result.collider
+					objID.get_parent().queue_free()
+					emit_signal("destroy", objID)
+					resultgone = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
+					if resultgone.collider != objID:
+						result.collider.get_parent().get_surface_material(0).emission_enabled = false
+					resultfront = null
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
-#					if globals.skillgun == true:
-#						globals.skillgun == false	
-						globals.health += 25
-						globals.game_data["coins"] += 5
-						objID = result.collider
-						objID.get_parent().queue_free()
-						emit_signal("destroy", objID)
-						resultgone = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
-						if resultgone.collider != objID:
-							result.collider.get_parent().get_surface_material(0).emission_enabled = false
-						resultfront = null
+					globals.health += 25
+					globals.game_data["coins"] += 5
+					objID = result.collider
+					objID.get_parent().queue_free()
+					emit_signal("destroy", objID)
+					resultgone = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
+					if resultgone.collider != objID:
+						result.collider.get_parent().get_surface_material(0).emission_enabled = false
+					resultfront = null
 				elif result.collider.get_parent().get_child(1).has_node("bomb"):
 					if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
-#						globals.skillgun == false
-#						if bombexploded.has_node("bomb"):
 						if globals.bombexplodedcheck == result.collider:
 							globals.bombticking.stop()
 						objID = result.collider
@@ -136,48 +134,58 @@ func _process(_delta):
 							result.collider.get_parent().get_surface_material(0).emission_enabled = false
 						resultfront = null
 			globals.raycast_length = -8					
-		elif result and colorcube:
+		elif result and colorbasecube: #skillgun is false
 			if "material/1" in result.collider.get_parent():
 				color2 = result.collider.get_parent().get_surface_material(1).albedo_color
 			else:
 				color2 = null
-			var colorblock =  colorcube.collider.get_parent().get_surface_material(1).albedo_color
-			var colorglow = result.collider.get_parent().get_parent()
+			var colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(1).albedo_color
+			var resultroot = result.collider.get_parent().get_parent()
 			var tokenboxes = result.collider.get_parent().name
-			print("tokenboxes: ", tokenboxes)
-			if colorglow.get_child(0).name == "basecube":
+#			-------------Check if spirit is true or false---Skillgun is false------------------------------------
+			if resultroot.get_child(0).name == "basecube":
 				spiritdetected = result.collider.get_parent().get_parent().spirit
-				print("SPIRIT was detected: ", spiritdetected)
-			if colorglow.get_child(0).name == "Medicbox" or colorglow.get_child(0).name == "Ammobox":
+			elif resultroot.get_child(0).name == "Medicbox" or resultroot.get_child(0).name == "Ammobox":
 				spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
-				#print("spirit was detected: ", spiritdetected)
-			if !spiritdetected or tokenboxes == "token":
-				if color2 == colorblock and globals.ammogun:
+			else:
+				spiritdetected = false
+				print("basecube, Medicbox and Ammobox were not found in resultroot:", resultroot)	
+#			-------------------------------------------------------------------------------------				
+			if !spiritdetected: #or tokenboxes == "token":
+				if color2 == colorbaseblock and globals.ammogun:
 					objID = result.collider
 #					globals.skillgun = false
 					emit_signal("destroy", objID)
-					globals.hitsound.volume_db = globals.game_data["effectsvolume"]
+#					globals.hitsound.volume_db = globals.game_data["effectsvolume"]
+					globals.ammo -= 1
+					globals.gunshot.play()
 					globals.hitsound.play()
-				elif result.collider.get_parent().get_parent().name == "AmmoBox":
-					if globals.ammogun == true:
-#						globals.skillgun = false
-						globals.ammo += 25
-						globals.game_data["coins"] += 5
-						objID = result.collider
-						objID.get_parent().queue_free()
-#						emit_signal("destroy", objID)
-						resultfront = null
-				elif result.collider.get_parent().get_parent().name == "MedicBox":
-					if globals.ammogun == true:
-#						globals.skillgun = false
-						globals.health += 25
-						globals.game_data["coins"] += 5
-						objID = result.collider
-						objID.get_parent().queue_free()
-#						emit_signal("destroy", objID)
-						resultfront = null
-				elif globals.ammogun == false:
-#					print("hasbomb: ", result.collider.get_parent().get_child(1).has_node("bomb"))
+				elif result.collider.get_parent().get_parent().name == "AmmoBox" and globals.spiritgun == false:
+#					globals.skillgun = false
+					globals.ammo += 25
+#					globals.game_data["coins"] += 5
+					objID = result.collider
+					objID.get_parent().queue_free()
+					globals.ammo -= 1
+					globals.gunshot.play()
+					globals.hitsound.play()
+#					emit_signal("destroy", objID)
+					resultfront = null
+				elif result.collider.get_parent().get_parent().name == "MedicBox" and globals.spiritgun == false:
+#					globals.skillgun = false
+					globals.health += 25
+#					globals.game_data["coins"] += 5
+					objID = result.collider
+					objID.get_parent().queue_free()
+					globals.ammo -= 1
+					globals.gunshot.play()
+					globals.hitsound.play()
+#					emit_signal("destroy", objID)
+					resultfront = null
+				else:
+					if globals.ammogun:
+						globals.alarmgun.play()
+				if globals.spiritgun and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox":
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
 						if bombset:
 							bombtwo = true
@@ -197,20 +205,27 @@ func _process(_delta):
 #						print(result.collider.get_parent().get_child(1).get_child(0).name)
 					if !bombtwo:
 #						if bombset and result.collider.get_parent().get_child(1).has_node("bomb"):
-						colorglow.spirit = true
-						globals.ammogun = true
+						globals.magicspell.play()
+						resultroot.spirit = true
+#						globals.ammogun = true
 	#					emit_signal("resetgun")
 #						globals.spiritlocation.get_child(0).get_surface_material(0).emission_enabled = false
 						globals.spiritlocation.get_child(0).get_child(2).emitting = false
 	#					globals.spiritlocation.get_child(0).get_surface_material(0).emission = Color(0, 0, 0, 1)
-						colorglow.get_child(0).get_child(2).emitting = true
-#						colorglow.get_child(0).get_surface_material(0).emission_enabled = true
-#						colorglow.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
+						resultroot.get_child(0).get_child(2).emitting = true
+#						resultroot.get_child(0).get_surface_material(0).emission_enabled = true
+#						resultroot.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 						globals.spiritlocation.spirit = false
 #						bombset = true
-						globals.spiritlocation = colorglow		
-								
+						globals.spiritlocation = resultroot		
+			else:
+				globals.alarmgun.play()
+		else:
+			globals.alarmgun.play()
 		fired_weapon = false
+		globals.ammogun = false
+		globals.spiritgun = false
+		
 
 func _on_Main_click():
 #	fired_weapon = true
@@ -241,27 +256,36 @@ func _on_GameTick_timeout():
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.crashed
+		globals.endgame.play()
+		globals.gameplaymusic.playing = false
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.ammo == 0:# or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.noammo
+		globals.endgame.play()
+		globals.gameplaymusic.playing = false
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.health <= 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.output = globals.nohealth
+		globals.endgame.play()
+		globals.gameplaymusic.playing = false
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.spiritdied:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		globals.output = globals.spiritdeath
+		globals.endgame.play()
+		globals.gameplaymusic.playing = false
 		var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	else:
-		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
+#		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
 		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("Main/Camera")
 		globals.game_data["finalscore"] += 1
@@ -271,20 +295,25 @@ func _on_GameTick_timeout():
 
 
 
-func _on_Button_pressed():
+func _on_SpiritGun_pressed():
 	globals.skillgun = false
-	if globals.ammogun == false:
-		globals.ammogun = true
-	elif globals.ammogun == true:
-		globals.ammogun = false
-
-
-func _on_Button2_pressed():
-	globals.skillgun = false
+	globals.ammogun = false
 	if didstart.game_started:
-#		globals.raycast_length = -8
 		fired_weapon = true
-		globals.gunshot.play()
+		globals.spiritgun = true
+#	if globals.ammogun == false:
+#		globals.ammogun = true
+#	elif globals.ammogun == true:
+#		globals.ammogun = false
+
+
+func _on_AmmoGun_pressed():
+	globals.skillgun = false
+	globals.spiritgun = false
+	if didstart.game_started:
+		globals.ammogun = true
+		fired_weapon = true
+#		globals.gunshot.play()
 		#didstart.game_started = false
 		#emit_signal('click')
 		#print("click")
@@ -313,11 +342,9 @@ func _on_SkillGun_pressed():
 	if globals.game_data["coins"] <= 9:
 		pass
 	if globals.game_data["coins"] > 9:
-		if globals.ammogun == false:
-			pass
-		else:
-			globals.game_data["coins"] -= 10
-			globals.skillgun = true
-			globals.raycast_length = -21
-			fired_weapon = true
+		globals.game_data["coins"] -= 10
+		globals.skillgun = true
+		globals.raycast_length = -21
+		fired_weapon = true
 	
+

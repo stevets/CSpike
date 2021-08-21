@@ -1,11 +1,11 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/pyramid.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/newcube.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scripts/ball.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/ball.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/cube.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/gem.gd" type="Script" id=9]
@@ -74,14 +74,11 @@ font_data = ExtResource( 20 )
 size = 63
 font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFontData" id=16]
-font_path = "res://Assets/Fonts/Piximisa.ttf"
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 1, 0, 0, 0.541176 )
 
-[sub_resource type="DynamicFont" id=17]
-size = 100
-outline_size = 10
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 16 )
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [sub_resource type="DynamicFontData" id=18]
 font_path = "res://Assets/Fonts/Piximisa.ttf"
@@ -91,6 +88,15 @@ size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 18 )
+
+[sub_resource type="DynamicFontData" id=16]
+font_path = "res://Assets/Fonts/Piximisa.ttf"
+
+[sub_resource type="DynamicFont" id=17]
+size = 100
+outline_size = 10
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 16 )
 
 [sub_resource type="DynamicFont" id=20]
 size = 80
@@ -108,16 +114,27 @@ one_shot = true
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( -0.818249, 0.47238, -0.327606, -0.353236, 0.0364519, 0.934824, 0.453534, 0.880641, 0.137035, 0, 1.31753, -2.5403 )
-light_energy = 0.45
-light_indirect_energy = 0.64
-light_specular = 0.46
+visible = false
+light_energy = 0.06
+light_indirect_energy = 0.0
+light_specular = 0.0
 light_bake_mode = 0
 shadow_enabled = true
-shadow_bias = 0.24
+shadow_color = Color( 0.470588, 0.403922, 0.403922, 1 )
+shadow_bias = 2.42
 directional_shadow_mode = 1
 directional_shadow_split_1 = 0.156
 directional_shadow_split_2 = 0.24
 directional_shadow_normal_bias = 0.16
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.432, 0 )
+light_energy = 2.26
+light_indirect_energy = 0.0
+light_specular = 0.0
+shadow_enabled = true
+shadow_bias = 1.62
+omni_range = 17.4
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
@@ -204,11 +221,11 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 980.0
 margin_bottom = 1980.0
-custom_constants/separation = 1400
+custom_constants/separation = 1000
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
 margin_right = 960.0
-margin_bottom = 118.0
+margin_bottom = 142.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -291,58 +308,76 @@ custom_fonts/font = SubResource( 15 )
 text = "PAUSE"
 align = 0
 
-[node name="FireButtons" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer"]
-margin_top = 1518.0
+[node name="ProgressBar" type="ProgressBar" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer"]
+margin_top = 122.0
 margin_right = 960.0
-margin_bottom = 1742.0
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons"]
-margin_left = 88.0
-margin_right = 872.0
-margin_bottom = 224.0
-
-[node name="FirstHBox" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer"]
-margin_right = 784.0
-margin_bottom = 110.0
-
-[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox"]
-modulate = Color( 1, 1, 1, 0.490196 )
-margin_right = 400.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 400, 110 )
-custom_fonts/font = SubResource( 17 )
-text = "SWAP"
+margin_bottom = 142.0
+rect_min_size = Vector2( 0, 20 )
+custom_styles/fg = SubResource( 22 )
+custom_styles/bg = SubResource( 23 )
+custom_colors/font_color = Color( 0, 0, 0, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox"]
-modulate = Color( 1, 1, 1, 0.494118 )
-margin_left = 404.0
-margin_right = 784.0
+[node name="HSplitContainer" type="HSplitContainer" parent="HUD/ScoreBox/VBoxContainer"]
+margin_top = 1142.0
+margin_right = 960.0
+margin_bottom = 1432.0
+custom_constants/separation = 300
+split_offset = 400
+dragger_visibility = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer"]
+margin_right = 400.0
+margin_bottom = 290.0
+
+[node name="SkillGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/Control"]
+visible = false
+modulate = Color( 1, 1, 1, 0.490196 )
+margin_right = 260.0
 margin_bottom = 110.0
-rect_min_size = Vector2( 380, 110 )
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 19 )
+custom_colors/font_color = Color( 0.156863, 0.745098, 0.0705882, 1 )
+text = "SKILL"
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer"]
+margin_left = 700.0
+margin_right = 960.0
+margin_bottom = 290.0
+custom_constants/separation = 70
+
+[node name="SpiritGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.490196 )
+margin_right = 260.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 200, 110 )
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 0.94902, 0.0901961, 1, 1 )
+text = "SPIRIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.494118 )
+margin_top = 180.0
+margin_right = 260.0
+margin_bottom = 290.0
+rect_min_size = Vector2( 200, 110 )
 custom_fonts/font = SubResource( 17 )
 text = "Fire"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="SecondHBox" type="HBoxContainer" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer"]
-margin_top = 114.0
-margin_right = 784.0
-margin_bottom = 224.0
-rect_min_size = Vector2( 0, 110 )
-
-[node name="SkillGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox"]
-visible = false
-modulate = Color( 1, 1, 1, 0.490196 )
-margin_right = 784.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 784, 0 )
-custom_fonts/font = SubResource( 19 )
-text = "SKILL GUN"
 
 [node name="mainnode" type="Node" parent="."]
 
@@ -392,12 +427,12 @@ visible = false
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="swipedup" from="." to="Player" method="_on_Main_swipedup"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button" to="Player" method="_on_Button_pressed"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/FirstHBox/Button2" to="Player" method="_on_Button2_pressed"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/FireButtons/VBoxContainer/SecondHBox/SkillGun" to="Player" method="_on_SkillGun_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun" to="Player" method="_on_SkillGun_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/SpiritGun" to="Player" method="_on_SpiritGun_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/AmmoGun" to="Player" method="_on_AmmoGun_pressed"]
 [connection signal="pressed" from="Popup/VBoxContainer/Button" to="." method="_on_Button_pressed"]

@@ -1,9 +1,9 @@
 extends Control
 
 onready var globals = $"/root/Globalnode"
-onready var score = get_node("CenterContainer/VBoxContainer/score")
-onready var highscore = get_node("CenterContainer/VBoxContainer/newhighscore")
-onready var outputfeedback = get_node("CenterContainer/VBoxContainer/outputfeedback")
+onready var score = get_node("VBoxContainer/score")
+onready var highscore = get_node("VBoxContainer/newhighscore")
+onready var outputfeedback = get_node("VBoxContainer/outputfeedback")
 
 func _ready():
 	highscore.text = str(globals.game_data["highscore"])

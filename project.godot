@@ -8,8 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "SoundManagerModule",
+"language": "GDScript",
+"path": "res://addons/sound_manager/module/internal_scripts/SoundManager_config.gd"
+} ]
 _global_script_class_icons={
+"SoundManagerModule": ""
 }
 
 [application]
@@ -53,6 +59,9 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 vram_compression/import_etc=true
+quality/reflections/texture_array_reflections=false
+quality/reflections/high_quality_ggx=false
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false
 quality/2d/gles2_use_nvidia_rect_flicker_workaround=true

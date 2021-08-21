@@ -3,7 +3,15 @@ extends Node
 onready var globals = $"/root/Globalnode"
 
 onready var titlemusic = $TitleMusicPlayer
+onready var gameintro = $GameIntroPlayer
 onready var gamemusic = $GameMusicPlayer
+onready var gameplaymusic = $GamePlayBackingPlayer
+onready var endgame = $EndGamePlayer
+onready var swipe = $EffectSwipePlayer
+onready var menubutton = $MenuButtonPlayer
+onready var magicspell = $EffectMagicSpellPlayer
+onready var alarmgun = $AlarmGunPlayer
+onready var alarmswipe = $AlarmSwipePlayer
 onready var gunshot = $EffectGunPlayer
 onready var hitsound = $EffectHitSoundPlayer
 onready var rowchangetick = $EffectRowChangePlayer
@@ -18,10 +26,10 @@ var ammo = 50
 var health = 100
 var coins = 0
 var gamerows = 20
-var music_volume = 0
-var effects_volume = -6
+var music_volume = -10
+var effects_volume = -20
 var spiritlocation
-var ammogun = true
+var ammogun = false
 var skillgun = false
 var spiritgun = false
 var raycast_length = -8
@@ -31,6 +39,7 @@ var spiritdied = false
 var noammo = "You ran out of ammo!"
 var nohealth = "You ran out of health!"
 var crashed = "You crashed into a block!"
+var spiritdeath = "You passed your spirit!"
 var output
 var bombexplodedcheck
 onready var game_data = {"finalscore": globals.finalscore,
@@ -44,9 +53,18 @@ onready var game_data = {"finalscore": globals.finalscore,
 func _ready():
 	titlemusic.volume_db = music_volume
 	gamemusic.volume_db = music_volume
+	gameplaymusic.volume_db = music_volume
 	gunshot.volume_db = effects_volume
 	hitsound.volume_db = effects_volume
+	alarmgun.volume_db = effects_volume
+	alarmswipe.volume_db = effects_volume
 	rowchangetick.volume_db = effects_volume
+	swipe.volume_db = effects_volume
+	magicspell.volume_db = effects_volume
+	bombexplode.volume_db = effects_volume+10
+	bombticking.volume_db = effects_volume+20
+	gameintro.volume_db = music_volume+10
+	gameintro.play()
 	load_game()
 	print(highscore)	
 
