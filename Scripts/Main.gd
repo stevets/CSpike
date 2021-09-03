@@ -3,7 +3,7 @@ extends Node
 
 signal swiped(direction)
 #signal swipe_canceled(start_position)
-signal swipedup()
+#signal swipedup()
 signal selfdestruct(plyposz)
 
 
@@ -18,6 +18,7 @@ onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
 onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
+onready var laserbeam = preload("res://Scenes/laser.tscn")
 onready var timer = $Timer
 
 
@@ -80,7 +81,6 @@ func _ready():
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
 	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left * 10
-	print("gametick:", gametick.time_left)
 	time1 -= 1
 	$HUD.update_score()
 	$HUD.update_ammo()
@@ -123,7 +123,7 @@ func _end_detection(position):
 	var direction = (position - swipe_start_position)
 	var swipedetection = 60
 	var hangle = 15
-	var vangle = 75
+	var _vangle = 75
 	if direction.length() >= 60:
 		var swipeangle = direction.angle_to(Vector2(1, 0))*180/3.14
 #		print(swipeangle)
@@ -275,10 +275,6 @@ func _on_Main_createrow():
 	_createGameBoard(firstrow, lastrow)
 
 
-
-
-
-
 func _on_Button_pressed():
 	var paused = get_tree().paused
 	print("paused: ", paused)
@@ -288,4 +284,19 @@ func _on_Button_pressed():
 	else:
 		$Popup.show()
 		get_tree().paused = true
-		
+
+
+func _on_Player_laser(laserdata):
+	print("hitobj: ", laserdata)
+	var zpos = laserdata["trans"].z
+	var xpos = laserdata["midpoint"] 
+	var xlaserlength = laserdata["length"]
+	print("xpos: ", xpos)
+	var laser = laserbeam.instance()
+	laser.name = "laserone"
+	laser.duplicate()
+	laser.height	= xlaserlength - 1
+	laser.get_node("StaticBody/CollisionShape").scale.y = (xlaserlength - 1.0)/2.0
+#	laser.shapecalc(xlaserlength - 1)
+	add_child(laser)
+	laser.global_translate(Vector3(xpos,1,zpos))

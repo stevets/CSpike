@@ -6,8 +6,8 @@ var l = 0
 func _ready():
 #	$Menu/HBoxContainer/highscore.text = str(globals.["highscore"])
 	$Menu/HBoxContainer/highscore.text = str(globals.game_data["highscore"])
-#
-func _process(delta):
+
+func _process(_delta):
 #	if !globals.gameintro.playing:
 	l += 1
 	if l >80:

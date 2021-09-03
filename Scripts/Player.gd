@@ -1,6 +1,9 @@
 extends KinematicBody
 
 signal destroy(objID)
+signal laser(laserdata)
+
+
 
 var fired_weapon = false
 
@@ -23,6 +26,7 @@ var originz
 var resultleft
 var resultright
 var ply
+var laserdata
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
@@ -69,17 +73,20 @@ func _process(_delta):
 		_on_GameTick_timeout()
 	result = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,originy,originz + globals.raycast_length), [self])
 	colorbasecube = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx,-5,originz), [self])
-	if result.has("collider") and result.collider.get_parent().translation.y >= 0 and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox":
-		if resultfront != null: 
-			if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
-				resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
+	if result.has("collider") and result.collider.get_parent().translation.y >= 0 and result.collider.get_parent().get_parent().name != "MedicBox" \
+		and result.collider.get_parent().get_parent().name != "AmmoBox" and  not "laser" in result.collider.get_parent().name:
+		if resultfront: #!= null: 
+			if "material/1" in resultfront.collider.get_parent():
+				if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
+					resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 		resultfront = result
 		resultfront.collider.get_parent().get_surface_material(0).emission = Color(0.8,0,0,1)
 		resultfront.collider.get_parent().get_surface_material(0).emission_enabled = true
 	else:
-		if resultfront != null: 
-			if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
-				resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
+		if resultfront:
+			if "material/1" in resultfront.collider.get_parent():
+				if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
+					resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 		resultfront = null
 #-------------------------FIRED WEAPON------------------------------------------------------------------------
 	if fired_weapon:
@@ -88,7 +95,7 @@ func _process(_delta):
 		if globals.skillgun and result:
 #			var colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(0).albedo_color
 			var resultroot = result.collider.get_parent().get_parent()
-			var tokenboxes = result.collider.get_parent().name
+			var _tokenboxes = result.collider.get_parent().name
 #			-------------Check if spirit is true or false---Skillgun is true------------------------------------
 			if resultroot.get_child(0).name == "basecube":
 				spiritdetected = result.collider.get_parent().get_parent().spirit
@@ -105,7 +112,7 @@ func _process(_delta):
 				globals.hitsound.play()
 				if result.collider.get_parent().get_parent().name == "AmmoBox":
 					globals.ammo += 25
-					globals.game_data["coins"] += 5
+#					globals.game_data["coins"] += 5
 					objID = result.collider
 					objID.get_parent().queue_free()
 					emit_signal("destroy", objID)
@@ -115,7 +122,7 @@ func _process(_delta):
 					resultfront = null
 				elif result.collider.get_parent().get_parent().name == "MedicBox":
 					globals.health += 25
-					globals.game_data["coins"] += 5
+#					globals.game_data["coins"] += 5
 					objID = result.collider
 					objID.get_parent().queue_free()
 					emit_signal("destroy", objID)
@@ -135,13 +142,14 @@ func _process(_delta):
 						resultfront = null
 			globals.raycast_length = -8					
 		elif result and colorbasecube: #skillgun is false
+			checkLeftRight(result)
 			if "material/1" in result.collider.get_parent():
 				color2 = result.collider.get_parent().get_surface_material(1).albedo_color
 			else:
 				color2 = null
 			var colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(1).albedo_color
 			var resultroot = result.collider.get_parent().get_parent()
-			var tokenboxes = result.collider.get_parent().name
+			var _tokenboxes = result.collider.get_parent().name
 #			-------------Check if spirit is true or false---Skillgun is false------------------------------------
 			if resultroot.get_child(0).name == "basecube":
 				spiritdetected = result.collider.get_parent().get_parent().spirit
@@ -163,7 +171,7 @@ func _process(_delta):
 				elif result.collider.get_parent().get_parent().name == "AmmoBox" and globals.spiritgun == false:
 #					globals.skillgun = false
 					globals.ammo += 25
-#					globals.game_data["coins"] += 5
+#					globals.game_data["coins"] -= 5
 					objID = result.collider
 					objID.get_parent().queue_free()
 					globals.ammo -= 1
@@ -174,7 +182,7 @@ func _process(_delta):
 				elif result.collider.get_parent().get_parent().name == "MedicBox" and globals.spiritgun == false:
 #					globals.skillgun = false
 					globals.health += 25
-#					globals.game_data["coins"] += 5
+#					globals.game_data["coins"] -= 5
 					objID = result.collider
 					objID.get_parent().queue_free()
 					globals.ammo -= 1
@@ -185,7 +193,8 @@ func _process(_delta):
 				else:
 					if globals.ammogun:
 						globals.alarmgun.play()
-				if globals.spiritgun and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox":
+				if globals.spiritgun and result.collider.get_parent().get_parent().name != "MedicBox" and result.collider.get_parent().get_parent().name != "AmmoBox" \
+					and result.collider.get_parent().name != "laserone":
 					if result.collider.get_parent().get_child(1).has_node("bomb"):
 						if bombset:
 							bombtwo = true
@@ -225,6 +234,7 @@ func _process(_delta):
 		fired_weapon = false
 		globals.ammogun = false
 		globals.spiritgun = false
+		globals.skillgun = false
 		
 
 func _on_Main_click():
@@ -244,9 +254,33 @@ func _on_Main_swipedup():
 #	ply.global_translate(Vector3(0,0,-1))
 #	cam.global_translate(Vector3(0,0,-1))
 
+func checkLeftRight(_hitobj):
+	print("result", _hitobj)
+	var resultv3 = _hitobj["position"]
+	var resultv3pos = _hitobj.collider.get_parent().translation.y
+	var leftcolor
+	var rightcolor
+	resultright = space_state.intersect_ray(resultv3, resultv3 + Vector3(3, 0, -0.5), [self])
+	resultleft = space_state.intersect_ray(resultv3, resultv3 + Vector3(-3, 0, -0.5), [self])
+	print("resultv3: ",resultv3pos)
+	if resultleft and resultright:
+		if "material/1" in resultleft.collider.get_parent():
+			if "material/1" in resultright.collider.get_parent():
+				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
+				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
+				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
+				print("leftcolor", leftcolor)
+				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
+				print("rightcolor", rightcolor)
+				if leftcolor == rightcolor and resultv3pos <= -0.5:
+					print("color match")
+					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
+					emit_signal("laser", laserdata)
+	
+	
 
 func _on_GameTick_timeout():
-	var ply = get_tree().get_root().get_node("Main/player1")
+	ply = get_tree().get_root().get_node("Main/player1")
 	space_state = get_world().direct_space_state
 	var playerposx = ply.get_global_transform().origin.x
 	var playerposy = ply.get_global_transform().origin.y
@@ -326,6 +360,7 @@ func _on_BombTick_timeout():
 	print("Bombtwo: ", bombtwo)
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
+		
 #	if bombexploded.get_child(0).has_node("bomb"):
 #		globals.bombticking.stop()
 #		globals.bombexplode.play()
@@ -342,9 +377,11 @@ func _on_SkillGun_pressed():
 	if globals.game_data["coins"] <= 9:
 		pass
 	if globals.game_data["coins"] > 9:
-		globals.game_data["coins"] -= 10
+		globals.game_data["coins"] -= 25
+		if globals.game_data["coins"] < 0:
+			globals.game_data["coins"] = 0
 		globals.skillgun = true
-		globals.raycast_length = -21
+		globals.raycast_length = -8
 		fired_weapon = true
 	
 
