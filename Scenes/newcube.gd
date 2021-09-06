@@ -21,12 +21,16 @@ func _on_Player_destroy(objID):
 					objID.get_parent().global_translate(Vector3(0, -1 ,0))
 #					globals.game_data["coins"] += 5
 #					globals.skillgun = false
-				if globals.laserdata != null:
-					print("objID: ",objID.get_parent().get_parent(),"left: ", globals.laserdata["left"],"right: ", globals.laserdata["right"])	
-					if objID.get_parent().get_parent() == globals.laserdata["right"] or objID.get_parent().get_parent() == globals.laserdata["left"]:
-						print("destroy laser")
-						globals.laserdata["laser"].queue_free()
-						globals.laserdata = null
+				if !globals.laserdata.empty():
+					var i = 0
+					for laserbeam in globals.laserdata:
+						i+=1
+						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
+							print("destroy laser")
+							globals.laserdata.remove(i-1)
+							laserbeam["laser"].queue_free()
+#							globals.laserdata = null
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5
@@ -49,12 +53,16 @@ func _on_Player_destroy(objID):
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5
 				objID.get_parent().get_child(3).emitting = true
-				if globals.laserdata != null:
-					print("objID: ",objID.get_parent().get_parent(),"left: ", globals.laserdata["left"],"right: ", globals.laserdata["right"])	
-					if objID.get_parent().get_parent() == globals.laserdata["right"] or objID.get_parent().get_parent() == globals.laserdata["left"]:
-						print("destroy laser")
-						globals.laserdata["laser"].queue_free()
-						globals.laserdata = null
+				if !globals.laserdata.empty():
+					var i = 0
+					for laserbeam in globals.laserdata:
+						i+=1
+						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
+							print("destroy laser")
+							globals.laserdata.remove(i-1)
+							laserbeam["laser"].queue_free()
+#						globals.laserdata = null
 						
 		objID.get_parent().get_child(3).emitting = false
 		

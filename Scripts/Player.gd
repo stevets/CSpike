@@ -1,7 +1,7 @@
 extends KinematicBody
 
 signal destroy(objID)
-signal laser(laserdata)
+signal laser(laserdatanew)
 
 
 onready var globals = $"/root/Globalnode"
@@ -325,9 +325,10 @@ func checkLeftRight(_hitobj):
 				if leftcolor == rightcolor and resultv3pos <= -0.5:
 					if globals.showdebug:
 						print("color match")
-					globals.laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser, "right" : resultright.collider.get_parent().get_parent(), "left" : resultleft.collider.get_parent().get_parent()}
-					print("laserdata: ", globals.laserdata)
-					emit_signal("laser", globals.laserdata)
+					var laserdatanew = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser, "right" : resultright.collider.get_parent().get_parent(), "left" : resultleft.collider.get_parent().get_parent()}
+#					globals.laserdata.append(laserdatanew)
+					print("laserdata: ", laserdatanew)
+					emit_signal("laser", laserdatanew)
 
 func _on_GameTick_timeout():
 	ply = get_tree().get_root().get_node("Main/player1")

@@ -210,11 +210,11 @@ func _on_PauseButton_pressed():
 		$PausePopup.show()
 		get_tree().paused = true
 
-func _on_Player_laser(laserdata):
-	print("hitobj: ", laserdata)
-	var zpos = laserdata["trans"].z
-	var xpos = laserdata["midpoint"] 
-	var xlaserlength = laserdata["length"]
+func _on_Player_laser(laserdatanew):
+	print("hitobj: ", laserdatanew)
+	var zpos = laserdatanew["trans"].z
+	var xpos = laserdatanew["midpoint"] 
+	var xlaserlength = laserdatanew["length"]
 	print("xpos: ", xpos)
 	var laser = laserbeam.instance()
 	laser.name = "laserone"
@@ -224,5 +224,6 @@ func _on_Player_laser(laserdata):
 #	laser.shapecalc(xlaserlength - 1)
 	add_child(laser)
 	laser.global_translate(Vector3(xpos,1,zpos))
-	globals.laserdata["laser"] = laser
+	laserdatanew["laser"] = laser
+	globals.laserdata.append(laserdatanew)
 	print("laserdata", globals.laserdata)
