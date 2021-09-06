@@ -42,6 +42,8 @@ var crashed = "You crashed into a block!"
 var spiritdeath = "You passed your spirit!"
 var output
 var bombexplodedcheck
+var fired_weapon
+var boxes = ["MedicBox", "AmmoBox"]
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,
@@ -68,8 +70,6 @@ func _ready():
 	load_game()
 	print(highscore)	
 
-
-	
 func load_game():
 	var load_game = File.new()
 	if not load_game.file_exists("user://savegame.save"):
@@ -127,5 +127,3 @@ func save_game():
 		save_game.store_line(to_json(node_data))
 		break
 	save_game.close()	
-
-

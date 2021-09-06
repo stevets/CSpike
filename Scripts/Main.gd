@@ -3,11 +3,8 @@ extends Node
 
 signal swiped(direction)
 #signal swipe_canceled(start_position)
-#signal swipedup()
 signal selfdestruct(plyposz)
 
-
-#onready var globals = get_node("/root/Globalnode")
 
 onready var cubeinst = preload("res://Scenes/cube.tscn")
 onready var ballinst = preload("res://Scenes/ball.tscn")
@@ -20,29 +17,24 @@ onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
 onready var laserbeam = preload("res://Scenes/laser.tscn")
 onready var timer = $Timer
+onready var gametick = $GameTick
+onready var globals = $"/root/Globalnode"
+onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
 
 var red = ColorN("red", 1)
 var blue = ColorN("blue", 1)
 var green = ColorN("green", 1)
 var yellow = ColorN("yellow", 1)
-#var new_color = Color(1,1,1,1)
-
 var colorarray = [red, blue, green, yellow]
-
 var rng = RandomNumberGenerator.new()
 var rng1 = RandomNumberGenerator.new()
 var raise_rng = RandomNumberGenerator.new()
 export var space = 1
 var rows = 20
 export var columns = 5
-
-
+var skillgunactivated = 15
 var ply : KinematicBody
-onready var gametick = $GameTick
-onready var globals = $"/root/Globalnode"
-onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
-
 var game_started = true
 var game_began = false
 var raise = 0
@@ -53,10 +45,6 @@ var time1 = 200
 var lastrow = rows
 var firstrow = 0
 var swipe_start_position = Vector2(0,0)
- 
-
-
-#var score = 0 
 
 func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
@@ -65,19 +53,13 @@ func _ready():
 	gametick.start(10)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
-	
-
 	#Add Player-----------------------------------------------------------------------------
-	
 	ply = playinst.instance()
 	var scaleply = 0.25
 	ply.scale = Vector3(scaleply,scaleply,scaleply)
 	ply.name = "player1"
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
-#	print(ply.get_children())
-	
-	#$HUD.hide()
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
 	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left * 10
@@ -86,7 +68,7 @@ func _process(_delta):
 	$HUD.update_ammo()
 	$HUD.update_health()
 	$HUD.update_coins()
-	if globals.game_data["coins"] <= 9:
+	if globals.game_data["coins"] < skillgunactivated:
 		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = false
 	else:
 		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = true
@@ -95,16 +77,6 @@ func _process(_delta):
 		_on_Main_createrow()
 		globals.cubedestroyed = false
 
-#	if globals.ammogun == false:
-#		$HUD.update_spirit_gun()
-#	else:
-#		$HUD.update_spirit_gun()
-#var eventtype = [InputEventMouseButton, InputEventScreenTouch]
-
-
-#onready var timer = $Timer
-#var swipe_start_position = Vector2(0,0)
-	
 func _input(event):
 	if not event is eventtype[0]:
 		return
@@ -112,7 +84,6 @@ func _input(event):
 		_start_detection(event.position)
 	elif not timer.is_stopped():
 		_end_detection(event.position)
-#InputEventScreenTouch: (use this for the phone controls)
 
 func _start_detection(position):
 	swipe_start_position = position
@@ -144,13 +115,9 @@ func _end_detection(position):
 #		emit_signal('click')
 #		print("beganclick")
 		pass
-			
-		
-
 
 func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position)
-	
 
 func _createGameBoard(_firstrow, _lastrow):
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
@@ -163,11 +130,6 @@ func _createGameBoard(_firstrow, _lastrow):
 			if s.translation.x != 10:
 				s.add_to_group("cubes")
 			var duptoken
-			
-#			var unique_mat = s.get_child(0).mesh.surface_get_material(0).duplicate()
-#			s.get_child(0).mesh.surface_get_material(0).albedo_color = colorarray[my_random_number]
-#			s.get_child(0).set_surface_material(0, unique_mat)
-
 			var unique_mat0 = s.get_child(0).get_surface_material(0).duplicate()
 			s.get_child(0).set_surface_material(0, unique_mat0)
 			s.get_child(0).get_surface_material(0).emission = red
@@ -178,8 +140,6 @@ func _createGameBoard(_firstrow, _lastrow):
 				if i == 6 and j == 0:
 					firstraise = 1
 					s.get_child(0).get_child(2).emitting = true
-#					s.get_child(0).get_surface_material(0).emission_enabled = true
-#					s.get_child(0).get_surface_material(0).emission = Color(.5, .5, .5, .5)
 					globals.spiritlocation = s
 					spirit = false
 					s.spirit = true
@@ -197,13 +157,6 @@ func _createGameBoard(_firstrow, _lastrow):
 						var bomb_node = bombinst.instance()
 						var dupbomb = bomb_node.duplicate()
 						s.get_child(0).get_child(1).add_child(dupbomb)
-#						s.get_child(0).get_child(1).create_trimesh_collision()
-		#				var unique_mat1 = SpatialMaterial.new()
-						#s.get_child(0).get_child(1)
-		#				s.get_child(0).get_child(1).set_surface_material(0, unique_mat1)
-		#				s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
-		#				s.get_child(0).get_child(1).name = "bomb"
-		##				s.get_child(0).get_child(1).visible = false
 						bomb = true
 						add_child(s)
 						s.global_translate(Vector3((j * space), 1  ,-i * space))
@@ -221,16 +174,9 @@ func _createGameBoard(_firstrow, _lastrow):
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
 					else:
-						continue
-					
+						continue					
 					s.get_child(0).get_child(1).add_child(duptoken)
 					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
-#					s.get_child(0).get_child(1).mesh = CubeMesh.new()
-					#s.get_child(0).get_child(1).create_trimesh_collision()
-					#var unique_mat1 = token_node.get_child(0).get_surface_material(0) #SpatialMaterial.new()
-					#s.get_child(0).get_child(1)
-					#s.get_child(0).get_child(2).set_surface_material(0, unique_mat1)
-#					s.get_child(0).get_child(1).get_surface_material(0).albedo_color = colorarray[my_random_numberp]
 					add_child(s)
 
 					if firstraise == 1:
@@ -249,42 +195,20 @@ func _createGameBoard(_firstrow, _lastrow):
 				add_child(s)
 				s.global_translate(Vector3((j * space), 0 ,-i * space))
 
-#func _on_MainScreen_start_game():
-#	print("startgame")
-#	#$MainScreen.set_visibility(false)
-#	$MusicPlayer.play()
-#	$MainScreen.visible = false
-#	$HUD.show()
-#	tick.start(10)
-#	game_started = true
-#	$EffectGunPlayer.volume_db = -80
-
-
-#func _on_MainScreen_start_game():
-#	music.playing = true
-#	music.volume_db = 0
-#	$HUD.show()
-#	tick.start(10)
-#	game_started = true
-#	$EffectGunPlayer.volume_db = -80
-
-
 func _on_Main_createrow():
 	firstrow = lastrow
 	lastrow = lastrow + 1
 	_createGameBoard(firstrow, lastrow)
 
-
-func _on_Button_pressed():
+func _on_PauseButton_pressed():
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	if paused:
-		$Popup.hide()
+		$PausePopup.hide()
 		get_tree().paused = false
 	else:
-		$Popup.show()
+		$PausePopup.show()
 		get_tree().paused = true
-
 
 func _on_Player_laser(laserdata):
 	print("hitobj: ", laserdata)

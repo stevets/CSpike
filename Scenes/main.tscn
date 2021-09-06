@@ -75,10 +75,10 @@ font_data = ExtResource( 20 )
 size = 63
 font_data = ExtResource( 20 )
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 1, 0, 0, 0.541176 )
 
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [sub_resource type="DynamicFontData" id=18]
@@ -90,20 +90,20 @@ outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 18 )
 
-[sub_resource type="DynamicFontData" id=16]
+[sub_resource type="DynamicFontData" id=20]
 font_path = "res://Assets/Fonts/Piximisa.ttf"
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=21]
 size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 16 )
+font_data = SubResource( 20 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=22]
 size = 80
 font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=23]
 size = 80
 font_data = ExtResource( 20 )
 
@@ -301,7 +301,7 @@ margin_bottom = 42.0
 custom_fonts/font = SubResource( 14 )
 text = "0"
 
-[node name="Button" type="Button" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer"]
+[node name="PauseButton" type="Button" parent="HUD/ScoreBox/VBoxContainer/VBoxContainer"]
 margin_top = 46.0
 margin_right = 167.0
 margin_bottom = 118.0
@@ -315,8 +315,8 @@ margin_top = 122.0
 margin_right = 960.0
 margin_bottom = 142.0
 rect_min_size = Vector2( 0, 20 )
-custom_styles/fg = SubResource( 22 )
-custom_styles/bg = SubResource( 23 )
+custom_styles/fg = SubResource( 16 )
+custom_styles/bg = SubResource( 17 )
 custom_colors/font_color = Color( 0, 0, 0, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -362,7 +362,7 @@ modulate = Color( 1, 1, 1, 0.490196 )
 margin_right = 260.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 200, 110 )
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 0.94902, 0.0901961, 1, 1 )
 text = "SPIRIT"
 __meta__ = {
@@ -375,7 +375,7 @@ margin_top = 180.0
 margin_right = 260.0
 margin_bottom = 290.0
 rect_min_size = Vector2( 200, 110 )
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 21 )
 text = "Fire"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -389,7 +389,7 @@ visible = false
 [node name="Achievements" parent="." instance=ExtResource( 24 )]
 visible = false
 
-[node name="Popup" type="Popup" parent="."]
+[node name="PausePopup" type="Popup" parent="."]
 pause_mode = 2
 margin_left = 200.0
 margin_top = 200.0
@@ -399,21 +399,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PausePopup"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Label" type="Label" parent="Popup/VBoxContainer"]
+[node name="Label" type="Label" parent="PausePopup/VBoxContainer"]
 margin_right = 291.0
 margin_bottom = 83.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 22 )
 text = "Paused"
 
-[node name="Button" type="Button" parent="Popup/VBoxContainer"]
+[node name="UnpauseButton" type="Button" parent="PausePopup/VBoxContainer"]
 margin_top = 87.0
 margin_right = 291.0
 margin_bottom = 176.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 text = "UNPAUSE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -434,13 +434,13 @@ sides = 16
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="destroy" from="Player" to="ball" method="_on_Player_destroy"]
+[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="pyramid" method="_on_Player_destroy"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
-[connection signal="destroy" from="Player" to="gem" method="_on_Player_destroy"]
 [connection signal="laser" from="Player" to="." method="_on_Player_laser"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
-[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/VBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun" to="Player" method="_on_SkillGun_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/SpiritGun" to="Player" method="_on_SpiritGun_pressed"]
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/AmmoGun" to="Player" method="_on_AmmoGun_pressed"]
-[connection signal="pressed" from="Popup/VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="PausePopup/VBoxContainer/UnpauseButton" to="." method="_on_PauseButton_pressed"]
