@@ -11,7 +11,7 @@ onready var space_state = get_world().direct_space_state
 onready var bombtick = $BombTick
 
 
-var fired_weapon = false
+#var fired_weapon = false
 var red = ColorN("red", 1)
 var dx = 1
 var result
@@ -128,6 +128,10 @@ func _process(_delta):
 			lbltext = "Raycast found  %s " % [result.collider.get_parent().get_parent().get_child(0).name]
 			print(lbltext)
 		elif "laser" in result.collider.get_parent().name:
+			if resultfront: #!= null: 
+				if "material/1" in resultfront.collider.get_parent():
+					if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
+						resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 			lbltext = "Raycast found  %s " % [result.collider.get_parent().name]
 			print(lbltext)
 	else:
