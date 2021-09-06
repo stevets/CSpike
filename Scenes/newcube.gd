@@ -21,13 +21,16 @@ func _on_Player_destroy(objID):
 					objID.get_parent().global_translate(Vector3(0, -1 ,0))
 #					globals.game_data["coins"] += 5
 #					globals.skillgun = false
+				if globals.laserdata != null:
+					print("objID: ",objID.get_parent().get_parent(),"left: ", globals.laserdata["left"],"right: ", globals.laserdata["right"])	
+					if objID.get_parent().get_parent() == globals.laserdata["right"] or objID.get_parent().get_parent() == globals.laserdata["left"]:
+						print("destroy laser")
+						globals.laserdata["laser"].queue_free()
+						globals.laserdata = null
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5
 				objID.get_parent().get_child(3).emitting = true
-#				if objID.get_parent().translation.y <= -1:
-#					print(objID.get_parent().get_surface_material(0).emission_enabled)
-#					objID.get_parent().get_surface_material(0).emission = Color(0,0,0,1)			
 		elif  objID.get_parent().translation.y == -0.5: 
 			if globals.skillgun:
 				if objID.get_parent().get_child(1).has_node("bomb"):
@@ -45,7 +48,14 @@ func _on_Player_destroy(objID):
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5
-				objID.get_parent().get_child(3).emitting = true	
+				objID.get_parent().get_child(3).emitting = true
+				if globals.laserdata != null:
+					print("objID: ",objID.get_parent().get_parent(),"left: ", globals.laserdata["left"],"right: ", globals.laserdata["right"])	
+					if objID.get_parent().get_parent() == globals.laserdata["right"] or objID.get_parent().get_parent() == globals.laserdata["left"]:
+						print("destroy laser")
+						globals.laserdata["laser"].queue_free()
+						globals.laserdata = null
+						
 		objID.get_parent().get_child(3).emitting = false
 		
 #		objID.get_parent().get_child(3).emitting = true

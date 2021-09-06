@@ -86,11 +86,13 @@ func _process(_delta):
 			color2 = null
 		colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(1).albedo_color
 		if color2 == colorbaseblock:
-			print("color match")
+			if globals.showdebug:
+				print("color match")
 			colormatch = true
 		else:
 			colormatch = false
-			print("no color match")
+			if globals.showdebug:
+				print("no color match")
 		var preresultright = space_state.intersect_ray(result["position"], result["position"] + Vector3(3, 0, -0.5), [self])
 		var preresultleft = space_state.intersect_ray(result["position"], result["position"] + Vector3(-3, 0, -0.5), [self])
 		if "collider" in preresultright and "collider" in preresultleft: 
@@ -100,7 +102,8 @@ func _process(_delta):
 			else:
 				resultright = null
 				resultleft = null
-		print("result collider: ", result.collider)
+		if globals.showdebug:
+			print("result collider: ", result.collider)
 		if result.collider.get_parent().get_parent().name in globals.boxes:
 			resultfrontobj = result.collider.get_parent().get_parent().name
 			spiritdetected = result.collider.get_parent().get_parent().get_parent().get_parent().get_parent().spirit
@@ -112,7 +115,8 @@ func _process(_delta):
 						resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 			resultfront = null
 			lbltext = "Raycast found  %s " % [result.collider.get_parent().get_parent().name]
-			print(lbltext)
+			if globals.showdebug:
+				print(lbltext)
 		elif "basecube" in result.collider.get_parent().get_parent().get_child(0).name:
 			resultfrontobj = result.collider.get_parent().get_parent().name
 			spiritdetected = result.collider.get_parent().get_parent().spirit
@@ -126,14 +130,16 @@ func _process(_delta):
 			firedweapon(globals.fired_weapon, result, resultfrontobj, colormatch)
 			globals.fired_weapon = false
 			lbltext = "Raycast found  %s " % [result.collider.get_parent().get_parent().get_child(0).name]
-			print(lbltext)
+			if globals.showdebug:
+				print(lbltext)
 		elif "laser" in result.collider.get_parent().name:
 			if resultfront: #!= null: 
 				if "material/1" in resultfront.collider.get_parent():
 					if typeof(resultfront) == TYPE_DICTIONARY and resultfront.size() != 0 and is_instance_valid(resultfront.collider):
 						resultfront.collider.get_parent().get_surface_material(0).emission = Color(0,0,0,1)
 			lbltext = "Raycast found  %s " % [result.collider.get_parent().name]
-			print(lbltext)
+			if globals.showdebug:
+				print(lbltext)
 	else:
 		print("No collider")
 		if resultfront:
@@ -157,11 +163,14 @@ func checkLeftRightColorMatch(_hitobj, left, right):
 				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
 				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
 				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-				print("leftcolor", leftcolor)
+				if globals.showdebug:
+					print("leftcolor", leftcolor)
 				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-				print("rightcolor", rightcolor)
+				if globals.showdebug:
+					print("rightcolor", rightcolor)
 				if leftcolor == rightcolor and resultv3pos <= -0.5:
-					print("color match")
+					if globals.showdebug:
+						print("color match")
 					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
 					emit_signal("laser", laserdata)
 
@@ -259,7 +268,7 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 								globals.bombticking.play()
 								bombtick.start(5)
 								bombexploded = _hitobj.collider.get_parent().get_child(1)
-								print("hi", _hitobj.collider.get_parent().get_child(1).get_child(0).name)
+#								print("hi", _hitobj.collider.get_parent().get_child(1).get_child(0).name)
 								bombset = true
 					else:
 						bombtwo = false			
@@ -291,27 +300,34 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 		globals.skillgun = false	
 	
 func checkLeftRight(_hitobj):
-	print("result", _hitobj)
+	if globals.showdebug:
+		if globals.showdebug:
+			print("result", _hitobj)
 	var resultv3 = _hitobj["position"]
 	var resultv3pos = _hitobj.collider.get_parent().translation.y
 	var leftcolor
 	var rightcolor
 	resultright = space_state.intersect_ray(resultv3, resultv3 + Vector3(3, 0, -0.5), [self])
 	resultleft = space_state.intersect_ray(resultv3, resultv3 + Vector3(-3, 0, -0.5), [self])
-	print("resultv3: ",resultv3pos)
+	if globals.showdebug:
+		print("resultv3: ",resultv3pos)
 	if resultleft and resultright:
 		if "material/1" in resultleft.collider.get_parent():
 			if "material/1" in resultright.collider.get_parent():
 				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
 				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
 				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-				print("leftcolor", leftcolor)
+				if globals.showdebug:
+					print("leftcolor", leftcolor)
 				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-				print("rightcolor", rightcolor)
+				if globals.showdebug:
+					print("rightcolor", rightcolor)
 				if leftcolor == rightcolor and resultv3pos <= -0.5:
-					print("color match")
-					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
-					emit_signal("laser", laserdata)
+					if globals.showdebug:
+						print("color match")
+					globals.laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser, "right" : resultright.collider.get_parent().get_parent(), "left" : resultleft.collider.get_parent().get_parent()}
+					print("laserdata: ", globals.laserdata)
+					emit_signal("laser", globals.laserdata)
 
 func _on_GameTick_timeout():
 	ply = get_tree().get_root().get_node("Main/player1")
@@ -375,10 +391,12 @@ func _on_AmmoGun_pressed():
 		globals.fired_weapon = true
 
 func _on_BombTick_timeout():
-	print("Bomb Exploded")
+	if globals.showdebug:
+		print("Bomb Exploded")
 	bombset = false
 	bombtwo = false
-	print("Bombtwo: ", bombtwo)
+	if globals.showdebug:
+		print("Bombtwo: ", bombtwo)
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
 		
@@ -386,7 +404,8 @@ func _on_BombTick_timeout():
 #		globals.bombticking.stop()
 #		globals.bombexplode.play()
 #	if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
-	print(bombexploded.name)
+	if globals.showdebug:
+		print(bombexploded.name)
 #	bombexploded.get_child(0).queue_free()
 	globals.bombticking.stop()
 	if bombexploded.has_node("bomb"):

@@ -43,6 +43,8 @@ var spiritdeath = "You passed your spirit!"
 var output
 var bombexplodedcheck
 var fired_weapon
+var laserdata = null
+var showdebug = false
 var boxes = ["MedicBox", "AmmoBox"]
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,

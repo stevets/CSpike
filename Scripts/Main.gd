@@ -224,3 +224,5 @@ func _on_Player_laser(laserdata):
 #	laser.shapecalc(xlaserlength - 1)
 	add_child(laser)
 	laser.global_translate(Vector3(xpos,1,zpos))
+	globals.laserdata["laser"] = laser
+	print("laserdata", globals.laserdata)
