@@ -5,6 +5,10 @@ var loadbuttons_delay = 0
 
 func _ready():
 	$Menu/HBoxContainer/highscore.text = str(globals.game_data["highscore"])
+	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+	globals.gunshot.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[0]
+	globals.hitsound.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[1]
+	
 
 func _process(_delta):
 	loadbuttons_delay += 1

@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/SettingScreen.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Game_theme.tres" type="Theme" id=3]
 [ext_resource path="res://Assets/images/Title Screen Buttons/TitleSETTINGS-01.png" type="Texture" id=4]
-[ext_resource path="res://Assets/checkbox.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/effects_volume.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/music_volume.gd" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 63
@@ -16,15 +17,7 @@ font_data = ExtResource( 2 )
 size = 60
 font_data = ExtResource( 2 )
 
-[sub_resource type="ProxyTexture" id=3]
-flags = 4
-base = ExtResource( 5 )
-
 [sub_resource type="DynamicFont" id=4]
-size = 65
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=5]
 size = 60
 font_data = ExtResource( 2 )
 
@@ -47,50 +40,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -400.0
-margin_right = 400.0
-margin_bottom = 150.0
-texture = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 50.0
-margin_top = 150.0
-margin_right = -50.0
-margin_bottom = -100.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 900.0
-margin_bottom = 1750.0
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+margin_right = 1000.0
+margin_bottom = 150.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 154.0
+margin_right = 1000.0
+margin_bottom = 2000.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 120
 alignment = 1
 
-[node name="Back" type="MenuButton" parent="MarginContainer/VBoxContainer"]
-margin_top = 401.0
-margin_right = 900.0
-margin_bottom = 473.0
+[node name="Back" type="MenuButton" parent="VBoxContainer/VBoxContainer"]
+margin_top = 515.0
+margin_right = 1000.0
+margin_bottom = 587.0
 custom_fonts/font = SubResource( 1 )
 text = "Back"
 items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false ]
 
-[node name="music" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 593.0
-margin_right = 900.0
-margin_bottom = 655.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+margin_top = 707.0
+margin_right = 1000.0
+margin_bottom = 1331.0
+custom_constants/separation = 100
+
+[node name="music" type="Label" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+margin_right = 1000.0
+margin_bottom = 62.0
 size_flags_vertical = 1
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 2 )
@@ -98,33 +89,101 @@ text = "Music Volume"
 align = 1
 valign = 1
 
-[node name="music_volume" type="CheckBox" parent="MarginContainer/VBoxContainer"]
-margin_top = 775.0
-margin_right = 900.0
-margin_bottom = 1008.0
-custom_icons/checked = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
-pressed = true
-text = "Music Volume"
-align = 1
+[node name="music_volume" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 162.0
+margin_right = 1000.0
+margin_bottom = 262.0
+custom_constants/separation = 50
+alignment = 1
+script = ExtResource( 6 )
 
-[node name="effects" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 1128.0
-margin_right = 900.0
-margin_bottom = 1190.0
-custom_fonts/font = SubResource( 5 )
+[node name="off" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
+margin_left = 225.0
+margin_right = 325.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "OFF"
+
+[node name="low" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
+margin_left = 375.0
+margin_right = 475.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "LOW"
+
+[node name="med" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
+margin_left = 525.0
+margin_right = 625.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "MED"
+
+[node name="high" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
+margin_left = 675.0
+margin_right = 775.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "HIGH"
+
+[node name="effects" type="Label" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 362.0
+margin_right = 1000.0
+margin_bottom = 424.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 4 )
 text = "Effects Volume"
 align = 1
-valign = 1
 
-[node name="effects_volume" type="CheckBox" parent="MarginContainer/VBoxContainer"]
-margin_top = 1310.0
-margin_right = 900.0
-margin_bottom = 1349.0
-pressed = true
-text = "effects"
-align = 1
+[node name="effects_volume" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 524.0
+margin_right = 1000.0
+margin_bottom = 624.0
+custom_constants/separation = 50
+alignment = 1
+script = ExtResource( 5 )
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_Back_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/music_volume" to="." method="_on_music_volume_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/effects_volume" to="." method="_on_effect_volume_pressed"]
+[node name="off" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
+margin_left = 225.0
+margin_right = 325.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "OFF"
+
+[node name="low" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
+margin_left = 375.0
+margin_right = 475.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "LOW"
+
+[node name="med" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
+margin_left = 525.0
+margin_right = 625.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "MED"
+
+[node name="high" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
+margin_left = 675.0
+margin_right = 775.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+toggle_mode = true
+text = "HIGH"
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/Back" to="." method="_on_Back_pressed"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/music_volume/off" to="VBoxContainer/VBoxContainer/VBoxContainer/music_volume" method="_on_off_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/music_volume/low" to="VBoxContainer/VBoxContainer/VBoxContainer/music_volume" method="_on_low_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/music_volume/med" to="VBoxContainer/VBoxContainer/VBoxContainer/music_volume" method="_on_med_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/music_volume/high" to="VBoxContainer/VBoxContainer/VBoxContainer/music_volume" method="_on_high_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume/off" to="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume" method="_on_off_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume/low" to="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume" method="_on_low_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume/med" to="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume" method="_on_med_toggled"]
+[connection signal="toggled" from="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume/high" to="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume" method="_on_high_toggled"]

@@ -20,7 +20,7 @@ func _on_SettingBack_pressed():
 
 func _on_Retry_pressed():
 #	globals.save_game()
-	var _changescene = get_tree().change_scene("res://Scenes/main.tscn")
+	var _changescene = get_tree().change_scene("res://Scenes/MainScreen.tscn")
 	globals.ammo = 50
 	globals.health = 100
 

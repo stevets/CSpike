@@ -102,6 +102,7 @@ text = "0"
 align = 1
 
 [node name="Retry" type="MenuButton" parent="VBoxContainer"]
+visible = false
 margin_top = 1124.0
 margin_right = 846.0
 margin_bottom = 1213.0
@@ -110,9 +111,9 @@ custom_colors/font_color = Color( 0.411765, 0.584314, 0.564706, 1 )
 text = "RETRY"
 
 [node name="SettingBack" type="MenuButton" parent="VBoxContainer"]
-margin_top = 1363.0
+margin_top = 1124.0
 margin_right = 846.0
-margin_bottom = 1452.0
+margin_bottom = 1213.0
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0.698039, 0.698039, 0.698039, 1 )
 text = "BACK"

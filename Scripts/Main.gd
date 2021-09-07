@@ -48,6 +48,7 @@ var swipe_start_position = Vector2(0,0)
 
 func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
+#	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
 	globals.gameplaymusic.play()
 	$HUD.show()
 	gametick.start(10)
@@ -223,7 +224,21 @@ func _on_Player_laser(laserdatanew):
 	laser.get_node("StaticBody/CollisionShape").scale.y = (xlaserlength - 1.0)/2.0
 #	laser.shapecalc(xlaserlength - 1)
 	add_child(laser)
+	laser.visible = true
 	laser.global_translate(Vector3(xpos,1,zpos))
 	laserdatanew["laser"] = laser
 	globals.laserdata.append(laserdatanew)
 	print("laserdata", globals.laserdata)
+
+
+func _on_Back_pressed():
+	var paused = get_tree().paused
+	print("paused: ", paused)
+	get_tree().paused = false
+#	if paused:
+#		$PausePopup.hide()
+#		get_tree().paused = false
+#	else:
+#		$PausePopup.show()
+#		get_tree().paused = true
+	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")

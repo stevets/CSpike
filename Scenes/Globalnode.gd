@@ -20,6 +20,7 @@ onready var bombticking = $EffectBombTickingPlayer
 onready var spirithitbomb2 = $EffectSpiritHitBomb2Player
 #onready var bombtimer = get_tree().get_node("BombTimer")
 
+onready var effectplayerarray = [swipe, magicspell, alarmgun, alarmswipe, gunshot, hitsound, rowchangetick, bombexplode, bombticking]
 var finalscore = 0
 var highscore = 1
 var ammo = 50
@@ -44,13 +45,19 @@ var output
 var bombexplodedcheck
 var fired_weapon
 var laserdata = []
-var showdebug = false
+var showdebug = false	
+var gamevolumes = [-60, -20, -10, 0]
+var music_buttons = [false, false, true, false]
+var effect_buttons = [false, false, true, false]
 var boxes = ["MedicBox", "AmmoBox"]
+var effectsadjust = [10, 10, 10, 10, 10, 10, 10, 10 ,10]
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,
 						"musicvolume": globals.music_volume,
 						"effectsvolume": globals.effects_volume,
+						"musicbuttons" : globals.music_buttons,
+						"effectbuttons" : globals.effect_buttons
 #						"health": globals.health
 						}
 
@@ -70,6 +77,7 @@ func _ready():
 	gameintro.volume_db = music_volume+10
 	gameintro.play()
 	load_game()
+	print("gameData:", game_data["musicbuttons"])
 	print(highscore)	
 
 func load_game():
