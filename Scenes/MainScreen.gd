@@ -37,6 +37,7 @@ func _on_Play_pressed():
 
 func _on_SettingsButton_pressed():
 	globals.menubutton.play()
+	globals.titlemusic.play()
 	var _settingscreen = get_tree().change_scene("res://Scenes/SettingScreen.tscn")
 
 func _on_AchievementsButton_pressed():

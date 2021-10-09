@@ -35,6 +35,7 @@ MobileAds="*res://addons/admob/scripts/MobileAds.gd"
 
 window/size/width=1000
 window/size/height=2000
+window/size/resizable=false
 window/size/always_on_top=true
 window/size/test_width=500
 window/size/test_height=1000

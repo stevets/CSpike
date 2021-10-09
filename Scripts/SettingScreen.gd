@@ -17,6 +17,8 @@ func _ready():
 
 func _on_Back_pressed():
 	globals.save_game()
+	globals.titlemusic.playing = false
+	globals.gameintro.play()
 	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")
 
 #func _on_effect_volume_pressed():

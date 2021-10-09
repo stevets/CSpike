@@ -234,6 +234,8 @@ func _on_Back_pressed():
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	get_tree().paused = false
+	globals.gameplaymusic.playing = false
+	globals.gameintro.play()
 #	if paused:
 #		$PausePopup.hide()
 #		get_tree().paused = false

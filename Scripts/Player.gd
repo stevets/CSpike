@@ -261,6 +261,7 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 					if _hitobj.collider.get_parent().get_child(1).has_node("bomb"):
 						if bombset:
 							bombtwo = true
+							globals.alarmgun.play()
 						if _hitobj.collider.get_parent().get_child(1).get_child(0).name == "bomb" and !bombset:
 							if !bombset:
 								_hitobj.collider.get_parent().get_child(1).get_child(0).visible = true
