@@ -9,6 +9,7 @@ func _ready():
 	highscore.text = str(globals.game_data["highscore"])
 	score.text = str(globals.game_data["finalscore"])
 	outputfeedback.text = str(globals.output)
+	globals.spiritdied = false
 
 func _on_SettingBack_pressed():
 #	globals.save_game()

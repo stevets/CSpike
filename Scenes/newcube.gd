@@ -87,6 +87,7 @@ func _on_Main_selfdestruct(plyposz):
 	var cubeposz
 	for member in mygroup:
 		cubeposz = member.translation.z
+		print("cubeposz: ", cubeposz)
 		if cubeposz > plyposz and member.spirit:
 			globals.spiritdied = true
 		elif cubeposz > plyposz+1:
