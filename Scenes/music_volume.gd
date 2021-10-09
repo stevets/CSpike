@@ -23,7 +23,7 @@ func _on_off_toggled(button_pressed):
 	globals.game_data["musicbuttons"][2] = false
 	globals.game_data["musicbuttons"][3] = false
 	globals.game_data["musicvolume"] = globals.gamevolumes[0]
-	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+	setmusicvolumes()
 	
 
 func _on_low_toggled(button_pressed):
@@ -37,7 +37,7 @@ func _on_low_toggled(button_pressed):
 	globals.game_data["musicbuttons"][2] = false
 	globals.game_data["musicbuttons"][3] = false
 	globals.game_data["musicvolume"] = globals.gamevolumes[1]
-	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+	setmusicvolumes()
 
 
 func _on_med_toggled(button_pressed):
@@ -51,7 +51,7 @@ func _on_med_toggled(button_pressed):
 	globals.game_data["musicbuttons"][2] = button_pressed
 	globals.game_data["musicbuttons"][3] = false
 	globals.game_data["musicvolume"] = globals.gamevolumes[2]
-	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+	setmusicvolumes()
 
 
 func _on_high_toggled(button_pressed):
@@ -65,4 +65,10 @@ func _on_high_toggled(button_pressed):
 	globals.game_data["musicbuttons"][2] = false
 	globals.game_data["musicbuttons"][3] = button_pressed
 	globals.game_data["musicvolume"] = globals.gamevolumes[3]
-	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+	setmusicvolumes()
+
+func setmusicvolumes():
+	var i = 0
+	for player in globals.musicplayerarray:
+		player.volume_db =  globals.game_data["musicvolume"] - globals.musicadjust[i]
+		i+=1

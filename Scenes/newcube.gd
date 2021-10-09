@@ -49,6 +49,15 @@ func _on_Player_destroy(objID):
 					objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 #					globals.game_data["coins"] += 5
 #					objID.get_parent().get_child(3).emitting = true
+				if !globals.laserdata.empty():
+					var i = 0
+					for laserbeam in globals.laserdata:
+						i+=1
+						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
+							print("destroy laser")
+							globals.laserdata.remove(i-1)
+							laserbeam["laser"].queue_free()
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 5

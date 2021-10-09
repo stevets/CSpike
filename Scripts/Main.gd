@@ -21,7 +21,7 @@ onready var gametick = $GameTick
 onready var globals = $"/root/Globalnode"
 onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
-
+ 
 var red = ColorN("red", 1)
 var blue = ColorN("blue", 1)
 var green = ColorN("green", 1)
@@ -48,7 +48,6 @@ var swipe_start_position = Vector2(0,0)
 
 func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
-#	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
 	globals.gameplaymusic.play()
 	$HUD.show()
 	gametick.start(10)

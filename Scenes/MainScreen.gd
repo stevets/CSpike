@@ -5,9 +5,11 @@ var loadbuttons_delay = 0
 
 func _ready():
 	$Menu/HBoxContainer/highscore.text = str(globals.game_data["highscore"])
-	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
-	globals.gunshot.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[0]
-	globals.hitsound.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[1]
+	setmusicvolumes()
+	seteffectvolumes()
+#	globals.gameplaymusic.volume_db = globals.game_data["musicvolume"]
+#	globals.gunshot.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[0]
+#	globals.hitsound.volume_db = globals.game_data["effectsvolume"] - globals.effectsadjust[1]
 	
 
 func _process(_delta):
@@ -43,4 +45,16 @@ func _on_AchievementsButton_pressed():
 
 func _on_NoAdsButton_pressed():
 	globals.menubutton.play()
+	
+func setmusicvolumes():
+	var i = 0
+	for player in globals.musicplayerarray:
+		player.volume_db =  globals.game_data["musicvolume"] - globals.musicadjust[i]
+		i+=1
+		
+func seteffectvolumes():
+	var i = 0
+	for player in globals.effectplayerarray:
+		player.volume_db =  globals.game_data["effectsvolume"] - globals.effectsadjust[i]
+		i+=1
  
