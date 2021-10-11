@@ -20,4 +20,8 @@ material/0 = null
 [node name="BombTick" type="Timer" parent="."]
 one_shot = true
 
+[node name="BombTwo" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="BombTick" to="." method="_on_BombTick_timeout"]
+[connection signal="timeout" from="BombTwo" to="." method="_on_BombTwo_timeout"]

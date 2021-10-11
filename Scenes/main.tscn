@@ -418,10 +418,13 @@ visible = false
 
 [node name="PausePopup" type="Popup" parent="."]
 pause_mode = 2
-margin_left = 200.0
-margin_top = 200.0
-margin_right = 600.0
-margin_bottom = 600.0
+anchor_left = 0.325
+anchor_top = 0.396
+anchor_right = 0.625
+anchor_bottom = 0.5
+margin_left = -3.05176e-05
+margin_top = -6.10352e-05
+margin_bottom = -8.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -434,9 +437,8 @@ __meta__ = {
 }
 
 [node name="UnpauseButton" type="Button" parent="PausePopup/VBoxContainer"]
-margin_top = 87.0
 margin_right = 291.0
-margin_bottom = 176.0
+margin_bottom = 89.0
 custom_fonts/font = SubResource( 23 )
 text = "UNPAUSE"
 __meta__ = {
@@ -444,9 +446,9 @@ __meta__ = {
 }
 
 [node name="Back" type="Button" parent="PausePopup/VBoxContainer"]
-margin_top = 180.0
+margin_top = 93.0
 margin_right = 291.0
-margin_bottom = 269.0
+margin_bottom = 182.0
 custom_fonts/font = SubResource( 24 )
 text = "EXIT"
 

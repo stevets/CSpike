@@ -9,6 +9,7 @@ onready var didstart = get_tree().get_root().get_node("Main")
 onready var space_state = get_world().direct_space_state
 #onready var ply = get_tree().get_root().get_node("Main/player1")
 onready var bombtick = $BombTick
+onready var bombtwostart = $BombTwo
 
 
 #var fired_weapon = false
@@ -38,6 +39,8 @@ var resultfrontobj
 var lbltext
 var colormatch
 var colorbaseblock
+var previousbomb
+var bombthree = false
 
 
 func _ready():
@@ -262,6 +265,12 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 						if bombset:
 							bombtwo = true
 							globals.alarmgun.play()
+#							_hitobj.collider.get_parent().get_child(1).get_child(0).visible = true
+#							previousbomb = _hitobj.collider.get_parent().get_child(1).get_child(0)
+							if !bombthree:
+								bombtwostart.start(.5)
+								_hitobj.collider.get_parent().get_child(1).get_child(0).visible = true
+								previousbomb = _hitobj.collider.get_parent().get_child(1).get_child(0)
 						if _hitobj.collider.get_parent().get_child(1).get_child(0).name == "bomb" and !bombset:
 							if !bombset:
 								_hitobj.collider.get_parent().get_child(1).get_child(0).visible = true
@@ -395,6 +404,7 @@ func _on_AmmoGun_pressed():
 func _on_BombTick_timeout():
 	if globals.showdebug:
 		print("Bomb Exploded")
+	bombthree = false
 	bombset = false
 	bombtwo = false
 	if globals.showdebug:
@@ -419,3 +429,9 @@ func _on_SkillGun_pressed():
 	globals.skillgun = true
 	globals.raycast_length = -8
 	globals.fired_weapon = true	
+
+
+func _on_BombTwo_timeout():
+	previousbomb.visible = false
+	bombthree = true
+	pass # Replace with function body.

@@ -33,7 +33,7 @@ func _on_Player_destroy(objID):
 #							globals.laserdata = null
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
-				globals.game_data["coins"] += 5
+				globals.game_data["coins"] += 10
 				objID.get_parent().get_child(3).emitting = true
 		elif  objID.get_parent().translation.y == -0.5: 
 			if globals.skillgun:
@@ -60,7 +60,7 @@ func _on_Player_destroy(objID):
 							laserbeam["laser"].queue_free()
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
-				globals.game_data["coins"] += 5
+				globals.game_data["coins"] += 10
 				objID.get_parent().get_child(3).emitting = true
 				if !globals.laserdata.empty():
 					var i = 0
@@ -87,7 +87,7 @@ func _on_Main_selfdestruct(plyposz):
 	var cubeposz
 	for member in mygroup:
 		cubeposz = member.translation.z
-		print("cubeposz: ", cubeposz)
+#		print("cubeposz: ", cubeposz)
 		if cubeposz > plyposz and member.spirit:
 			globals.spiritdied = true
 		elif cubeposz > plyposz+1:
