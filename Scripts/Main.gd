@@ -47,6 +47,7 @@ var firstrow = 0
 var swipe_start_position = Vector2(0,0)
 
 func _ready():
+	globals.spiritdied = false
 	globals.game_data["finalscore"] = globals.finalscore
 	globals.gameplaymusic.play()
 	$HUD.show()
@@ -201,11 +202,14 @@ func _on_Main_createrow():
 	_createGameBoard(firstrow, lastrow)
 
 func _on_PauseButton_pressed():
+	get_tree().get_root().get_node("Main/PausePopup/VBoxContainer").visible = true
+	get_tree().get_root().get_node("Main/PausePopup").visible = true
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	if paused:
 		$PausePopup.hide()
 		get_tree().paused = false
+		get_tree().get_root().get_node("Main/PausePopup/VBoxContainer").visible = false
 	else:
 		$PausePopup.show()
 		get_tree().paused = true
@@ -231,6 +235,7 @@ func _on_Player_laser(laserdatanew):
 
 
 func _on_Back_pressed():
+	
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	get_tree().paused = false

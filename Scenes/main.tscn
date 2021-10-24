@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scenes/ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/gem.tscn" type="PackedScene" id=2]
@@ -114,6 +114,30 @@ size = 80
 font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=24]
+size = 80
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFontData" id=25]
+font_path = "res://Assets/Fonts/Piximisa.ttf"
+
+[sub_resource type="DynamicFont" id=26]
+size = 60
+font_data = SubResource( 25 )
+
+[sub_resource type="DynamicFont" id=27]
+size = 80
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=28]
+size = 70
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=29]
+size = 80
+outline_color = Color( 0.0509804, 0.772549, 0.317647, 1 )
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=30]
 size = 80
 font_data = ExtResource( 20 )
 
@@ -430,6 +454,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PausePopup"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
@@ -451,6 +476,89 @@ margin_right = 291.0
 margin_bottom = 182.0
 custom_fonts/font = SubResource( 24 )
 text = "EXIT"
+
+[node name="ColorRect" type="ColorRect" parent="PausePopup"]
+visible = false
+margin_left = -280.0
+margin_top = -490.0
+margin_right = 630.0
+margin_bottom = 811.0
+color = Color( 0, 0, 0, 0.384314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScore" type="VBoxContainer" parent="PausePopup"]
+visible = false
+margin_left = -243.464
+margin_top = -400.0
+margin_right = 602.536
+margin_bottom = 1083.66
+custom_constants/separation = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="outputfeedback" type="Label" parent="PausePopup/HighScore"]
+modulate = Color( 1, 0, 0, 1 )
+margin_right = 846.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 846, 50 )
+custom_fonts/font = SubResource( 26 )
+align = 1
+
+[node name="newscore" type="Label" parent="PausePopup/HighScore"]
+margin_top = 162.0
+margin_right = 846.0
+margin_bottom = 245.0
+custom_fonts/font = SubResource( 27 )
+custom_colors/font_color = Color( 0.54902, 0.784314, 0, 1 )
+text = "SCORE"
+align = 1
+
+[node name="score" type="Label" parent="PausePopup/HighScore"]
+margin_top = 345.0
+margin_right = 846.0
+margin_bottom = 418.0
+custom_fonts/font = SubResource( 28 )
+text = "0"
+align = 1
+
+[node name="highscore" type="Label" parent="PausePopup/HighScore"]
+margin_top = 518.0
+margin_right = 846.0
+margin_bottom = 601.0
+custom_fonts/font = SubResource( 27 )
+custom_colors/font_color = Color( 0.945098, 0.784314, 0, 1 )
+text = "HIGHSCORE"
+align = 1
+
+[node name="newhighscore" type="Label" parent="PausePopup/HighScore"]
+margin_top = 701.0
+margin_right = 846.0
+margin_bottom = 774.0
+custom_fonts/font = SubResource( 28 )
+text = "0"
+align = 1
+
+[node name="Retry" type="MenuButton" parent="PausePopup/HighScore"]
+visible = false
+margin_top = 1124.0
+margin_right = 846.0
+margin_bottom = 1213.0
+focus_mode = 2
+custom_fonts/font = SubResource( 29 )
+custom_colors/font_color = Color( 0.411765, 0.584314, 0.564706, 1 )
+text = "RETRY"
+
+[node name="SettingBack" type="MenuButton" parent="PausePopup/HighScore"]
+margin_top = 874.0
+margin_right = 846.0
+margin_bottom = 963.0
+focus_mode = 2
+custom_fonts/font = SubResource( 30 )
+custom_colors/font_color = Color( 0.698039, 0.698039, 0.698039, 1 )
+text = "BACK"
 
 [node name="newcube" parent="." groups=[
 "cubes",
@@ -479,3 +587,4 @@ sides = 16
 [connection signal="pressed" from="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/AmmoGun" to="Player" method="_on_AmmoGun_pressed"]
 [connection signal="pressed" from="PausePopup/VBoxContainer/UnpauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="PausePopup/VBoxContainer/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="PausePopup/HighScore/SettingBack" to="Player" method="_on_SettingBack_pressed"]

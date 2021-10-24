@@ -43,7 +43,6 @@ var noammo = "You ran out of ammo!"
 var nohealth = "You ran out of health!"
 var crashed = "You crashed into a block!"
 var spiritdeath = "You passed your spirit!"
-var output
 var bombexplodedcheck
 var fired_weapon
 var laserdata = []
