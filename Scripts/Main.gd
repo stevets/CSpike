@@ -51,7 +51,7 @@ func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
 	globals.gameplaymusic.play()
 	$HUD.show()
-	gametick.start(10)
+	gametick.start(globals.levelspeed)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
 	#Add Player-----------------------------------------------------------------------------
@@ -118,9 +118,10 @@ func _end_detection(position):
 		pass
 
 func _on_Timer_timeout():
-	emit_signal('swipe_canceled', swipe_start_position)
+	emit_signal('swipe_canceled', swipe_start_position) 
 
 func _createGameBoard(_firstrow, _lastrow):
+	print("game tick wait time: ", gametick.wait_time)
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
 	for  i in range(_firstrow, _lastrow):
 		for j in range(columns):

@@ -39,6 +39,9 @@ var raycast_length = -8
 var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
+var level = 0
+var levelspeed = 10
+var finallevel = 0
 var noammo = "You ran out of ammo!"
 var nohealth = "You ran out of health!"
 var crashed = "You crashed into a block!"
@@ -59,7 +62,8 @@ onready var game_data = {"finalscore": globals.finalscore,
 						"musicvolume": globals.music_volume,
 						"effectsvolume": globals.effects_volume,
 						"musicbuttons" : globals.music_buttons,
-						"effectbuttons" : globals.effect_buttons
+						"effectbuttons" : globals.effect_buttons,
+						"finallevel" : globals.finallevel
 #						"health": globals.health
 						}
 

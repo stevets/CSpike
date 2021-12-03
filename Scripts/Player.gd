@@ -6,6 +6,7 @@ signal laser(laserdatanew)
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
+onready var gametick = get_tree().get_root().get_node("Main/GameTick")
 onready var space_state = get_world().direct_space_state
 #onready var ply = get_tree().get_root().get_node("Main/player1")
 onready var bombtick = $BombTick
@@ -344,6 +345,7 @@ func checkLeftRight(_hitobj):
 					emit_signal("laser", laserdatanew)
 
 func _on_GameTick_timeout():
+	get_tree().get_root().get_node("Main/LevelPopup").visible = false
 	ply = get_tree().get_root().get_node("Main/player1")
 	space_state = get_world().direct_space_state
 	var playerposx = ply.get_global_transform().origin.x
@@ -422,6 +424,15 @@ func _on_GameTick_timeout():
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))	
+		if globals.game_data["finalscore"] % 20 == 0:
+			gametick.stop()
+			globals.levelspeed = globals.levelspeed - 0.5
+			gametick.start(globals.levelspeed)
+			globals.level += 1
+			print("level: ", globals.level)
+			get_tree().get_root().get_node("Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
+			get_tree().get_root().get_node("Main/LevelPopup").visible = true
+			
 
 func _on_SpiritGun_pressed():
 #	globals.skillgun = false
