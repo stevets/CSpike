@@ -2,12 +2,14 @@ extends KinematicBody
 
 signal destroy(objID)
 signal laser(laserdatanew)
+signal createbanner()
 
 
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("Main")
 onready var gametick = get_tree().get_root().get_node("Main/GameTick")
 onready var space_state = get_world().direct_space_state
+onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 #onready var ply = get_tree().get_root().get_node("Main/player1")
 onready var bombtick = $BombTick
 onready var bombtwostart = $BombTwo
@@ -45,6 +47,12 @@ onready var paused = get_tree().paused
 
 
 func _ready():
+#	var cube = cubetexinst.instance()
+#	#print("creating level banner")
+#	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
+#	cube.get_child(0).set_surface_material(0, unique_mat0)
+#	add_child(cube)
+#	cube.global_translate(Vector3(2, 1.5, -1))
 	pass
 
 func _on_Main_swiped(direction):
@@ -345,12 +353,17 @@ func checkLeftRight(_hitobj):
 					emit_signal("laser", laserdatanew)
 
 func _on_GameTick_timeout():
+	var cube1 = cubetexinst.instance()
+			#print("creating level banner")
+	add_child(cube1)
+	cube1.global_translate(Vector3(3, 1.5, -2))
 	get_tree().get_root().get_node("Main/LevelPopup").visible = false
 	ply = get_tree().get_root().get_node("Main/player1")
 	space_state = get_world().direct_space_state
 	var playerposx = ply.get_global_transform().origin.x
 	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
+	print(playerposz)
 	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
 	if resultfrontcollide.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
@@ -424,10 +437,14 @@ func _on_GameTick_timeout():
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))	
-		if globals.game_data["finalscore"] % 20 == 0:
-			gametick.stop()
+		if globals.game_data["finalscore"] % globals.bannerinst == 0:
+			
+#			var cube = cubetexinst.instance()
+#			#print("creating level banner")
+#			add_child(cube)
+#			cube.global_translate(Vector3(0, 3, -5))
 			globals.levelspeed = globals.levelspeed - 0.5
-			gametick.start(globals.levelspeed)
+			gametick.wait_time = globals.levelspeed
 			globals.level += 1
 			print("level: ", globals.level)
 			get_tree().get_root().get_node("Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
@@ -491,3 +508,8 @@ func _on_SettingBack_pressed():
 	globals.gameintro.play()
 	globals.ammo = 50
 	globals.health = 100
+
+
+
+
+

@@ -591,10 +591,14 @@ __meta__ = {
 }
 
 [node name="HighScore" type="VBoxContainer" parent="LevelPopup"]
-margin_left = -243.464
-margin_top = -400.0
-margin_right = 602.536
-margin_bottom = 1083.66
+anchor_left = -0.81
+anchor_top = -2.0
+anchor_right = 2.01
+anchor_bottom = -1.455
+margin_left = 4.57764e-05
+margin_top = 0.00012207
+margin_right = -6.10352e-05
+margin_bottom = 9.15527e-05
 custom_constants/separation = 100
 __meta__ = {
 "_edit_use_anchors_": false

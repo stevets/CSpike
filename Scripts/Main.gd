@@ -63,6 +63,14 @@ func _ready():
 	ply.global_translate(Vector3(0, 0.8 ,0))
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
+	if globals.game_data["finalscore"] % globals.bannerinst == 0:
+		_create_Banner()
+#	var cube = cubetexinst.instance()
+#	#print("creating level banner")
+#	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
+#	cube.get_child(0).set_surface_material(0, unique_mat0)
+#	add_child(cube)
+#	cube.global_translate(Vector3(2, 1.5, -1))
 	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left * 10
 	time1 -= 1
 	$HUD.update_score()
@@ -249,3 +257,14 @@ func _on_Back_pressed():
 #		$PausePopup.show()
 #		get_tree().paused = true
 	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")
+
+func _create_Banner():
+	var cube = cubetexinst.instance()
+	#print("creating level banner")
+	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
+	cube.get_child(0).set_surface_material(0, unique_mat0)
+	add_child(cube)
+	#cube.global_translate(Vector3(2, 3, -globals.game_data["finalscore"] - globals.bannerinst))
+	cube.global_translate(Vector3(2, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst)))
+	pass
+	

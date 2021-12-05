@@ -40,7 +40,7 @@ var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
 var level = 0
-var levelspeed = 10
+var levelspeed = 8
 var finallevel = 0
 var noammo = "You ran out of ammo!"
 var nohealth = "You ran out of health!"
@@ -56,6 +56,7 @@ var effect_buttons = [false, false, true, false]
 var boxes = ["MedicBox", "AmmoBox"]
 var effectsadjust = [10, 10, 10, 10, 10, 10, 10, 10 ,10, 10]
 var musicadjust = [0, 0, 0, 0, 0]
+var bannerinst = 5
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,
