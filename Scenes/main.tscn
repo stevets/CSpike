@@ -178,7 +178,6 @@ light_energy = 1.69
 light_indirect_energy = 0.0
 light_specular = 0.49
 light_bake_mode = 0
-shadow_enabled = true
 shadow_color = Color( 0.470588, 0.403922, 0.403922, 1 )
 shadow_bias = 2.42
 directional_shadow_mode = 1
@@ -454,9 +453,10 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PausePopup"]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 0.97
+anchor_bottom = 0.91
+margin_right = -251.0
+margin_bottom = -142.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -479,10 +479,14 @@ text = "EXIT"
 
 [node name="ColorRect" type="ColorRect" parent="PausePopup"]
 visible = false
-margin_left = -280.0
-margin_top = -490.0
-margin_right = 630.0
-margin_bottom = 811.0
+anchor_left = -0.933
+anchor_top = -2.45
+anchor_right = 2.1
+anchor_bottom = -1.095
+margin_left = -0.0999756
+margin_top = 0.000152588
+margin_right = -0.00012207
+margin_bottom = 7.62939e-05
 color = Color( 0, 0, 0, 0.384314 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -562,37 +566,18 @@ text = "BACK"
 
 [node name="LevelPopup" type="Popup" parent="."]
 pause_mode = 2
-anchor_left = 0.325
-anchor_top = 0.396
-anchor_right = 0.625
-anchor_bottom = 0.5
-margin_left = -3.05176e-05
-margin_top = -6.10352e-05
-margin_bottom = -8.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect" type="ColorRect" parent="LevelPopup"]
-visible = false
-margin_left = -280.0
-margin_top = -490.0
-margin_right = 630.0
-margin_bottom = 811.0
-color = Color( 0, 0, 0, 0.384314 )
+anchor_left = 0.1
+anchor_top = 0.188
+anchor_right = 0.86
+anchor_bottom = 0.278
+margin_top = -23.0
+margin_bottom = -6.10352e-05
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HighScore" type="VBoxContainer" parent="LevelPopup"]
-anchor_left = -0.81
-anchor_top = -2.0
-anchor_right = 2.01
-anchor_bottom = -1.455
-margin_left = 4.57764e-05
-margin_top = 0.00012207
-margin_right = -6.10352e-05
-margin_bottom = 9.15527e-05
+margin_bottom = 4.85698
 custom_constants/separation = 100
 __meta__ = {
 "_edit_use_anchors_": false
@@ -607,6 +592,15 @@ custom_fonts/font = SubResource( 31 )
 text = "New Level"
 align = 1
 uppercase = true
+
+[node name="ColorRect" type="ColorRect" parent="LevelPopup/HighScore"]
+margin_top = 204.0
+margin_right = 846.0
+margin_bottom = 204.0
+color = Color( 0, 0, 0, 0.384314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="newcube" parent="." groups=["cubes"] instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )

@@ -443,7 +443,7 @@ func _on_GameTick_timeout():
 #			#print("creating level banner")
 #			add_child(cube)
 #			cube.global_translate(Vector3(0, 3, -5))
-			globals.levelspeed = globals.levelspeed - 0.5
+			globals.levelspeed = globals.levelspeed - globals.deltalevelspeed
 			gametick.wait_time = globals.levelspeed
 			globals.level += 1
 			print("level: ", globals.level)

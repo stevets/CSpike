@@ -39,6 +39,7 @@ var raycast_length = -8
 var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
+var deltalevelspeed = 0.5
 var level = 0
 var levelspeed = 10
 var finallevel = 0

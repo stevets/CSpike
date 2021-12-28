@@ -17,6 +17,7 @@ onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
 onready var laserbeam = preload("res://Scenes/laser.tscn")
 onready var bannerinst = preload("res://Scenes/floor.tscn")
+onready var Leveltextinst = preload("res://Scenes/3d text.tscn")
 onready var timer = $Timer
 onready var gametick = $GameTick
 onready var globals = $"/root/Globalnode"
@@ -55,6 +56,7 @@ func _ready():
 	gametick.start(globals.levelspeed)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
+	_create_Banner()
 	#Add Player-----------------------------------------------------------------------------
 	ply = playinst.instance()
 	var scaleply = 0.25
@@ -264,12 +266,17 @@ func _create_Banner():
 #	if banner:
 #		banner.queue_free()
 	var banner = bannerinst.instance()
+	var leveltext = Leveltextinst.instance()
+	leveltext.get_child(2).text = str(globals.level)
 	#print("creating level banner")
 #	var unique_mat0 = banner.get_child(0).get_surface_material(0).duplicate()
 #	banner.get_child(0).set_surface_material(0, unique_mat0)
 	add_child(banner)
+	add_child(leveltext)
 	banner.visible = true
+	leveltext.visible = true
 	#cube.global_translate(Vector3(2, 3, -globals.game_data["finalscore"] - globals.bannerinst))
 	banner.global_translate(Vector3(0, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)))
+	leveltext.global_translate(Vector3(2.25, 0, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)+ 0.2))
 	pass
 	
