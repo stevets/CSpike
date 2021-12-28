@@ -16,6 +16,7 @@ onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
 onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
 onready var laserbeam = preload("res://Scenes/laser.tscn")
+onready var bannerinst = preload("res://Scenes/floor.tscn")
 onready var timer = $Timer
 onready var gametick = $GameTick
 onready var globals = $"/root/Globalnode"
@@ -63,15 +64,15 @@ func _ready():
 	ply.global_translate(Vector3(0, 0.8 ,0))
 #------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
-	if globals.game_data["finalscore"] % globals.bannerinst == 0:
-		_create_Banner()
+#	if globals.game_data["finalscore"] % globals.bannerinst == 0:
+#		_create_Banner()
 #	var cube = cubetexinst.instance()
 #	#print("creating level banner")
 #	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
 #	cube.get_child(0).set_surface_material(0, unique_mat0)
 #	add_child(cube)
 #	cube.global_translate(Vector3(2, 1.5, -1))
-	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left * 10
+	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left/globals.levelspeed * 100
 	time1 -= 1
 	$HUD.update_score()
 	$HUD.update_ammo()
@@ -209,6 +210,8 @@ func _on_Main_createrow():
 	firstrow = lastrow
 	lastrow = lastrow + 1
 	_createGameBoard(firstrow, lastrow)
+	if globals.game_data["finalscore"] % globals.bannerinst == 0:
+		_create_Banner()
 
 func _on_PauseButton_pressed():
 	get_tree().get_root().get_node("Main/PausePopup/VBoxContainer").visible = true
@@ -244,7 +247,6 @@ func _on_Player_laser(laserdatanew):
 
 
 func _on_Back_pressed():
-	
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	get_tree().paused = false
@@ -259,12 +261,15 @@ func _on_Back_pressed():
 	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")
 
 func _create_Banner():
-	var cube = cubetexinst.instance()
+#	if banner:
+#		banner.queue_free()
+	var banner = bannerinst.instance()
 	#print("creating level banner")
-	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
-	cube.get_child(0).set_surface_material(0, unique_mat0)
-	add_child(cube)
+#	var unique_mat0 = banner.get_child(0).get_surface_material(0).duplicate()
+#	banner.get_child(0).set_surface_material(0, unique_mat0)
+	add_child(banner)
+	banner.visible = true
 	#cube.global_translate(Vector3(2, 3, -globals.game_data["finalscore"] - globals.bannerinst))
-	cube.global_translate(Vector3(2, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst)))
+	banner.global_translate(Vector3(0, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)))
 	pass
 	

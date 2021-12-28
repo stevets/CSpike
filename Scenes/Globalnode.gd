@@ -40,7 +40,7 @@ var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
 var level = 0
-var levelspeed = 8
+var levelspeed = 10
 var finallevel = 0
 var noammo = "You ran out of ammo!"
 var nohealth = "You ran out of health!"
