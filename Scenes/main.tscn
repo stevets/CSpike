@@ -453,6 +453,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PausePopup"]
+visible = false
 anchor_right = 0.97
 anchor_bottom = 0.91
 margin_right = -251.0
@@ -485,8 +486,8 @@ anchor_right = 2.1
 anchor_bottom = -1.095
 margin_left = -0.0999756
 margin_top = 0.000152588
-margin_right = -0.00012207
-margin_bottom = 7.62939e-05
+margin_right = -6.10352e-05
+margin_bottom = 1170.0
 color = Color( 0, 0, 0, 0.384314 )
 __meta__ = {
 "_edit_use_anchors_": false
