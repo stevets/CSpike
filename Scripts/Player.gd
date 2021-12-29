@@ -459,9 +459,15 @@ func _on_GameTick_timeout():
 #			#print("creating level banner")
 #			add_child(cube)
 #			cube.global_translate(Vector3(0, 3, -5))
-			globals.levelspeed = globals.levelspeed - globals.deltalevelspeed
+			if globals.levelspeed <= 4.0:
+				pass
+			else:
+				globals.levelspeed = globals.levelspeed - globals.deltalevelspeed
 			gametick.wait_time = globals.levelspeed
 			globals.level += 1
+			if globals.level > globals.game_data["finallevel"]:
+				globals.game_data["finallevel"] = globals.level
+				#print("HIGHESTLEVEL :" + str(globals.game_data["finallevel"]))
 			print("level: ", globals.level)
 			get_tree().get_root().get_node("Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
 			get_tree().get_root().get_node("Main/LevelPopup").visible = true
