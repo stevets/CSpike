@@ -154,6 +154,10 @@ func _process(_delta):
 			if globals.showdebug:
 				print(lbltext)
 	else:
+		globals.fired_weapon = false
+		globals.ammogun = false
+		globals.spiritgun = false
+		globals.skillgun = false	
 		print("No collider")
 		if resultfront:
 			if "material/1" in resultfront.collider.get_parent():
@@ -200,7 +204,10 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 					resultfront = null
 					globals.hitsound.play()
 					if _name == "AmmoBox":
-						globals.ammo += 25
+						if globals.ammo < 100:
+							globals.ammo += 25
+							if globals.ammo > 100:
+								globals.ammo = 100
 #	#					globals.game_data["coins"] += 5
 						objID = result.collider
 						objID.get_parent().queue_free()
@@ -210,7 +217,10 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 							result.collider.get_parent().get_surface_material(0).emission_enabled = false
 						resultfront = null
 					elif _name == "MedicBox":
-						globals.health += 25
+						if globals.health < 200:
+							globals.health += 25
+							if globals.health > 200:
+								globals.health = 200
 #	#					globals.game_data["coins"] += 5
 						objID = result.collider
 						objID.get_parent().queue_free()
@@ -229,7 +239,7 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 								if resultgone.collider != objID:
 									result.collider.get_parent().get_surface_material(0).emission_enabled = false
 								resultfront = null
-				globals.raycast_length = -8					
+				globals.raycast_length = -8			
 		elif colorbasecube: #skillgun is false
 			checkLeftRight(_hitobj)
 			if "material/1" in _hitobj.collider.get_parent():
@@ -248,22 +258,28 @@ func firedweapon(fired, _hitobj, _name, colormatch):
 					globals.hitsound.play()
 				elif _hitobj.collider.get_parent().get_parent().name == "AmmoBox" and globals.spiritgun == false:
 	#					globals.skillgun = false
-					globals.ammo += 25
+					if globals.ammo < 100:
+						globals.ammo += 25
+						if globals.ammo > 100:
+							globals.ammo = 100
 	#					globals.game_data["coins"] -= 5
 					objID = _hitobj.collider
 					objID.get_parent().queue_free()
-					globals.ammo -= 1
+					#globals.ammo -= 1
 					globals.gunshot.play()
 					globals.hitsound.play()
 	#					emit_signal("destroy", objID)
 					resultfront = null
 				elif _hitobj.collider.get_parent().get_parent().name == "MedicBox" and globals.spiritgun == false:
 	#					globals.skillgun = false
-					globals.health += 25
+					if globals.health < 200:
+						globals.health += 25
+						if globals.health > 200:
+							globals.health = 200
 	#					globals.game_data["coins"] -= 5
 					objID = _hitobj.collider
 					objID.get_parent().queue_free()
-					globals.ammo -= 1
+					#globals.ammo -= 1
 					globals.gunshot.play()
 					globals.hitsound.play()
 	#					emit_signal("destroy", objID)
