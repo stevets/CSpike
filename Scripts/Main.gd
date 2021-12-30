@@ -267,7 +267,7 @@ func _create_Banner():
 #		banner.queue_free()
 	var banner = bannerinst.instance()
 	var leveltext = Leveltextinst.instance()
-	leveltext.get_child(2).text = str(globals.level)
+	leveltext.get_child(2).text = str(globals.level + 1)
 	#print("creating level banner")
 #	var unique_mat0 = banner.get_child(0).get_surface_material(0).duplicate()
 #	banner.get_child(0).set_surface_material(0, unique_mat0)

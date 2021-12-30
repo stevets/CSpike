@@ -61,8 +61,8 @@ func _on_Main_swiped(direction):
 	originy = ply.get_global_transform().origin.y
 	originz = ply.get_global_transform().origin.z
 #	resultfront = space_state.intersect_ray(Vector3(originx+1,originy,originz), Vector3(originx +1,originy,originz + globals.raycast_length), [self])
-	resultleft = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx - 1.5,originy,originz), [self])
-	resultright = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx + 1.5,originy,originz), [self])
+	resultleft = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx - 1.4,originy,originz), [self])
+	resultright = space_state.intersect_ray(Vector3(originx,originy,originz), Vector3(originx + 1.4,originy,originz), [self])
 	if direction.x >= 0:
 		if originx < 1:
 			globals.alarmswipe.play()
@@ -380,7 +380,7 @@ func _on_GameTick_timeout():
 	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
 	print(playerposz)
-	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.5), [self])
+	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.4), [self])
 	if resultfrontcollide.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
@@ -459,7 +459,7 @@ func _on_GameTick_timeout():
 #			#print("creating level banner")
 #			add_child(cube)
 #			cube.global_translate(Vector3(0, 3, -5))
-			if globals.levelspeed <= 4.0:
+			if globals.levelspeed <= 5.0:
 				pass
 			else:
 				globals.levelspeed = globals.levelspeed - globals.deltalevelspeed

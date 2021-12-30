@@ -40,7 +40,7 @@ var lastcubeposition
 var cubedestroyed = false
 var spiritdied = false
 var deltalevelspeed = 0.5
-var level = 1
+var level = 0
 var levelspeed = 10
 var finallevel = 0
 var noammo = "You ran out of ammo!"
