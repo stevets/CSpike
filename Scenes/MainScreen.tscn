@@ -134,6 +134,7 @@ stretch_mode = 0
 [node name="ButtonDelay" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="scene_changed" from="." to="." method="_on_MainScreen_scene_changed"]
 [connection signal="pressed" from="Menu/VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/AchievementsButton" to="." method="_on_AchievementsButton_pressed"]

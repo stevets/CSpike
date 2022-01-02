@@ -58,6 +58,7 @@ var boxes = ["MedicBox", "AmmoBox"]
 var effectsadjust = [10, 10, 10, 10, 10, 10, 10, 10 ,10, 10]
 var musicadjust = [0, 0, 0, 0, 0]
 var bannerinst = 20
+var next_scene
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,
@@ -85,7 +86,8 @@ func _ready():
 	gameintro.volume_db = music_volume
 	gameintro.play()
 	load_game()
-	print(highscore)	
+	if globals.showdebug:
+		print(highscore)	
 
 func load_game():
 	var load_game = File.new()

@@ -64,7 +64,10 @@ func _ready():
 	ply.name = "player1"
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
+	$HUD/ScoreBox/Container.visible = true
 #------Swipe dectection and Click-----------------------------------------------
+
+	
 func _process(_delta):
 #	if globals.game_data["finalscore"] % globals.bannerinst == 0:
 #		_create_Banner()
@@ -132,7 +135,8 @@ func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position) 
 
 func _createGameBoard(_firstrow, _lastrow):
-	print("game tick wait time: ", gametick.wait_time)
+	if globals.showdebug:
+		print("game tick wait time: ", gametick.wait_time)
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
 	for  i in range(_firstrow, _lastrow):
 		for j in range(columns):
@@ -207,6 +211,7 @@ func _createGameBoard(_firstrow, _lastrow):
 			else:
 				add_child(s)
 				s.global_translate(Vector3((j * space), 0 ,-i * space))
+	yield(self,"ready")
 
 func _on_Main_createrow():
 	firstrow = lastrow
@@ -216,14 +221,14 @@ func _on_Main_createrow():
 		_create_Banner()
 
 func _on_PauseButton_pressed():
-	get_tree().get_root().get_node("Main/PausePopup/VBoxContainer").visible = true
-	get_tree().get_root().get_node("Main/PausePopup").visible = true
+	get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/VBoxContainer").visible = true
+	get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 	var paused = get_tree().paused
 	print("paused: ", paused)
 	if paused:
 		$PausePopup.hide()
 		get_tree().paused = false
-		get_tree().get_root().get_node("Main/PausePopup/VBoxContainer").visible = false
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/VBoxContainer").visible = false
 	else:
 		$PausePopup.show()
 		get_tree().paused = true
@@ -260,7 +265,7 @@ func _on_Back_pressed():
 #	else:
 #		$PausePopup.show()
 #		get_tree().paused = true
-	var _main = get_tree().change_scene("res://Scenes/MainScreen.tscn")
+	var _main = get_tree().change_scene("res://Scenes/SceneSwitcher.tscn")
 
 func _create_Banner():
 #	if banner:

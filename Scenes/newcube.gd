@@ -3,7 +3,7 @@ extends Spatial
 var spirit = false 
 var coin = 10
 onready var globals = $"/root/Globalnode"
-onready var main = get_tree().get_root().get_node("Main")
+onready var main = get_tree().get_root().get_node("SceneSwitcher/Main")
 
 
 

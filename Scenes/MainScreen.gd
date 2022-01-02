@@ -1,6 +1,13 @@
 extends Control
 
+
+signal scene_changed()
+
+
+onready var animms = get_parent().get_child(1)
+
 onready var globals = $"/root/Globalnode"
+#onready var mainscene = preload("res://Scenes/main.tscn")
 var loadbuttons_delay = 0
 
 func _ready():
@@ -32,8 +39,10 @@ func set_visibility(isvisible):
 
 func _on_Play_pressed():
 	globals.menubutton.play()
-	var _chscene = get_tree().change_scene("res://Scenes/main.tscn")
 	globals.titlemusic.playing = false
+	emit_signal("scene_changed")
+
+	
 
 func _on_SettingsButton_pressed():
 	globals.menubutton.play()
@@ -59,3 +68,5 @@ func seteffectvolumes():
 		player.volume_db =  globals.game_data["effectsvolume"] - globals.effectsadjust[i]
 		i+=1
  
+
+

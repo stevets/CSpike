@@ -241,6 +241,7 @@ visible = false
 visible = false
 
 [node name="HUD" type="CanvasLayer" parent="."]
+layer = -4
 script = ExtResource( 21 )
 
 [node name="ScoreBox" type="MarginContainer" parent="HUD"]
@@ -375,7 +376,7 @@ __meta__ = {
 [node name="HSplitContainer" type="HSplitContainer" parent="HUD/ScoreBox/VBoxContainer"]
 margin_top = 1142.0
 margin_right = 960.0
-margin_bottom = 1432.0
+margin_bottom = 1492.0
 custom_constants/separation = 300
 split_offset = 400
 dragger_visibility = 1
@@ -385,16 +386,17 @@ __meta__ = {
 
 [node name="Control" type="Control" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer"]
 margin_right = 400.0
-margin_bottom = 290.0
+margin_bottom = 350.0
 
 [node name="SkillGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/Control"]
 visible = false
 modulate = Color( 1, 1, 1, 0.490196 )
 margin_right = 260.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 200, 0 )
+margin_bottom = 150.0
+rect_min_size = Vector2( 260, 150 )
 custom_colors/font_color = Color( 0.156863, 0.745098, 0.0705882, 1 )
 custom_fonts/font = SubResource( 20 )
+action_mode = 0
 text = "SKILL"
 align = 0
 __meta__ = {
@@ -404,16 +406,17 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer"]
 margin_left = 700.0
 margin_right = 960.0
-margin_bottom = 290.0
+margin_bottom = 350.0
 custom_constants/separation = 70
 
 [node name="SpiritGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.490196 )
 margin_right = 260.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 200, 110 )
+margin_bottom = 140.0
+rect_min_size = Vector2( 250, 140 )
 custom_colors/font_color = Color( 0.94902, 0.0901961, 1, 1 )
 custom_fonts/font = SubResource( 22 )
+action_mode = 0
 text = "SPIRIT"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -421,11 +424,12 @@ __meta__ = {
 
 [node name="AmmoGun" type="Button" parent="HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.494118 )
-margin_top = 180.0
+margin_top = 210.0
 margin_right = 260.0
-margin_bottom = 290.0
-rect_min_size = Vector2( 200, 110 )
+margin_bottom = 350.0
+rect_min_size = Vector2( 250, 140 )
 custom_fonts/font = SubResource( 22 )
+action_mode = 0
 text = "Fire"
 __meta__ = {
 "_edit_use_anchors_": false
