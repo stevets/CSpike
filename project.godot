@@ -93,10 +93,6 @@ config/icon="res://icon.png"
 Globalnode="*res://Scenes/Globalnode.tscn"
 MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
 
-[debug]
-
-settings/stdout/verbose_stdout=true
-
 [display]
 
 window/size/width=1000

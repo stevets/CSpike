@@ -13,8 +13,6 @@ func _ready():
 
 
 func _on_off_toggled(button_pressed):
-	if globals.showdebug:
-		print("buttons0")
 	$low.pressed = false
 	$med.pressed = false
 	$high.pressed = false
@@ -28,8 +26,6 @@ func _on_off_toggled(button_pressed):
 	
 
 func _on_low_toggled(button_pressed):
-	if globals.showdebug:
-		print("buttons1")
 	$off.pressed = false
 	$med.pressed = false
 	$high.pressed = false
@@ -43,8 +39,6 @@ func _on_low_toggled(button_pressed):
 
 
 func _on_med_toggled(button_pressed):
-	if globals.showdebug:
-		print("buttons2")
 	$low.pressed = false
 	$off.pressed = false
 	$high.pressed = false
@@ -58,8 +52,6 @@ func _on_med_toggled(button_pressed):
 
 
 func _on_high_toggled(button_pressed):
-	if globals.showdebug:
-		print("buttons3")
 	$low.pressed = false
 	$med.pressed = false
 	$off.pressed = false

@@ -21,7 +21,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": "Main Screen is the home screen that loads at start of game."
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -132,6 +133,9 @@ stretch_mode = 0
 
 [node name="ButtonDelay" type="Timer" parent="."]
 one_shot = true
+__meta__ = {
+"_editor_description_": "Timer that sequencially activates the buttons on the Main Screen."
+}
 
 [connection signal="scene_changed" from="." to="." method="_on_MainScreen_scene_changed"]
 [connection signal="pressed" from="Menu/VBoxContainer/Play" to="." method="_on_Play_pressed"]

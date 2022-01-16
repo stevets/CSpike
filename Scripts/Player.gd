@@ -357,7 +357,6 @@ func checkLeftRight(_hitobj):
 					emit_signal("laser", laserdatanew)
 
 func _on_GameTick_timeout():
-#	print_stray_nodes()
 	var cube1 = cubetexinst.instance()
 			#print("creating level banner")
 	add_child(cube1)

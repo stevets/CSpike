@@ -138,8 +138,6 @@ func _on_Timer_timeout():
 	emit_signal('swipe_canceled', swipe_start_position) 
 
 func _createGameBoard(_firstrow, _lastrow):
-	if globals.showdebug:
-		print("game tick wait time: ", gametick.wait_time)
 	var tokenArray = [ammobox, medicbox, ammobox, medicbox]
 	for  i in range(_firstrow, _lastrow):
 		for j in range(columns):
@@ -176,6 +174,7 @@ func _createGameBoard(_firstrow, _lastrow):
 					else:
 						var bomb_node = bombinst.instance()
 						var dupbomb = bomb_node.duplicate()
+						bomb_node.queue_free()
 						s.get_child(0).get_child(1).add_child(dupbomb)
 						bomb = true
 						add_child(s)
@@ -184,21 +183,24 @@ func _createGameBoard(_firstrow, _lastrow):
 					if my_random_assetbox == 0:
 						var token_node = tokenArray[0].instance()
 						duptoken = token_node.duplicate()
+						token_node.queue_free()
 					elif my_random_assetbox == 1:
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
+						token_node.queue_free()
 					elif my_random_assetbox == 2:
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
+						token_node.queue_free()
 					elif my_random_assetbox == 3:
 						var token_node = tokenArray[1].instance()
 						duptoken = token_node.duplicate()
+						token_node.queue_free()
 					else:
 						continue					
 					s.get_child(0).get_child(1).add_child(duptoken)
 					s.get_child(0).get_child(1).get_child(0).get_child(0).create_trimesh_collision()
 					add_child(s)
-
 					if firstraise == 1:
 						s.global_translate(Vector3((j * space), firstraise  ,-i * space))
 						firstraise = 0

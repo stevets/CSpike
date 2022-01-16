@@ -69,5 +69,7 @@ func seteffectvolumes():
 		player.volume_db =  globals.game_data["effectsvolume"] - globals.effectsadjust[i]
 		i+=1
  
+func _exit_tree():
+	self.queue_free()
 
 

@@ -99,17 +99,19 @@ func _on_Player_destroy(objID):
 func _on_Main_selfdestruct(plyposz):
 #	var objname = get_tree().get_root().get_node("/root/main/")
 #	print("entered selfdestruct: ")
-	var mygroup = get_tree().get_nodes_in_group("cubes")
+	var mycubegroup = get_tree().get_nodes_in_group("cubes")
 	var cubeposz
-	for member in mygroup:
+	for member in mycubegroup:
 		cubeposz = member.translation.z
 #		print("cubeposz: ", cubeposz)
 		if cubeposz > plyposz and member.spirit:
 			globals.spiritdied = true
 		elif cubeposz > plyposz+1:
 			if member.translation.x != 10:
-				print("Member: ", member)
+#				print("Member: ", member)
 				member.remove_from_group("cubes")
 				member.queue_free()
 				globals.cubedestroyed = true
 
+func _exit_tree():
+	self.queue_free()
