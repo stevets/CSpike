@@ -1,6 +1,6 @@
 extends KinematicBody
 
-signal destroy(objID)
+signal destroy(objID) 
 signal laser(laserdatanew)
 #signal createbanner()
 
@@ -181,14 +181,8 @@ func checkLeftRightColorMatch(_hitobj, _left, _right):
 				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
 				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
 				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-				if globals.showdebug:
-					print("leftcolor", leftcolor)
 				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-				if globals.showdebug:
-					print("rightcolor", rightcolor)
 				if leftcolor == rightcolor and resultv3pos <= -0.5:
-					if globals.showdebug:
-						print("color match")
 					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
 					emit_signal("laser", laserdata)
 
@@ -240,7 +234,9 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 								if resultgone.collider != objID:
 									result.collider.get_parent().get_surface_material(0).emission_enabled = false
 								resultfront = null
-				globals.raycast_length = -8			
+				globals.raycast_length = -8
+				globals.skill_gun_fires += 1
+				get_parent().get_node("HUD/VSplitContainer/ScoreBox/VBoxContainer/SkillGunFires").text = "Skill " + str(globals.skill_gun_fires)
 		elif colorbasecube: #skillgun is false
 			checkLeftRight(_hitobj)
 			if "material/1" in _hitobj.collider.get_parent():
@@ -348,29 +344,20 @@ func checkLeftRight(_hitobj):
 	var rightcolor
 	resultright = space_state.intersect_ray(resultv3, resultv3 + Vector3(3, 0, -0.5), [self])
 	resultleft = space_state.intersect_ray(resultv3, resultv3 + Vector3(-3, 0, -0.5), [self])
-	if globals.showdebug:
-		print("resultv3: ",resultv3pos)
 	if resultleft and resultright:
 		if "material/1" in resultleft.collider.get_parent():
 			if "material/1" in resultright.collider.get_parent():
 				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
 				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
 				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-				if globals.showdebug:
-					print("leftcolor", leftcolor)
 				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-				if globals.showdebug:
-					print("rightcolor", rightcolor)
 				if leftcolor == rightcolor and resultv3pos <= -0.5:
-					if globals.showdebug:
-						print("color match")
 					var laserdatanew = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser, "right" : resultright.collider.get_parent().get_parent(), "left" : resultleft.collider.get_parent().get_parent()}
 #					globals.laserdata.append(laserdatanew)
-					if globals.showdebug:
-						print("laserdata: ", laserdatanew)
 					emit_signal("laser", laserdatanew)
 
 func _on_GameTick_timeout():
+#	print_stray_nodes()
 	var cube1 = cubetexinst.instance()
 			#print("creating level banner")
 	add_child(cube1)
@@ -381,8 +368,6 @@ func _on_GameTick_timeout():
 	var playerposx = ply.get_global_transform().origin.x
 	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
-	if globals.showdebug:
-		print(playerposz)
 	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.4), [self])
 	if resultfrontcollide.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:

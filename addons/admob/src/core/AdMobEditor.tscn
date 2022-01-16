@@ -22,16 +22,13 @@ size = 30
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 1, 0.772549, 0, 1 )
-
 [sub_resource type="DynamicFont" id=4]
 size = 20
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.172549, 0.568627, 0.992157, 1 )
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 0.772549, 0, 1 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 20
@@ -39,6 +36,9 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.172549, 0.568627, 0.992157, 1 )
 
 [node name="AdMobEditor" type="Control"]
 pause_mode = 2
@@ -151,8 +151,8 @@ __meta__ = {
 }
 
 [node name="TabContainer" type="TabContainer" parent="MiddleScrollContainer"]
-margin_right = 751.0
-margin_bottom = 575.0
+margin_right = 1503.0
+margin_bottom = 1379.59
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tab_align = 0
@@ -221,11 +221,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -35.0
 margin_right = -158.0
-custom_styles/normal = SubResource( 3 )
 custom_fonts/normal_font = SubResource( 4 )
+custom_styles/normal = SubResource( 3 )
 bbcode_enabled = true
-bbcode_text = "[rainbow sat=10]iOS[/rainbow][color=black]:v2.0.2[/color] [rainbow sat=10]Android[/rainbow][color=black]:v2.0.0[/color]"
-text = "iOS:v2.0.2 Android:v2.0.0"
+bbcode_text = "[rainbow sat=10]iOS[/rainbow][color=black]:v2.0.4[/color] [rainbow sat=10]Android[/rainbow][color=black]:v2.0.0[/color]"
+text = "iOS:v2.0.4 Android:v2.0.0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -238,9 +238,9 @@ anchor_bottom = 1.0
 margin_left = -158.0
 margin_top = -35.0
 rect_min_size = Vector2( 0, 35 )
-custom_styles/normal = SubResource( 5 )
 custom_fonts/font = SubResource( 6 )
-text = "Version: 1.2.0"
+custom_styles/normal = SubResource( 5 )
+text = "Version: 1.2.3"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false

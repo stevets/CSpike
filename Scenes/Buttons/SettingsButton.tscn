@@ -4,6 +4,8 @@
 [ext_resource path="res://Assets/images/Title Screen Buttons/BlueSettingsButton-01.png" type="Texture" id=2]
 
 [node name="SettingsButton" instance=ExtResource( 1 )]
+anchor_bottom = 0.075
+margin_bottom = 0.0
 
 [node name="TextureRect" parent="." index="0"]
 anchor_left = 0.5

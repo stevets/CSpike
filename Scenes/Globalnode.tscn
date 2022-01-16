@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Assets/Music-Effects/lifeofleo.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/Globalnode.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Assets/Music-Effects/gameintro.ogg" type="AudioStream" id=15]
 [ext_resource path="res://Assets/Music-Effects/Menu-Button-Press.ogg" type="AudioStream" id=16]
 [ext_resource path="res://Assets/Music-Effects/gameplaybackground.ogg" type="AudioStream" id=17]
+[ext_resource path="res://Assets/Music-Effects/electrocute.mp3" type="AudioStream" id=18]
 
 [node name="Globalnode" type="Node"]
 script = ExtResource( 2 )
@@ -75,3 +76,7 @@ stream = ExtResource( 16 )
 [node name="GamePlayBackingPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 volume_db = -13.709
+
+[node name="LaserBeamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+volume_db = -5.0

@@ -10,21 +10,21 @@ func hide():
 	$ScoreBox.hide()
 	
 func show():
-	$ScoreBox.show()
+	$VSplitContainer/ScoreBox.show()
 	
 func update_score():
-	$ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox/score.text = str(globals.game_data["finalscore"])
+	$VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox/score.text = str(globals.game_data["finalscore"])
 	
 func update_ammo():
-	$ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox/ammo.text = str(globals.ammo)
+	$VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox/ammo.text = str(globals.ammo)
 	
 func update_health():
-	$ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox/health.text = str(globals.health)
+	$VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox/health.text = str(globals.health)
 func died():
 	pass
 
 func update_coins():
-	$ScoreBox/VBoxContainer/VBoxContainer/ScoreHBox/coins.text = str(globals.game_data["coins"])
+	$VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox/coins.text = str(globals.game_data["coins"])
 	
 func update_spirit_gun():
 	if globals.ammogun == false:

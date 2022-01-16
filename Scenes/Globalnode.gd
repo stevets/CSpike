@@ -18,6 +18,7 @@ onready var rowchangetick = $EffectRowChangePlayer
 onready var bombexplode = $EffectBombExplodePlayer
 onready var bombticking = $EffectBombTickingPlayer
 onready var spirithitbomb2 = $EffectSpiritHitBomb2Player
+onready var laserbeam = $LaserBeamPlayer
 onready var effectplayerarray = [swipe, magicspell, alarmgun, alarmswipe, gunshot, hitsound, rowchangetick, bombexplode, bombticking, menubutton]
 onready var musicplayerarray = [titlemusic, gameintro, gamemusic, gameplaymusic, endgame]
 #onready var bombtimer = get_tree().get_node("BombTimer")
@@ -27,7 +28,7 @@ var finalscore = 0
 var highscore = 1
 var ammo = 50
 var health = 100
-var coins = 0
+var coins = 01
 var gamerows = 20
 var music_volume = -10
 var effects_volume = -20
@@ -59,6 +60,8 @@ var effectsadjust = [10, 10, 10, 10, 10, 10, 10, 10 ,10, 10]
 var musicadjust = [0, 0, 0, 0, 0]
 var bannerinst = 20
 var next_scene
+var skill_gun_fires = 0
+
 onready var game_data = {"finalscore": globals.finalscore,
 						"highscore": globals.highscore,
 						"coins": globals.coins,

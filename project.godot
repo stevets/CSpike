@@ -29,7 +29,7 @@ _global_script_class_icons={
 config={
 "banner": {
 "position": 0,
-"show_instantly": false,
+"show_instantly": true,
 "size": "BANNER",
 "unit_ids": {
 "Android": {
@@ -93,6 +93,10 @@ config/icon="res://icon.png"
 Globalnode="*res://Scenes/Globalnode.tscn"
 MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
 
+[debug]
+
+settings/stdout/verbose_stdout=true
+
 [display]
 
 window/size/width=1000
@@ -121,7 +125,9 @@ pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
+vram_compression/import_pvrtc=true
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false
 environment/default_clear_color=Color( 0.301961, 0.301961, 0.301961, 0 )

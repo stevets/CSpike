@@ -5,6 +5,12 @@ var coin = 10
 onready var globals = $"/root/Globalnode"
 onready var main = get_tree().get_root().get_node("SceneSwitcher/Main")
 
+func _ready():
+	self.get_child(0).get_child(3).direction.y = -1
+	self.get_child(0).get_child(3).gravity.y = -10
+	self.get_child(0).get_child(3).emitting = true
+	
+
 
 
 func _on_Player_destroy(objID):
@@ -25,15 +31,18 @@ func _on_Player_destroy(objID):
 					var i = 0
 					for laserbeam in globals.laserdata:
 						i+=1
-						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+#						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
 						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
-							print("destroy laser")
+#							print("destroy laser")
 							globals.laserdata.remove(i-1)
 							laserbeam["laser"].queue_free()
+							globals.laserbeam.playing = false
 #							globals.laserdata = null
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 10
+				objID.get_parent().get_child(3).direction.y = 1
+				self.get_child(0).get_child(3).gravity.y = 10
 				objID.get_parent().get_child(3).emitting = true
 		elif  objID.get_parent().translation.y == -0.5: 
 			if globals.skillgun:
@@ -42,35 +51,42 @@ func _on_Player_destroy(objID):
 						if globals.bombexplodedcheck == objID:
 							globals.bombticking.stop()
 						objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
-						print("bomb destruction: ", objID.get_parent().get_child(1).get_child(0).name)
+#						print("bomb destruction: ", objID.get_parent().get_child(1).get_child(0).name)
 						objID.get_parent().get_child(1).get_child(0).queue_free()
 #						globals.game_data["coins"] += 5
 				else:
 					objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 #					globals.game_data["coins"] += 5
-#					objID.get_parent().get_child(3).emitting = true
+					objID.get_parent().get_child(3).direction.y = 1
+					self.get_child(0).get_child(3).gravity.y = 10
+					objID.get_parent().get_child(3).emitting = true
 				if !globals.laserdata.empty():
 					var i = 0
 					for laserbeam in globals.laserdata:
 						i+=1
-						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+#						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
 						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
-							print("destroy laser")
+#							print("destroy laser")
 							globals.laserdata.remove(i-1)
 							laserbeam["laser"].queue_free()
+							globals.laserbeam.playing = false
 			elif !globals.skillgun:
 				objID.get_parent().global_translate(Vector3(0, -0.5 ,0))
 				globals.game_data["coins"] += 10
+#				objID.get_parent().get_child(3).visible = true
+				objID.get_parent().get_child(3).direction.y = 1
+				self.get_child(0).get_child(3).gravity.y = 10
 				objID.get_parent().get_child(3).emitting = true
 				if !globals.laserdata.empty():
 					var i = 0
 					for laserbeam in globals.laserdata:
 						i+=1
-						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
+#						print("objID: ",objID.get_parent().get_parent(),"left: ", laserbeam["left"],"right: ", laserbeam["right"])	
 						if objID.get_parent().get_parent() == laserbeam["right"] or objID.get_parent().get_parent() == laserbeam["left"]:
-							print("destroy laser")
+#							print("destroy laser")
 							globals.laserdata.remove(i-1)
 							laserbeam["laser"].queue_free()
+							globals.laserbeam.playing = false
 #						globals.laserdata = null
 						
 		objID.get_parent().get_child(3).emitting = false
@@ -78,12 +94,12 @@ func _on_Player_destroy(objID):
 #		objID.get_parent().get_child(3).emitting = true
 	if objID.get_parent().name == "token":
 		objID.get_parent().queue_free()
-
+		
+#Destroys row two rows behind player
 func _on_Main_selfdestruct(plyposz):
 #	var objname = get_tree().get_root().get_node("/root/main/")
 #	print("entered selfdestruct: ")
 	var mygroup = get_tree().get_nodes_in_group("cubes")
-
 	var cubeposz
 	for member in mygroup:
 		cubeposz = member.translation.z
@@ -92,6 +108,7 @@ func _on_Main_selfdestruct(plyposz):
 			globals.spiritdied = true
 		elif cubeposz > plyposz+1:
 			if member.translation.x != 10:
+				print("Member: ", member)
 				member.remove_from_group("cubes")
 				member.queue_free()
 				globals.cubedestroyed = true

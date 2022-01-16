@@ -1,7 +1,7 @@
 extends Control
 
 
-signal scene_changed()
+signal scene_changed
 
 
 onready var animms = get_parent().get_child(1)
@@ -55,6 +55,7 @@ func _on_AchievementsButton_pressed():
 
 func _on_NoAdsButton_pressed():
 	globals.menubutton.play()
+	var _settingscreen = get_tree().change_scene("res://Scenes/Ads.tscn")
 	
 func setmusicvolumes():
 	var i = 0

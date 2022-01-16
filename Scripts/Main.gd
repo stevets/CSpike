@@ -6,10 +6,10 @@ signal swiped(direction)
 signal selfdestruct(plyposz)
 
 
-onready var cubeinst = preload("res://Scenes/cube.tscn")
-onready var ballinst = preload("res://Scenes/ball.tscn")
-onready var geminst = preload("res://Scenes/gem.tscn")
-onready var coneinst = preload("res://Scenes/pyramid.tscn")
+#onready var cubeinst = preload("res://Scenes/cube.tscn")
+#onready var ballinst = preload("res://Scenes/ball.tscn")
+#onready var geminst = preload("res://Scenes/gem.tscn")
+#onready var coneinst = preload("res://Scenes/pyramid.tscn")
 onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
@@ -32,6 +32,7 @@ var colorarray = [red, blue, green, yellow]
 var rng = RandomNumberGenerator.new()
 var rng1 = RandomNumberGenerator.new()
 var raise_rng = RandomNumberGenerator.new()
+var laserroot
 export var space = 1
 var rows = 20
 export var columns = 5
@@ -49,6 +50,8 @@ var firstrow = 0
 var swipe_start_position = Vector2(0,0)
 
 func _ready():
+	laserroot = laserbeam.instance()
+	add_child(laserroot)
 	globals.spiritdied = false
 	globals.game_data["finalscore"] = globals.finalscore
 	globals.gameplaymusic.play()
@@ -64,7 +67,7 @@ func _ready():
 	ply.name = "player1"
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
-	$HUD/ScoreBox/Container.visible = true
+	$HUD/VSplitContainer/ScoreBox/Container.visible = true
 #------Swipe dectection and Click-----------------------------------------------
 
 	
@@ -77,17 +80,17 @@ func _process(_delta):
 #	cube.get_child(0).set_surface_material(0, unique_mat0)
 #	add_child(cube)
 #	cube.global_translate(Vector3(2, 1.5, -1))
-	$HUD/ScoreBox/VBoxContainer/VBoxContainer/ProgressBar.value = gametick.time_left/globals.levelspeed * 100
+	$HUD/VSplitContainer/ScoreBox/VBoxContainer/ProgressBar.value = gametick.time_left/globals.levelspeed * 100
 	time1 -= 1
 	$HUD.update_score()
 	$HUD.update_ammo()
 	$HUD.update_health()
 	$HUD.update_coins()
 	if globals.game_data["coins"] < skillgunactivated:
-		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = false
+		$HUD/VSplitContainer/HSplitContainer/Control/SkillGun.visible = false
 	else:
-		$HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun.visible = true
-	emit_signal("selfdestruct", ply.translation.z)
+		$HUD/VSplitContainer/HSplitContainer/Control/SkillGun.visible = true
+	emit_signal("selfdestruct", ply.translation.z) #Destroys rows two rows behind player
 	if globals.cubedestroyed == true:
 		_on_Main_createrow()
 		globals.cubedestroyed = false
@@ -221,6 +224,7 @@ func _on_Main_createrow():
 		_create_Banner()
 
 func _on_PauseButton_pressed():
+	
 	get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/VBoxContainer").visible = true
 	get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 	var paused = get_tree().paused
@@ -229,28 +233,31 @@ func _on_PauseButton_pressed():
 		$PausePopup.hide()
 		get_tree().paused = false
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/VBoxContainer").visible = false
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/PauseButton").disabled = false
 	else:
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/PauseButton").disabled = true
 		$PausePopup.show()
 		get_tree().paused = true
 
 func _on_Player_laser(laserdatanew):
-	print("hitobj: ", laserdatanew)
+#	print("hitobj: ", laserdatanew)
 	var zpos = laserdatanew["trans"].z
 	var xpos = laserdatanew["midpoint"] 
 	var xlaserlength = laserdatanew["length"]
-	print("xpos: ", xpos)
+#	print("xpos: ", xpos)
 	var laser = laserbeam.instance()
 	laser.name = "laserone"
-	laser.duplicate()
+#	laser.duplicate()
 	laser.height	= xlaserlength - 1
 	laser.get_node("StaticBody/CollisionShape").scale.y = (xlaserlength - 1.0)/2.0
 #	laser.shapecalc(xlaserlength - 1)
 	add_child(laser)
+	globals.laserbeam.play()
 	laser.visible = true
 	laser.global_translate(Vector3(xpos,1,zpos))
 	laserdatanew["laser"] = laser
 	globals.laserdata.append(laserdatanew)
-	print("laserdata", globals.laserdata)
+#	print("laserdata", globals.laserdata)
 
 
 func _on_Back_pressed():
@@ -271,17 +278,17 @@ func _create_Banner():
 #	if banner:
 #		banner.queue_free()
 	var banner = bannerinst.instance()
-	var leveltext = Leveltextinst.instance()
-	leveltext.get_child(2).text = str(globals.level + 1)
+#	var leveltext = Leveltextinst.instance()
+#	leveltext.get_child(2).text = str(globals.level + 1)
 	#print("creating level banner")
 #	var unique_mat0 = banner.get_child(0).get_surface_material(0).duplicate()
 #	banner.get_child(0).set_surface_material(0, unique_mat0)
 	add_child(banner)
-	add_child(leveltext)
+#	add_child(leveltext)
 	banner.visible = true
-	leveltext.visible = true
+#	leveltext.visible = true
 	#cube.global_translate(Vector3(2, 3, -globals.game_data["finalscore"] - globals.bannerinst))
 	banner.global_translate(Vector3(0, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)))
-	leveltext.global_translate(Vector3(2.25, 0, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)+ 0.2))
+#	leveltext.global_translate(Vector3(2.25, 0, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)+ 0.2))
 	pass
 	

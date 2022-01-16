@@ -5,15 +5,16 @@ type="StreamTexture"
 path.s3tc="res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.s3tc.stex"
 path.etc2="res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc2.stex"
 path.etc="res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc.stex"
+path.pvrtc="res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.pvrtc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2", "etc" ],
+"imported_formats": [ "s3tc", "etc2", "etc", "pvrtc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/sideW01.jpg"
-dest_files=[ "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.s3tc.stex", "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc2.stex", "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc.stex" ]
+dest_files=[ "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.s3tc.stex", "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc2.stex", "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.etc.stex", "res://.import/sideW01.jpg-5e497026ead8e82d34505c6cca347777.pvrtc.stex" ]
 
 [params]
 
@@ -31,6 +32,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false
