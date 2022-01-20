@@ -4,6 +4,7 @@ extends Node
 signal swiped(direction)
 #signal swipe_canceled(start_position)
 signal selfdestruct(plyposz)
+signal JumpForward()
 
 
 #onready var cubeinst = preload("res://Scenes/cube.tscn")
@@ -59,7 +60,7 @@ func _ready():
 	gametick.start(globals.levelspeed)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
-	_create_Banner()
+#	_create_Banner()
 	#Add Player-----------------------------------------------------------------------------
 	ply = playinst.instance()
 	var scaleply = 0.25
@@ -87,9 +88,9 @@ func _process(_delta):
 	$HUD.update_health()
 	$HUD.update_coins()
 	if globals.game_data["coins"] < skillgunactivated:
-		$HUD/VSplitContainer/HSplitContainer/Control/SkillGun.visible = false
+		$HUD/VSplitContainer/HSplitContainer/Control/VBoxContainer/SkillGun.disabled = true
 	else:
-		$HUD/VSplitContainer/HSplitContainer/Control/SkillGun.visible = true
+		$HUD/VSplitContainer/HSplitContainer/Control/VBoxContainer/SkillGun.disabled = false
 	emit_signal("selfdestruct", ply.translation.z) #Destroys rows two rows behind player
 	if globals.cubedestroyed == true:
 		_on_Main_createrow()
@@ -222,8 +223,13 @@ func _on_Main_createrow():
 	firstrow = lastrow
 	lastrow = lastrow + 1
 	_createGameBoard(firstrow, lastrow)
+#	if globals.game_data["finalscore"] % globals.bannerinst == 0:
+#		_create_Banner()
 	if globals.game_data["finalscore"] % globals.bannerinst == 0:
-		_create_Banner()
+		$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress.radial_fill_degrees = 0
+	else:
+		$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress.radial_fill_degrees += 18
+		
 
 func _on_PauseButton_pressed():
 	
@@ -235,9 +241,9 @@ func _on_PauseButton_pressed():
 		$PausePopup.hide()
 		get_tree().paused = false
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/VBoxContainer").visible = false
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/PauseButton").disabled = false
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton").disabled = false
 	else:
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/PauseButton").disabled = true
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton").disabled = true
 		$PausePopup.show()
 		get_tree().paused = true
 
@@ -259,6 +265,8 @@ func _on_Player_laser(laserdatanew):
 	laser.global_translate(Vector3(xpos,1,zpos))
 	laserdatanew["laser"] = laser
 	globals.laserdata.append(laserdatanew)
+	globals.laserbeamCount.push_back("laser")
+	
 #	print("laserdata", globals.laserdata)
 
 
@@ -277,20 +285,17 @@ func _on_Back_pressed():
 	var _main = get_tree().change_scene("res://Scenes/SceneSwitcher.tscn")
 
 func _create_Banner():
-#	if banner:
-#		banner.queue_free()
 	var banner = bannerinst.instance()
-#	var leveltext = Leveltextinst.instance()
-#	leveltext.get_child(2).text = str(globals.level + 1)
-	#print("creating level banner")
-#	var unique_mat0 = banner.get_child(0).get_surface_material(0).duplicate()
-#	banner.get_child(0).set_surface_material(0, unique_mat0)
 	add_child(banner)
-#	add_child(leveltext)
 	banner.visible = true
-#	leveltext.visible = true
-	#cube.global_translate(Vector3(2, 3, -globals.game_data["finalscore"] - globals.bannerinst))
 	banner.global_translate(Vector3(0, 1.5, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)))
-#	leveltext.global_translate(Vector3(2.25, 0, -(globals.game_data["finalscore"] + globals.bannerinst + 0.5)+ 0.2))
-	pass
+
+func _on_AmmoGun2_pressed():
+	pass # Replace with function body.
+
+
+func _on_ForwardJump_pressed():
+	$GameTick.start()
+	emit_signal("JumpForward")
+	
 	

@@ -51,6 +51,7 @@ var spiritdeath = "You passed your spirit!"
 var bombexplodedcheck
 var fired_weapon
 var laserdata = []
+var laserbeamCount = []
 var showdebug = false	
 var gamevolumes = [-60, -20, -10, 0]
 var music_buttons = [false, false, true, false]

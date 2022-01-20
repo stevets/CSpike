@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Buttons/NewTextureButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/images/Title Screen Buttons/RedNoAdsButton-01.png" type="Texture" id=2]
+[ext_resource path="res://Assets/images/Privacy.png" type="Texture" id=3]
 
 [node name="NoAdsButton" instance=ExtResource( 1 )]
 anchor_top = 0.0
@@ -10,27 +11,28 @@ anchor_bottom = 0.075
 margin_right = -6.00006
 margin_bottom = 10.0
 
-[node name="TextureRect2" type="TextureRect" parent="." index="0"]
-anchor_left = 0.286
-anchor_top = 0.127
-anchor_right = 0.713
-anchor_bottom = 0.771
-margin_left = -228.8
-margin_top = -19.05
-margin_right = 73.6911
-margin_bottom = -105.439
+[node name="TextureRect" parent="." index="0"]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 20.0
+margin_right = 170.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 150 )
+texture = ExtResource( 3 )
+
+[node name="TextureRect2" type="TextureRect" parent="." index="1"]
+margin_right = 800.0
+margin_bottom = 150.0
 rect_min_size = Vector2( 800, 150 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" parent="." index="1"]
-anchor_left = 0.28
-anchor_top = 0.145
-anchor_right = 0.714
-anchor_bottom = 0.797
-margin_left = -224.0
-margin_top = -21.75
-margin_right = 228.8
-margin_bottom = -66.45
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="2"]
+margin_right = 800.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 800, 150 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

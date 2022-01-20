@@ -48,13 +48,7 @@ onready var paused = get_tree().paused
 
 func _ready():
 	yield(get_tree().create_timer(0.25), "timeout")
-#	var cube = cubetexinst.instance()
-#	#print("creating level banner")
-#	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
-#	cube.get_child(0).set_surface_material(0, unique_mat0)
-#	add_child(cube)
-#	cube.global_translate(Vector3(2, 1.5, -1))
-	pass
+
 
 func _on_Main_swiped(direction):
 	globals.fired_weapon = false
@@ -171,20 +165,20 @@ func _process(_delta):
 func _on_Main_click():
 	pass
 
-func checkLeftRightColorMatch(_hitobj, _left, _right):
-	if resultleft and resultright:
-		var leftcolor
-		var rightcolor
-		var resultv3pos = _hitobj.collider.get_parent().translation.y
-		if "material/1" in resultleft.collider.get_parent():
-			if "material/1" in resultright.collider.get_parent():
-				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
-				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
-				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-				if leftcolor == rightcolor and resultv3pos <= -0.5:
-					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
-					emit_signal("laser", laserdata)
+#func checkLeftRightColorMatch(_hitobj, _left, _right):
+#	if resultleft and resultright:
+#		var leftcolor
+#		var rightcolor
+#		var resultv3pos = _hitobj.collider.get_parent().translation.y
+#		if "material/1" in resultleft.collider.get_parent():
+#			if "material/1" in resultright.collider.get_parent():
+#				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
+#				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
+#				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
+#				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
+#				if leftcolor == rightcolor and resultv3pos <= -0.5:
+#					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
+#					emit_signal("laser", laserdata)
 
 func firedweapon(fired, _hitobj, _name, _ccolormatch):
 	if fired:
@@ -236,7 +230,7 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 								resultfront = null
 				globals.raycast_length = -8
 				globals.skill_gun_fires += 1
-				get_parent().get_node("HUD/VSplitContainer/ScoreBox/VBoxContainer/SkillGunFires").text = "Skill " + str(globals.skill_gun_fires)
+				get_parent().get_node("HUD/VSplitContainer/HSplitContainer/Control//VBoxContainer/SkillGun/SkillGunFires").text = str(globals.skill_gun_fires)
 		elif colorbasecube: #skillgun is false
 			checkLeftRight(_hitobj)
 			if "material/1" in _hitobj.collider.get_parent():
@@ -335,9 +329,6 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 		globals.skillgun = false	
 	
 func checkLeftRight(_hitobj):
-	if globals.showdebug:
-		if globals.showdebug:
-			print("result", _hitobj)
 	var resultv3 = _hitobj["position"]
 	var resultv3pos = _hitobj.collider.get_parent().translation.y
 	var leftcolor
@@ -379,10 +370,10 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/ScoreBox/VBoxContainer/HSplitContainer/Control/SkillGun").visible = false
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/SpiritGun").visible = false
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/ScoreBox/VBoxContainer/HSplitContainer/VBoxContainer/AmmoGun").visible = false
-		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/ScoreBox/VBoxContainer/VBoxContainer/PauseButton").visible = false
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/Control/VBoxContainer/SkillGun").disabled = true
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/VBoxContainer/SpiritGun").visible = false
+		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/VBoxContainer/AmmoGun").visible = false
+#		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton").visible = false
 		get_tree().paused = true
 		
 		#var _highscore =	get_tree().change_scene("res://Scenes/HighScore.tscn")
@@ -434,18 +425,12 @@ func _on_GameTick_timeout():
 		#var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	else:
-#		globals.rowchangetick.volume_db = globals.game_data["effectsvolume"]
 		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("SceneSwitcher/Main/Camera")
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))	
 		if globals.game_data["finalscore"] % globals.bannerinst == 0:
-			
-#			var cube = cubetexinst.instance()
-#			#print("creating level banner")
-#			add_child(cube)
-#			cube.global_translate(Vector3(0, 3, -5))
 			if globals.levelspeed <= 5.0:
 				pass
 			else:
@@ -454,10 +439,9 @@ func _on_GameTick_timeout():
 			globals.level += 1
 			if globals.level > globals.game_data["finallevel"]:
 				globals.game_data["finallevel"] = globals.level
-				#print("HIGHESTLEVEL :" + str(globals.game_data["finallevel"]))
-			if globals.showdebug:
-				print("level: ", globals.level)
-			get_tree().get_root().get_node("SceneSwitcher/Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
+				self.get_parent().get_node("HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress/Label").text = "Level" + "\n" + str(globals.game_data["finallevel"])
+#			$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress/Label.text = "Level" + "\n" + str(globals.game_data["finallevel"])
+#			get_tree().get_root().get_node("SceneSwitcher/Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
 			get_tree().get_root().get_node("SceneSwitcher/Main/LevelPopup").visible = true
 			
 
@@ -468,31 +452,12 @@ func _on_SpiritGun_pressed():
 		globals.fired_weapon = true
 		globals.spiritgun = true
 
-func _on_AmmoGun_pressed():
-#	globals.skillgun = false
-#	globals.spiritgun = false
-	if didstart.game_started:
-		globals.ammogun = true
-		globals.fired_weapon = true
-
 func _on_BombTick_timeout():
-	if globals.showdebug:
-		print("Bomb Exploded")
 	bombthree = false
 	bombset = false
 	bombtwo = false
-	if globals.showdebug:
-		print("Bombtwo: ", bombtwo)
 	if bombexploded.get_parent().get_parent().spirit:
 		globals.health -= 50
-		
-#	if bombexploded.get_child(0).has_node("bomb"):
-#		globals.bombticking.stop()
-#		globals.bombexplode.play()
-#	if result.collider.get_parent().get_child(1).get_child(0).name == "bomb":
-	if globals.showdebug:
-		print(bombexploded.name)
-#	bombexploded.get_child(0).queue_free()
 	globals.bombticking.stop()
 	if bombexploded.has_node("bomb"):
 		bombexploded.get_child(0).queue_free()
@@ -520,6 +485,12 @@ func _on_SettingBack_pressed():
 	globals.health = 100
 
 
+func _on_AmmoGun_pressed():
+	if didstart.game_started:
+		globals.ammogun = true
+		globals.fired_weapon = true
+	pass # Replace with function body.
 
 
-
+func _on_Main_JumpForward():
+	_on_GameTick_timeout()
