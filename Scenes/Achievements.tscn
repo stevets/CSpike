@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/images/Title Screen Buttons/YellowAchievementsButton-01.png" type="Texture" id=1]
 [ext_resource path="res://Assets/images/Title Screen Buttons/TitleAchievements-01.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Scenes/Achievements.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Achievements.gd" type="Script" id=4]
 [ext_resource path="res://Assets/images/GameScreenButtons/SettingsBackground.png" type="Texture" id=5]
+[ext_resource path="res://Game_theme.tres" type="Theme" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 70
@@ -24,10 +25,8 @@ default_font = SubResource( 2 )
 [node name="Achievements" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 6 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -106,8 +105,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 1 less than 5 skill Gun fires
-"
+text = "Achieved Level 5"
 
 [node name="Label2" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 155.0
@@ -118,8 +116,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 10"
 
 [node name="Label3" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 310.0
@@ -130,8 +127,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 15"
 
 [node name="Label4" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 465.0
@@ -142,8 +138,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 20"
 
 [node name="Label5" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 620.0
@@ -154,8 +149,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 25"
 
 [node name="Label6" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 775.0
@@ -166,8 +160,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 30"
 
 [node name="Label7" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 930.0
@@ -178,8 +171,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 35"
 
 [node name="Label8" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 1085.0
@@ -190,8 +182,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 40"
 
 [node name="Label9" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 1240.0
@@ -202,8 +193,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 45"
 
 [node name="Label10" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 1395.0
@@ -214,8 +204,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 50"
 
 [node name="Label11" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 1550.0
@@ -226,8 +215,7 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 55"
 
 [node name="Label12" type="Button" parent="VSplitContainer/ScrollContainer/VBoxContainer"]
 margin_top = 1705.0
@@ -238,7 +226,6 @@ mouse_filter = 1
 theme = SubResource( 3 )
 custom_colors/font_color = Color( 0.176471, 0.866667, 0.0784314, 1 )
 disabled = true
-text = "Level 10 less than 5 skill Gun fires
-"
+text = "Achieved Level 60"
 
 [connection signal="pressed" from="VSplitContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]

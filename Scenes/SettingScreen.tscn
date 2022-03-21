@@ -4,8 +4,8 @@
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Game_theme.tres" type="Theme" id=3]
 [ext_resource path="res://Assets/images/Title Screen Buttons/TitleSETTINGS-01.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/effects_volume.gd" type="Script" id=5]
-[ext_resource path="res://Scenes/music_volume.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/effects_volume.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/music_volume.gd" type="Script" id=6]
 [ext_resource path="res://Assets/images/GameScreenButtons/SettingsBackground.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=1]
@@ -28,8 +28,7 @@ anchor_bottom = 1.0
 theme = ExtResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 120.414 ],
-"_edit_use_anchors_": false
+"_edit_horizontal_guides_": [ 120.414 ]
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -101,32 +100,32 @@ alignment = 1
 script = ExtResource( 6 )
 
 [node name="off" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
-margin_left = 225.0
-margin_right = 325.0
+margin_left = 224.0
+margin_right = 324.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "OFF"
 
 [node name="low" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
-margin_left = 375.0
-margin_right = 475.0
+margin_left = 374.0
+margin_right = 474.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "LOW"
 
 [node name="med" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
-margin_left = 525.0
-margin_right = 625.0
+margin_left = 524.0
+margin_right = 624.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "MED"
 
 [node name="high" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/music_volume"]
-margin_left = 675.0
-margin_right = 775.0
+margin_left = 674.0
+margin_right = 776.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
@@ -150,32 +149,32 @@ alignment = 1
 script = ExtResource( 5 )
 
 [node name="off" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
-margin_left = 225.0
-margin_right = 325.0
+margin_left = 224.0
+margin_right = 324.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "OFF"
 
 [node name="low" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
-margin_left = 375.0
-margin_right = 475.0
+margin_left = 374.0
+margin_right = 474.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "LOW"
 
 [node name="med" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
-margin_left = 525.0
-margin_right = 625.0
+margin_left = 524.0
+margin_right = 624.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true
 text = "MED"
 
 [node name="high" type="Button" parent="VBoxContainer/VBoxContainer/VBoxContainer/effects_volume"]
-margin_left = 675.0
-margin_right = 775.0
+margin_left = 674.0
+margin_right = 776.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 toggle_mode = true

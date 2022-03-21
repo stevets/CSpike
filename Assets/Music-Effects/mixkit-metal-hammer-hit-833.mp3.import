@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mixkit-metal-hammer-hit-833.mp3-a0c51ecd31e3d0a1de224718bf3ed425.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/mixkit-metal-hammer-hit-833.mp3"
+dest_files=[ "res://.import/mixkit-metal-hammer-hit-833.mp3-a0c51ecd31e3d0a1de224718bf3ed425.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

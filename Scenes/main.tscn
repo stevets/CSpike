@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Assets/images/pause_icon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/images/GameScreenButtons/ClickMask200px.png" type="BitMap" id=2]
@@ -13,7 +13,7 @@
 [ext_resource path="res://Assets/images/GameScreenButtons/SkillCirclePressed.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/laser.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/SideBoards.png" type="Texture" id=13]
-[ext_resource path="res://Scenes/floor.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/images/LevelBlack.png" type="Texture" id=14]
 [ext_resource path="res://Assets/images/GameScreenButtons/SkillDisabled.png" type="Texture" id=15]
 [ext_resource path="res://Assets/images/GameScreenButtons/ForwardButtonNormal.png" type="Texture" id=16]
 [ext_resource path="res://Assets/images/GameScreenButtons/ForwardButtonPressed.png" type="Texture" id=17]
@@ -21,9 +21,16 @@
 [ext_resource path="res://Assets/images/GameScreenButtons/ammoicon-01.png" type="Texture" id=19]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=20]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=21]
+[ext_resource path="res://Game_theme.tres" type="Theme" id=22]
+[ext_resource path="res://Assets/Fonts/kirifont/KiriFont.ttf" type="DynamicFontData" id=23]
 
-[sub_resource type="SpatialMaterial" id=32]
-albedo_color = Color( 0.0823529, 0.286275, 0.0941176, 0.235294 )
+[sub_resource type="ProceduralSky" id=37]
+
+[sub_resource type="Environment" id=38]
+background_mode = 2
+background_sky = SubResource( 37 )
+background_sky_custom_fov = 1.1
+background_energy = 0.38
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -33,9 +40,9 @@ flip_faces = true
 [sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=6]
-size = 40
-font_data = ExtResource( 20 )
+[sub_resource type="DynamicFont" id=39]
+size = 30
+font_data = ExtResource( 23 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 40
@@ -128,13 +135,12 @@ font_data = SubResource( 25 )
 size = 80
 font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFont" id=28]
+[sub_resource type="DynamicFont" id=40]
 size = 70
 font_data = ExtResource( 20 )
 
-[sub_resource type="DynamicFont" id=29]
-size = 80
-outline_color = Color( 0.0509804, 0.772549, 0.317647, 1 )
+[sub_resource type="DynamicFont" id=28]
+size = 70
 font_data = ExtResource( 20 )
 
 [sub_resource type="DynamicFont" id=30]
@@ -148,17 +154,31 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 20 )
 
 [node name="Main" type="Node"]
+process_priority = -1
 script = ExtResource( 7 )
 
-[node name="floor" parent="." instance=ExtResource( 14 )]
-transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 1, 0, 0, 0 )
-material/0 = SubResource( 32 )
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.500011, 0.866019, 0, -0.866019, 0.500011, 2, 9.173, 1 )
+environment = SubResource( 38 )
+fov = 74.0
+size = 0.1
 
 [node name="BoardBackground" type="CanvasLayer" parent="."]
 layer = -15
 offset = Vector2( -25, 0 )
 scale = Vector2( 1.05, 1 )
 transform = Transform2D( 1.05, 0, 0, 1, -25, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="BoardBackground"]
+visible = false
+show_behind_parent = true
+light_mask = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.721569, 0.419608, 0.219608, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="BoardBackground"]
 anchor_right = 1.0
@@ -168,6 +188,8 @@ __meta__ = {
 }
 
 [node name="SideImages" type="TextureRect" parent="BoardBackground/MarginContainer"]
+show_behind_parent = true
+light_mask = 0
 material = SubResource( 1 )
 margin_right = 1002.0
 margin_bottom = 2002.0
@@ -194,12 +216,6 @@ transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
 visible = false
 collision/safe_margin = 1.0
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.5, 0.866, 0, -0.866, 0.5, 2, 9.173, 1 )
-fov = 74.0
-size = 0.1
-far = 1000.0
-
 [node name="GameTick" type="Timer" parent="."]
 
 [node name="Background" type="MeshInstance" parent="."]
@@ -216,6 +232,7 @@ script = ExtResource( 21 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 118.0
+theme = ExtResource( 22 )
 split_offset = 300
 __meta__ = {
 "_edit_use_anchors_": false
@@ -223,7 +240,7 @@ __meta__ = {
 
 [node name="ScoreBox" type="MarginContainer" parent="HUD/VSplitContainer"]
 margin_right = 1005.0
-margin_bottom = 701.0
+margin_bottom = 711.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
@@ -236,20 +253,20 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 985.0
-margin_bottom = 681.0
-rect_min_size = Vector2( 960, 50 )
+margin_bottom = 691.0
+rect_min_size = Vector2( 960, 75 )
 
 [node name="ColorRect" type="ColorRect" parent="HUD/VSplitContainer/ScoreBox/Container"]
 margin_right = 965.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 960, 50 )
+margin_bottom = 75.0
+rect_min_size = Vector2( 960, 75 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/VSplitContainer/ScoreBox"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 985.0
-margin_bottom = 681.0
+margin_bottom = 691.0
 custom_constants/separation = 33
 __meta__ = {
 "_edit_use_anchors_": false
@@ -261,33 +278,33 @@ margin_bottom = 75.0
 custom_constants/separation = 45
 alignment = 1
 
-[node name="Level" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 63.0
-margin_top = 16.0
-margin_right = 154.0
-margin_bottom = 58.0
-custom_fonts/font = SubResource( 6 )
-text = "Level"
+[node name="Score" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
+margin_left = 50.0
+margin_top = 22.0
+margin_right = 167.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 39 )
+text = "Score"
 
 [node name="score" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 199.0
+margin_left = 212.0
 margin_top = 16.0
-margin_right = 252.0
+margin_right = 265.0
 margin_bottom = 58.0
 theme = SubResource( 8 )
 custom_fonts/font = SubResource( 9 )
 text = "100"
 
 [node name="Ammo" type="TextureRect" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 297.0
-margin_right = 372.0
+margin_left = 310.0
+margin_right = 385.0
 margin_bottom = 75.0
 texture = ExtResource( 19 )
 
 [node name="ammo" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 417.0
+margin_left = 430.0
 margin_top = 16.0
-margin_right = 438.0
+margin_right = 451.0
 margin_bottom = 58.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_fonts/font = SubResource( 11 )
@@ -295,35 +312,35 @@ text = "0"
 align = 2
 
 [node name="Health" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 483.0
+margin_left = 496.0
 margin_top = 16.0
-margin_right = 601.0
+margin_right = 614.0
 margin_bottom = 58.0
 custom_colors/font_color = Color( 0.454902, 1, 0.00392157, 1 )
 custom_fonts/font = SubResource( 12 )
 text = "Health"
 
 [node name="health" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 646.0
+margin_left = 659.0
 margin_top = 16.0
-margin_right = 699.0
+margin_right = 712.0
 margin_bottom = 58.0
 custom_fonts/font = SubResource( 13 )
 text = "100"
 
 [node name="Coins" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 744.0
+margin_left = 757.0
 margin_top = 16.0
-margin_right = 836.0
+margin_right = 849.0
 margin_bottom = 58.0
 custom_colors/font_color = Color( 1, 0.984314, 0.0117647, 1 )
 custom_fonts/font = SubResource( 14 )
 text = "Coins"
 
 [node name="coins" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/ScoreHBox"]
-margin_left = 881.0
+margin_left = 894.0
 margin_top = 16.0
-margin_right = 902.0
+margin_right = 915.0
 margin_bottom = 58.0
 custom_fonts/font = SubResource( 15 )
 text = "0"
@@ -331,7 +348,7 @@ text = "0"
 [node name="ProgressBar" type="ProgressBar" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer"]
 margin_top = 108.0
 margin_right = 965.0
-margin_bottom = 128.0
+margin_bottom = 138.0
 rect_min_size = Vector2( 0, 20 )
 custom_colors/font_color = Color( 0, 0, 0, 0 )
 custom_styles/fg = SubResource( 17 )
@@ -341,9 +358,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer"]
-margin_top = 161.0
+margin_top = 171.0
 margin_right = 965.0
-margin_bottom = 361.0
+margin_bottom = 371.0
 custom_constants/separation = 640
 alignment = 1
 
@@ -369,10 +386,10 @@ fill_mode = 4
 radial_fill_degrees = 0.0
 
 [node name="Label" type="Label" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress"]
-margin_left = 55.0
-margin_top = 50.0
-margin_right = 154.0
-margin_bottom = 137.0
+margin_left = 53.0
+margin_top = 60.0
+margin_right = 152.0
+margin_bottom = 147.0
 theme = SubResource( 36 )
 custom_colors/font_color = Color( 0.0831897, 0.922482, 0.0312045, 1 )
 text = "Level
@@ -382,11 +399,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextureRect" type="TextureRect" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress"]
+show_behind_parent = true
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 207.0
+margin_bottom = 207.0
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="HSplitContainer" type="HSplitContainer" parent="HUD/VSplitContainer"]
-margin_top = 713.0
+margin_top = 723.0
 margin_right = 1005.0
 margin_bottom = 1882.0
-custom_constants/separation = 300
+custom_constants/separation = 310
 split_offset = 500
 dragger_visibility = 1
 __meta__ = {
@@ -395,7 +423,7 @@ __meta__ = {
 
 [node name="Control" type="Control" parent="HUD/VSplitContainer/HSplitContainer"]
 margin_right = 500.0
-margin_bottom = 1169.0
+margin_bottom = 1159.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/VSplitContainer/HSplitContainer/Control"]
 margin_left = 50.0
@@ -459,8 +487,8 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/VSplitContainer/HSplitContainer"]
-margin_left = 800.0
-margin_right = 950.0
+margin_left = 810.0
+margin_right = 960.0
 margin_bottom = 450.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -494,13 +522,10 @@ expand = true
 stretch_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="HUD/VSplitContainer/HSplitContainer"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -30.0
-margin_top = -156.0
-margin_right = -5.0
-margin_bottom = -16.0
+visible = false
+margin_left = 810.0
+margin_right = 1005.0
+margin_bottom = 1159.0
 color = Color( 0.223529, 0.211765, 0.211765, 1 )
 
 [node name="PausePopup" type="Popup" parent="."]
@@ -512,9 +537,7 @@ anchor_bottom = 0.5
 margin_left = -3.05176e-05
 margin_top = -6.10352e-05
 margin_bottom = -8.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource( 22 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PausePopup"]
 visible = false
@@ -566,10 +589,7 @@ margin_left = -243.464
 margin_top = -400.0
 margin_right = 602.536
 margin_bottom = 1083.66
-custom_constants/separation = 100
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_constants/separation = 50
 
 [node name="outputfeedback" type="Label" parent="PausePopup/HighScore"]
 modulate = Color( 1, 0, 0, 1 )
@@ -580,53 +600,97 @@ custom_fonts/font = SubResource( 26 )
 align = 1
 
 [node name="newscore" type="Label" parent="PausePopup/HighScore"]
-margin_top = 162.0
+margin_top = 112.0
 margin_right = 846.0
-margin_bottom = 245.0
+margin_bottom = 195.0
 custom_colors/font_color = Color( 0.54902, 0.784314, 0, 1 )
 custom_fonts/font = SubResource( 27 )
 text = "SCORE"
 align = 1
 
-[node name="score" type="Label" parent="PausePopup/HighScore"]
-margin_top = 345.0
+[node name="ScoreContainer" type="HBoxContainer" parent="PausePopup/HighScore"]
+margin_top = 245.0
 margin_right = 846.0
-margin_bottom = 418.0
+margin_bottom = 318.0
+alignment = 1
+
+[node name="LabelLevel" type="Label" parent="PausePopup/HighScore/ScoreContainer"]
+margin_left = 143.0
+margin_right = 325.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "Level: "
+
+[node name="Level" type="Label" parent="PausePopup/HighScore/ScoreContainer"]
+margin_left = 329.0
+margin_right = 364.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "0"
+
+[node name="LabelScore" type="Label" parent="PausePopup/HighScore/ScoreContainer"]
+margin_left = 368.0
+margin_right = 664.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "       Score: "
+
+[node name="score" type="Label" parent="PausePopup/HighScore/ScoreContainer"]
+margin_left = 668.0
+margin_right = 703.0
+margin_bottom = 73.0
 custom_fonts/font = SubResource( 28 )
 text = "0"
 align = 1
 
 [node name="highscore" type="Label" parent="PausePopup/HighScore"]
-margin_top = 518.0
+margin_top = 368.0
 margin_right = 846.0
-margin_bottom = 601.0
+margin_bottom = 451.0
 custom_colors/font_color = Color( 0.945098, 0.784314, 0, 1 )
 custom_fonts/font = SubResource( 27 )
 text = "HIGHSCORE"
 align = 1
 
-[node name="newhighscore" type="Label" parent="PausePopup/HighScore"]
-margin_top = 701.0
+[node name="HighScoreContainer" type="HBoxContainer" parent="PausePopup/HighScore"]
+margin_top = 501.0
 margin_right = 846.0
-margin_bottom = 774.0
+margin_bottom = 574.0
+alignment = 1
+
+[node name="LabelLevel" type="Label" parent="PausePopup/HighScore/HighScoreContainer"]
+margin_left = 143.0
+margin_right = 325.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "Level: "
+
+[node name="Level" type="Label" parent="PausePopup/HighScore/HighScoreContainer"]
+margin_left = 329.0
+margin_right = 364.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "0"
+
+[node name="LabelScore" type="Label" parent="PausePopup/HighScore/HighScoreContainer"]
+margin_left = 368.0
+margin_right = 664.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 40 )
+text = "       Score: "
+
+[node name="score" type="Label" parent="PausePopup/HighScore/HighScoreContainer"]
+margin_left = 668.0
+margin_right = 703.0
+margin_bottom = 73.0
 custom_fonts/font = SubResource( 28 )
 text = "0"
 align = 1
 
-[node name="Retry" type="MenuButton" parent="PausePopup/HighScore"]
-visible = false
-margin_top = 1124.0
-margin_right = 846.0
-margin_bottom = 1213.0
-focus_mode = 2
-custom_colors/font_color = Color( 0.411765, 0.584314, 0.564706, 1 )
-custom_fonts/font = SubResource( 29 )
-text = "RETRY"
-
 [node name="SettingBack" type="MenuButton" parent="PausePopup/HighScore"]
-margin_top = 874.0
+margin_top = 624.0
 margin_right = 846.0
-margin_bottom = 963.0
+margin_bottom = 713.0
 focus_mode = 2
 custom_colors/font_color = Color( 0.698039, 0.698039, 0.698039, 1 )
 custom_fonts/font = SubResource( 30 )
@@ -640,6 +704,7 @@ anchor_right = 0.86
 anchor_bottom = 0.278
 margin_top = -23.0
 margin_bottom = -6.10352e-05
+theme = ExtResource( 22 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -680,6 +745,11 @@ visible = false
 radius = 0.07
 height = 3.717
 sides = 16
+
+[node name="PlayTime" type="Timer" parent="."]
+__meta__ = {
+"_editor_description_": "Records total play time."
+}
 
 [connection signal="JumpForward" from="." to="Player" method="_on_Main_JumpForward"]
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]

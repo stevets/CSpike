@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Cool-Puzzler.mp3-2b96928da2fd77e45c04e8887a3d520b.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/Cool-Puzzler.mp3"
+dest_files=[ "res://.import/Cool-Puzzler.mp3-2b96928da2fd77e45c04e8887a3d520b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -8,6 +8,7 @@ signal laser(laserdatanew)
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("SceneSwitcher/Main")
 onready var gametick = get_tree().get_root().get_node("SceneSwitcher/Main/GameTick")
+onready var playtime = get_tree().get_root().get_node("SceneSwitcher/Main/PlayTime")
 onready var space_state = get_world().direct_space_state
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 #onready var ply = get_tree().get_root().get_node("Main/player1")
@@ -47,7 +48,8 @@ onready var paused = get_tree().paused
 
 
 func _ready():
-	yield(get_tree().create_timer(0.25), "timeout")
+	pass
+#	yield(get_tree().create_timer(0.25), "timeout")
 
 
 func _on_Main_swiped(direction):
@@ -165,21 +167,6 @@ func _process(_delta):
 func _on_Main_click():
 	pass
 
-#func checkLeftRightColorMatch(_hitobj, _left, _right):
-#	if resultleft and resultright:
-#		var leftcolor
-#		var rightcolor
-#		var resultv3pos = _hitobj.collider.get_parent().translation.y
-#		if "material/1" in resultleft.collider.get_parent():
-#			if "material/1" in resultright.collider.get_parent():
-#				leftcolor = resultleft.collider.get_parent().get_surface_material(1).albedo_color
-#				var midpoint = (resultleft.collider.get_parent().get_parent().translation.x + resultright.collider.get_parent().get_parent().translation.x)/2
-#				var lengthlaser = (resultright.collider.get_parent().get_parent().translation.x - resultleft.collider.get_parent().get_parent().translation.x)
-#				rightcolor = resultright.collider.get_parent().get_surface_material(1).albedo_color
-#				if leftcolor == rightcolor and resultv3pos <= -0.5:
-#					laserdata = {"trans" :_hitobj.collider.get_parent().get_parent().translation,  "midpoint": midpoint, "length" : lengthlaser}
-#					emit_signal("laser", laserdata)
-
 func firedweapon(fired, _hitobj, _name, _ccolormatch):
 	if fired:
 		var resultroot
@@ -232,7 +219,7 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 				globals.skill_gun_fires += 1
 				get_parent().get_node("HUD/VSplitContainer/HSplitContainer/Control//VBoxContainer/SkillGun/SkillGunFires").text = str(globals.skill_gun_fires)
 		elif colorbasecube: #skillgun is false
-			checkLeftRight(_hitobj)
+#			checkLeftRight(_hitobj)
 			if "material/1" in _hitobj.collider.get_parent():
 				color2 = _hitobj.collider.get_parent().get_surface_material(1).albedo_color
 			else:
@@ -240,6 +227,7 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 			var colorbaseblock =  colorbasecube.collider.get_parent().get_surface_material(1).albedo_color
 			if !spiritdetected: #or tokenboxes == "token":
 				if color2 == colorbaseblock and globals.ammogun:
+					checkLeftRight(_hitobj)
 					objID = _hitobj.collider
 	#					globals.skillgun = false
 					emit_signal("destroy", objID)
@@ -328,13 +316,18 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 		globals.spiritgun = false
 		globals.skillgun = false	
 	
+
 func checkLeftRight(_hitobj):
 	var resultv3 = _hitobj["position"]
 	var resultv3pos = _hitobj.collider.get_parent().translation.y
 	var leftcolor
 	var rightcolor
-	resultright = space_state.intersect_ray(resultv3, resultv3 + Vector3(3, 0, -0.5), [self])
-	resultleft = space_state.intersect_ray(resultv3, resultv3 + Vector3(-3, 0, -0.5), [self])
+	resultright = space_state.intersect_ray(resultv3 + Vector3(0, 0, -0.5), resultv3 + Vector3(3, 0, -0.5), [self])
+	resultleft = space_state.intersect_ray(resultv3 + Vector3(0, 0, -0.5), resultv3 + Vector3(-3, 0, -0.5), [self])
+#	print("resultv3:", resultv3)
+#	print("resultv3pos:", resultv3pos)
+#	print("resultright:", resultright)
+#	print("resultleft:", resultleft)
 	if resultleft and resultright:
 		if "material/1" in resultleft.collider.get_parent():
 			if "material/1" in resultright.collider.get_parent():
@@ -362,12 +355,28 @@ func _on_GameTick_timeout():
 	if resultfrontcollide.has("collider"):
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		if globals.level > globals.game_data["highlevel"]:
+			globals.game_data["highlevel"] = globals.level
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
+		globals.laserbeam.playing = false
+		print("PlayTime: ", playtime.time_left)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore").visible = true
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/newhighscore").text = str(globals.game_data["highscore"])
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/score").text = str(globals.game_data["finalscore"])
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/score").text = str(globals.game_data["highscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/Level").text = str(globals.game_data["highlevel"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/Level").text = str(globals.level)
+		if resultfrontcollide.collider.get_parent().get_parent().name in globals.boxes:
+			resultfrontobj = resultfrontcollide.collider.get_parent().get_parent().name
+			if resultfrontobj == "AmmoBox":
+				get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed +"n "+ resultfrontobj + "!"
+			else:
+				get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed + " " + resultfrontobj + "!"
+		else:
+			if resultfrontcollide.collider.get_parent().name.find("laser",0) == 0:
+				get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed + " laser!"
+			else:
+				get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.crashed + " block!"
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/Control/VBoxContainer/SkillGun").disabled = true
@@ -375,54 +384,63 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/VBoxContainer/AmmoGun").visible = false
 #		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton").visible = false
 		get_tree().paused = true
-		
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScore.tscn")
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.ammo == 0:# or globals.health == 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		if globals.level > globals.game_data["highlevel"]:
+			globals.game_data["highlevel"] = globals.level
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
+		globals.laserbeam.playing = false
+		print("PlayTime: ", playtime.time_left)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore").visible = true
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/newhighscore").text = str(globals.game_data["highscore"])
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/score").text = str(globals.game_data["highscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/Level").text = str(globals.game_data["highlevel"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/Level").text = str(globals.level)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.noammo
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
 		get_tree().paused = true
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScore.tscn")
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.health <= 0:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		if globals.level > globals.game_data["highlevel"]:
+			globals.game_data["highlevel"] = globals.level
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
+		globals.laserbeam.playing = false
+		print("PlayTime: ", playtime.time_left)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore").visible = true
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/newhighscore").text = str(globals.game_data["highscore"])
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/score").text = str(globals.game_data["highscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/Level").text = str(globals.game_data["highlevel"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/Level").text = str(globals.level)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.nohealth
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
 		get_tree().paused = true
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScore.tscn")
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	elif globals.spiritdied:
 		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
 			globals.game_data["highscore"] = globals.game_data["finalscore"]
+		if globals.level > globals.game_data["highlevel"]:
+			globals.game_data["highlevel"] = globals.level
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
+		globals.laserbeam.playing = false
+		print("PlayTime: ", playtime.time_left)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore").visible = true
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/newhighscore").text = str(globals.game_data["highscore"])
-		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/score").text = str(globals.game_data["highscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/score").text = str(globals.game_data["finalscore"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/HighScoreContainer/Level").text = str(globals.game_data["highlevel"])
+		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/ScoreContainer/Level").text = str(globals.level)
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.spiritdeath
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
 		get_tree().paused = true
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScore.tscn")
-		#var _highscore =	get_tree().change_scene("res://Scenes/HighScoreScreen.tscn")
 		globals.save_game()
 	else:
 		globals.rowchangetick.play()
@@ -430,21 +448,23 @@ func _on_GameTick_timeout():
 		globals.game_data["finalscore"] += 1
 		ply.global_translate(Vector3(0,0,-1))
 		cam.global_translate(Vector3(0,0,-1))	
+		globals.calc_achievements()
 		if globals.game_data["finalscore"] % globals.bannerinst == 0:
+			globals.game_data["finalscore"] = 0
 			if globals.levelspeed <= 5.0:
 				pass
 			else:
 				globals.levelspeed = globals.levelspeed - globals.deltalevelspeed
 			gametick.wait_time = globals.levelspeed
 			globals.level += 1
-			if globals.level > globals.game_data["finallevel"]:
-				globals.game_data["finallevel"] = globals.level
-				self.get_parent().get_node("HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress/Label").text = "Level" + "\n" + str(globals.game_data["finallevel"])
-#			$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress/Label.text = "Level" + "\n" + str(globals.game_data["finallevel"])
-#			get_tree().get_root().get_node("SceneSwitcher/Main/LevelPopup/HighScore/outputfeedback").text = "New Level " + str(globals.level)
+			
+			if globals.level % 2 == 0:
+				pass
+			if globals.level > globals.game_data["highlevel"]:
+				globals.game_data["highlevel"] = globals.level
+			self.get_parent().get_node("HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress/Label").text = "Level" + "\n" + str(globals.level)
 			get_tree().get_root().get_node("SceneSwitcher/Main/LevelPopup").visible = true
 			
-
 func _on_SpiritGun_pressed():
 #	globals.skillgun = false
 #	globals.ammogun = false
@@ -469,12 +489,9 @@ func _on_SkillGun_pressed():
 	globals.raycast_length = -8
 	globals.fired_weapon = true	
 
-
 func _on_BombTwo_timeout():
-	previousbomb.visible = false
+	previousbomb.visible = false  # Need to test if object exists before setting parameter
 	bombthree = true
-	pass # Replace with function body.
-
 
 func _on_SettingBack_pressed():
 	get_tree().paused = false
@@ -484,13 +501,16 @@ func _on_SettingBack_pressed():
 	globals.ammo = 50
 	globals.health = 100
 
-
 func _on_AmmoGun_pressed():
 	if didstart.game_started:
 		globals.ammogun = true
 		globals.fired_weapon = true
-	pass # Replace with function body.
-
 
 func _on_Main_JumpForward():
 	_on_GameTick_timeout()
+
+
+
+func save():
+	var save_dict = globals.game_data
+	return save_dict

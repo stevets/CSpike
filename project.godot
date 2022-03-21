@@ -9,18 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "ArrayUtils",
-"language": "GDScript",
-"path": "res://addons/SIsilicon.3d.text/array_utils.gd"
-}, {
 "base": "Node",
 "class": "SoundManagerModule",
 "language": "GDScript",
 "path": "res://addons/sound_manager/module/internal_scripts/SoundManager_config.gd"
 } ]
 _global_script_class_icons={
-"ArrayUtils": "",
 "SoundManagerModule": ""
 }
 
@@ -29,7 +23,7 @@ _global_script_class_icons={
 config={
 "banner": {
 "position": 0,
-"show_instantly": true,
+"show_instantly": false,
 "size": "BANNER",
 "unit_ids": {
 "Android": {
@@ -45,8 +39,8 @@ config={
 },
 "general": {
 "is_enabled": true,
-"is_for_child_directed_treatment": false,
-"max_ad_content_rating": "PG"
+"is_for_child_directed_treatment": true,
+"max_ad_content_rating": "G"
 },
 "interstitial": {
 "unit_ids": {

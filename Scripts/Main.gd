@@ -7,10 +7,6 @@ signal selfdestruct(plyposz)
 signal JumpForward()
 
 
-#onready var cubeinst = preload("res://Scenes/cube.tscn")
-#onready var ballinst = preload("res://Scenes/ball.tscn")
-#onready var geminst = preload("res://Scenes/gem.tscn")
-#onready var coneinst = preload("res://Scenes/pyramid.tscn")
 onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
@@ -18,9 +14,11 @@ onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
 onready var laserbeam = preload("res://Scenes/laser.tscn")
 onready var bannerinst = preload("res://Scenes/floor.tscn")
-onready var Leveltextinst = preload("res://Scenes/3d text.tscn")
+onready var switch = preload("res://Scenes/SceneSwitcher.tscn")
+#onready var Leveltextinst = preload("res://Scenes/3d text.tscn")
 onready var timer = $Timer
 onready var gametick = $GameTick
+onready var playtime = $PlayTime
 onready var globals = $"/root/Globalnode"
 onready var eventtype = [InputEventMouseButton, InputEventScreenTouch]
 
@@ -58,6 +56,7 @@ func _ready():
 	globals.gameplaymusic.play()
 	$HUD.show()
 	gametick.start(globals.levelspeed)
+	playtime.start(1000)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
 #	_create_Banner()
@@ -217,9 +216,9 @@ func _createGameBoard(_firstrow, _lastrow):
 			else:
 				add_child(s)
 				s.global_translate(Vector3((j * space), 0 ,-i * space))
-	yield(self,"ready")
+#	yield(self,"ready")
 
-func _on_Main_createrow():
+func _on_Main_createrow(): 
 	firstrow = lastrow
 	lastrow = lastrow + 1
 	_createGameBoard(firstrow, lastrow)
@@ -227,6 +226,7 @@ func _on_Main_createrow():
 #		_create_Banner()
 	if globals.game_data["finalscore"] % globals.bannerinst == 0:
 		$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress.radial_fill_degrees = 0
+		globals.game_data["finalscore"] = 0
 	else:
 		$HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress.radial_fill_degrees += 18
 		
@@ -275,6 +275,7 @@ func _on_Back_pressed():
 	print("paused: ", paused)
 	get_tree().paused = false
 	globals.gameplaymusic.playing = false
+	globals.laserbeam.playing = false
 	globals.gameintro.play()
 #	if paused:
 #		$PausePopup.hide()

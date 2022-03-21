@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/clock-ticking-1.mp3-26eb0b52e10517b34c837be810c1678a.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/clock-ticking-1.mp3"
+dest_files=[ "res://.import/clock-ticking-1.mp3-26eb0b52e10517b34c837be810c1678a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

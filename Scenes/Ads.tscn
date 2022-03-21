@@ -1,22 +1,15 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Ads.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Ads.gd" type="Script" id=1]
 [ext_resource path="res://Assets/images/Title Screen Buttons/RedNoAdsButton-01.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Assets/images/GameScreenButtons/SettingsBackground.png" type="Texture" id=4]
-[ext_resource path="res://fonts/montreal/Montreal-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Game_theme.tres" type="Theme" id=5]
 [ext_resource path="res://Assets/images/Privacy.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 70
 font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 60
-font_data = ExtResource( 3 )
-
-[sub_resource type="Theme" id=3]
-default_font = SubResource( 2 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 40
@@ -25,16 +18,10 @@ font_data = ExtResource( 3 )
 [sub_resource type="Theme" id=7]
 default_font = SubResource( 6 )
 
-[sub_resource type="DynamicFont" id=4]
-size = 30
-font_data = ExtResource( 5 )
-
-[sub_resource type="Theme" id=5]
-default_font = SubResource( 4 )
-
 [node name="Ads" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -91,27 +78,26 @@ __meta__ = {
 }
 
 [node name="AdsOff" type="Button" parent="VBoxContainer"]
-margin_left = 281.0
+margin_left = 307.0
 margin_top = 170.0
-margin_right = 619.0
-margin_bottom = 238.0
+margin_right = 592.0
+margin_bottom = 206.0
 size_flags_horizontal = 4
-theme = SubResource( 3 )
 text = "Turn Off Ads"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 329.0
+margin_top = 297.0
 margin_right = 900.0
-margin_bottom = 333.0
+margin_bottom = 301.0
 
 [node name="PrivacyPolicy" type="Button" parent="VBoxContainer"]
 show_behind_parent = true
-margin_top = 424.0
+margin_top = 392.0
 margin_right = 900.0
-margin_bottom = 580.0
+margin_bottom = 548.0
 theme = SubResource( 7 )
 shortcut_in_tooltip = false
 text = "Privacy Policy"
@@ -120,7 +106,7 @@ flat = true
 align = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 671.0
+margin_top = 639.0
 margin_right = 900.0
 margin_bottom = 1352.0
 size_flags_vertical = 3
@@ -130,7 +116,6 @@ margin_right = 900.0
 margin_bottom = 700.0
 rect_min_size = Vector2( 900, 700 )
 size_flags_vertical = 0
-theme = SubResource( 5 )
 text = "Privacy policy
 
 We respect your privacy and are committed to protecting it through our compliance with this privacy policy (“Policy”). This Policy describes the types of information we may collect from you or that you may provide (“Personal Information”) on the polynisus.com website (“Website”), “Spirit Jump” mobile application (“Mobile Application”), and any of their related products and services (collectively, “Services”), and our practices for collecting, using, maintaining, protecting, and disclosing that Personal Information. It also describes the choices available to you regarding our use of your Personal Information and how you can access and update it.
