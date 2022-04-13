@@ -352,7 +352,7 @@ func _on_GameTick_timeout():
 	var playerposy = ply.get_global_transform().origin.y
 	var playerposz = ply.get_global_transform().origin.z
 	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.4), [self])
-	if resultfrontcollide.has("collider"):
+	if resultfrontcollide.has("collider") and globals.spiritdied != true:
 		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
 			if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
