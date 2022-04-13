@@ -353,10 +353,10 @@ func _on_GameTick_timeout():
 	var playerposz = ply.get_global_transform().origin.z
 	var resultfrontcollide = space_state.intersect_ray(Vector3(playerposx,playerposy,playerposz), Vector3(playerposx,playerposy,playerposz -1.4), [self])
 	if resultfrontcollide.has("collider"):
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		if globals.level > globals.game_data["highlevel"]:
+		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
+			if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
+				globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
 		globals.laserbeam.playing = false
@@ -386,10 +386,10 @@ func _on_GameTick_timeout():
 		get_tree().paused = true
 		globals.save_game()
 	elif globals.ammo == 0:# or globals.health == 0:
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		if globals.level > globals.game_data["highlevel"]:
+		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
+			if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
+				globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
 		globals.laserbeam.playing = false
@@ -405,10 +405,10 @@ func _on_GameTick_timeout():
 		get_tree().paused = true
 		globals.save_game()
 	elif globals.health <= 0:
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		if globals.level > globals.game_data["highlevel"]:
+		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
+			if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
+				globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
 		globals.laserbeam.playing = false
@@ -424,10 +424,10 @@ func _on_GameTick_timeout():
 		get_tree().paused = true
 		globals.save_game()
 	elif globals.spiritdied:
-		if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
-			globals.game_data["highscore"] = globals.game_data["finalscore"]
-		if globals.level > globals.game_data["highlevel"]:
+		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
+			if globals.game_data["finalscore"] > globals.game_data["highscore"]-1:
+				globals.game_data["highscore"] = globals.game_data["finalscore"]
 		globals.endgame.play()
 		globals.gameplaymusic.playing = false
 		globals.laserbeam.playing = false

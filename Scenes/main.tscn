@@ -530,6 +530,7 @@ color = Color( 0.223529, 0.211765, 0.211765, 1 )
 
 [node name="PausePopup" type="Popup" parent="."]
 pause_mode = 2
+visible = true
 anchor_left = 0.325
 anchor_top = 0.396
 anchor_right = 0.625
@@ -584,7 +585,6 @@ __meta__ = {
 }
 
 [node name="HighScore" type="VBoxContainer" parent="PausePopup"]
-visible = false
 margin_left = -243.464
 margin_top = -400.0
 margin_right = 602.536
@@ -710,6 +710,7 @@ __meta__ = {
 }
 
 [node name="HighScore" type="VBoxContainer" parent="LevelPopup"]
+visible = false
 margin_bottom = 4.85698
 custom_constants/separation = 100
 __meta__ = {
@@ -717,6 +718,7 @@ __meta__ = {
 }
 
 [node name="outputfeedback" type="Label" parent="LevelPopup/HighScore"]
+visible = false
 modulate = Color( 0.0313726, 1, 0, 1 )
 margin_right = 846.0
 margin_bottom = 104.0
@@ -727,9 +729,7 @@ align = 1
 uppercase = true
 
 [node name="ColorRect" type="ColorRect" parent="LevelPopup/HighScore"]
-margin_top = 204.0
-margin_right = 846.0
-margin_bottom = 204.0
+visible = false
 color = Color( 0, 0, 0, 0.384314 )
 __meta__ = {
 "_edit_use_anchors_": false

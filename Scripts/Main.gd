@@ -49,6 +49,7 @@ var firstrow = 0
 var swipe_start_position = Vector2(0,0)
 
 func _ready():
+	globals.level = 0
 	laserroot = laserbeam.instance()
 	add_child(laserroot)
 	globals.spiritdied = false
