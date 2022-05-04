@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/ClickMask125.png-93195263a7e48d2dae1f5e0f3588655d.res"
+
+[deps]
+
+source_file="res://Assets/images/ClickMask125.png"
+dest_files=[ "res://.import/ClickMask125.png-93195263a7e48d2dae1f5e0f3588655d.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

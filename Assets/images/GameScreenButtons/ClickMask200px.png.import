@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/ClickMask200px.png-071c2b89a7ba7373fe252fb884427799.res"
+
+[deps]
+
+source_file="res://Assets/images/GameScreenButtons/ClickMask200px.png"
+dest_files=[ "res://.import/ClickMask200px.png-071c2b89a7ba7373fe252fb884427799.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

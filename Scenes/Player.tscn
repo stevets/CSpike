@@ -6,7 +6,7 @@
 
 [sub_resource type="CubeMesh" id=2]
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=["persist"]]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 script = ExtResource( 4 )
 
@@ -16,3 +16,12 @@ shape = SubResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
 mesh = SubResource( 2 )
 material/0 = null
+
+[node name="BombTick" type="Timer" parent="."]
+one_shot = true
+
+[node name="BombTwo" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="BombTick" to="." method="_on_BombTick_timeout"]
+[connection signal="timeout" from="BombTwo" to="." method="_on_BombTwo_timeout"]

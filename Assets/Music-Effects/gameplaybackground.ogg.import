@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gameplaybackground.ogg-33afe113e1462eb7fee2ab4c6624a7dc.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/gameplaybackground.ogg"
+dest_files=[ "res://.import/gameplaybackground.ogg-33afe113e1462eb7fee2ab4c6624a7dc.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

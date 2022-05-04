@@ -1,38 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Buttons/NewTextureButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/images/Title Screen Buttons/YellowAchievementsButton-01.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Fonts/Piximisa.ttf" type="DynamicFontData" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-size = 40
-font_data = ExtResource( 3 )
 
 [node name="AchievementsButton" instance=ExtResource( 1 )]
 anchor_bottom = 0.075
 margin_bottom = -44.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." index="0"]
-margin_right = 737.0
+margin_right = 795.0
 margin_bottom = 150.0
-custom_constants/separation = 500
+custom_constants/separation = 150
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer" index="0"]
-margin_right = 150.0
+margin_left = 322.0
+margin_right = 472.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 150, 150 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Shop" type="Label" parent="HBoxContainer" index="1"]
-margin_left = 650.0
-margin_top = 54.0
-margin_right = 737.0
-margin_bottom = 96.0
-custom_fonts/font = SubResource( 1 )
-text = "SHOP"

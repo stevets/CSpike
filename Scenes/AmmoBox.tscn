@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/AmmoBox.material" type="Material" id=1]
 [ext_resource path="res://Assets/Ammo.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/AmmoBox.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/AmmoBox.gd" type="Script" id=3]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cube"
@@ -22,7 +22,7 @@ surfaces/0 = {
 [sub_resource type="SpatialMaterial" id=2]
 albedo_texture = ExtResource( 2 )
 
-[node name="AmmoBox" type="Spatial"]
+[node name="AmmoBox" type="Spatial" groups=["ammobox"]]
 script = ExtResource( 3 )
 
 [node name="Cube" type="MeshInstance" parent="."]

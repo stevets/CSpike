@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Menu-Button-Press.ogg-3b104e1ee9266f06ed3d2d9eed9103c8.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/Menu-Button-Press.ogg"
+dest_files=[ "res://.import/Menu-Button-Press.ogg-3b104e1ee9266f06ed3d2d9eed9103c8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

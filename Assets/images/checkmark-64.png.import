@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/checkmark-64.png-b4c5844a87ba9b0afbc6054bbcf1bb8f.image"
+
+[deps]
+
+source_file="res://Assets/images/checkmark-64.png"
+dest_files=[ "res://.import/checkmark-64.png-b4c5844a87ba9b0afbc6054bbcf1bb8f.image" ]
+
+[params]
+

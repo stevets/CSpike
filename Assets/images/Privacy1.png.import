@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/Privacy1.png-a01f5d2c7eaf9f8136fd57ce519ae97c.res"
+
+[deps]
+
+source_file="res://Assets/images/Privacy1.png"
+dest_files=[ "res://.import/Privacy1.png-a01f5d2c7eaf9f8136fd57ce519ae97c.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

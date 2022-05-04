@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Swipeeffect.ogg-5913a24b6d53aa185c2ec2c44888195a.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music-Effects/Swipeeffect.ogg"
+dest_files=[ "res://.import/Swipeeffect.ogg-5913a24b6d53aa185c2ec2c44888195a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
