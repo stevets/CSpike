@@ -108,6 +108,7 @@ enabled=PoolStringArray( "res://addons/admob/plugin.cfg" )
 [global]
 
 background=false
+debug=false
 
 [input_devices]
 
