@@ -48,8 +48,8 @@ var time1 = 200
 var lastrow = rows
 var firstrow = 0
 var swipe_start_position = Vector2(0,0)
-var tutoriallist = ["swipe", "spirit"]
-var tutorialtext = ["Swipe left or right", "Keep the spirit ahead of you"]
+var tutoriallist = ["swipe", "spirit", "", "", "", "", ""]
+var tutorialtext = ["Swipe left or right", "Keep the spirit ahead of you", "Shoot the colored blocks in front of you that match the color under you", "Press this button to jump forward", "Press this button to move the spirit", "Press this button to break blocks without having to match the colors", "This requires the use of coins though"]
 var tutorialstep = 0
 
 func _ready():
@@ -85,7 +85,7 @@ func _process(_delta):
 			$Arrow/Label.text = tutorialtext[tutorialstep]
 			$Arrow/Swipe.play(tutorialelement)
 			$Arrow.visible = true
-			if tutorialstep < 1:
+			if tutorialstep < tutorialtext.size() - 1:
 				tutorialstep += 1
 		
 #	if globals.game_data["finalscore"] % globals.bannerinst == 0:
@@ -340,5 +340,6 @@ func _on_Player_spirit():
 	if $Arrow/Swipe.is_playing():
 		$Arrow/Swipe.stop()
 		$Arrow.visible = false	
+
 		
 	
