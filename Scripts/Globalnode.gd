@@ -1,6 +1,6 @@
 extends Node
 
-onready var globals = $"/root/Globalnode"
+#onready var globals = $"/root/Globalnode"
 
 onready var titlemusic = $TitleMusicPlayer
 onready var gameintro = $GameIntroPlayer
@@ -65,17 +65,20 @@ var bannerinst = 20
 var achieveinst = 5
 var next_scene
 var skill_gun_fires = 0
+var tutorial = true
+var retrygame = false
 
-onready var game_data = {"finalscore": globals.finalscore,
-						"highscore": globals.highscore,
-						"coins": globals.coins,
-						"musicvolume": globals.music_volume,
-						"effectsvolume": globals.effects_volume,
-						"musicbuttons" : globals.music_buttons,
-						"effectbuttons" : globals.effect_buttons,
-						"highlevel" : globals.highlevel,
-						"skill" : globals.skill
-#						"health": globals.health
+onready var game_data = {"finalscore": finalscore,
+						"highscore": highscore,
+						"coins": coins,
+						"musicvolume": music_volume,
+						"effectsvolume": effects_volume,
+						"musicbuttons" : music_buttons,
+						"effectbuttons" : effect_buttons,
+						"highlevel" : highlevel,
+						"skill" : skill,
+						"tutorial" : tutorial,
+#						"health": health
 						}
 
 func _ready():
@@ -156,6 +159,6 @@ func save_game():
 	
 func calc_achievements():
 	var achieve = 0
-	achieve = floor(globals.game_data["highlevel"]/globals.achieveinst)
+	achieve = floor(game_data["highlevel"]/achieveinst)
 	for n in achieve:
 		print(n)

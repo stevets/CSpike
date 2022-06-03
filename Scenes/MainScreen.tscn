@@ -46,9 +46,6 @@ margin_top = 100.0
 margin_right = 900.0
 margin_bottom = 1742.0
 custom_constants/separation = 140
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="logo" type="TextureRect" parent="Menu"]
 modulate = Color( 1, 1, 1, 0 )
@@ -155,7 +152,6 @@ __meta__ = {
 "_editor_description_": "Timer that sequencially activates the buttons on the Main Screen."
 }
 
-[connection signal="scene_changed" from="." to="." method="_on_MainScreen_scene_changed"]
 [connection signal="pressed" from="Menu/VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/AchievementsButton" to="." method="_on_AchievementsButton_pressed"]

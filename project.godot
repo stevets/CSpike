@@ -23,7 +23,7 @@ _global_script_class_icons={
 config={
 "banner": {
 "position": 0,
-"show_instantly": false,
+"show_instantly": true,
 "size": "BANNER",
 "unit_ids": {
 "Android": {

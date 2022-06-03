@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Fonts/cmu-typewriter/Typewriter.tres" type="DynamicFont" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "swipe"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 113.586, 1843.38 ), Vector2( 388.924, 1846.26 ), Vector2( 664.262, 1849.14 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Polygon2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.27982, 0.879687 ), Vector2( 1.11405, 0.779705 ), Vector2( -1.18429, 0.82577 ), Vector2( -0.904373, 0.945314 ), Vector2( -0.803832, 0.879687 ) ]
+}
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2( 1.01428, 0.822905 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 225.0
+margin_top = 1668.65
+margin_right = 729.0
+margin_bottom = 1733.65
+color = Color( 0, 0, 0, 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( 113.586, 1843.38 )
+scale = Vector2( 1.27982, 0.879687 )
+antialiased = true
+invert_border = 0.1
+polygon = PoolVector2Array( 0, 0, 0, 100, 150, 50 )
+
+[node name="Line2D" type="Line2D" parent="Polygon2D"]
+points = PoolVector2Array( 0, 0, 0, 100, 150, 50, 0, 0 )
+default_color = Color( 0, 0, 0, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="Swipe" type="AnimationPlayer" parent="."]
+anims/swipe = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 248.071
+margin_top = 1668.65
+margin_right = 723.071
+margin_bottom = 1728.65
+custom_fonts/font = ExtResource( 1 )
+text = "Swipe left or right"

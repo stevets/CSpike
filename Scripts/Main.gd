@@ -7,6 +7,7 @@ signal selfdestruct(plyposz)
 signal JumpForward()
 
 
+
 onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
@@ -47,6 +48,9 @@ var time1 = 200
 var lastrow = rows
 var firstrow = 0
 var swipe_start_position = Vector2(0,0)
+var tutoriallist = ["swipe", "spirit"]
+var tutorialtext = ["Swipe left or right", "Keep the spirit ahead of you"]
+var tutorialstep = 0
 
 func _ready():
 	globals.level = 0
@@ -56,7 +60,10 @@ func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
 	globals.gameplaymusic.play()
 	$HUD.show()
-	gametick.start(globals.levelspeed)
+	if globals.tutorial:
+		gametick.stop()
+	else:
+		gametick.start(globals.levelspeed)
 	playtime.start(1000)
 	game_started = true
 	_createGameBoard(firstrow, lastrow)
@@ -69,10 +76,18 @@ func _ready():
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
 	$HUD/VSplitContainer/ScoreBox/Container.visible = true
-#------Swipe dectection and Click-----------------------------------------------
-
 	
+#------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
+	if globals.tutorial:
+		var tutorialelement = tutoriallist[tutorialstep]
+		if !$Arrow/Swipe.is_playing(): 
+			$Arrow/Label.text = tutorialtext[tutorialstep]
+			$Arrow.visible = true
+			$Arrow/Swipe.play(tutorialelement)
+			if tutorialstep < 1:
+				tutorialstep += 1
+		
 #	if globals.game_data["finalscore"] % globals.bannerinst == 0:
 #		_create_Banner()
 #	var cube = cubetexinst.instance()
@@ -297,7 +312,33 @@ func _on_AmmoGun2_pressed():
 
 
 func _on_ForwardJump_pressed():
-	$GameTick.start()
+	if !globals.tutorial:
+		$GameTick.start()
 	emit_signal("JumpForward")
 	
+	
+
+
+func _on_SettingRetry_pressed():
+	var paused = get_tree().paused
+	print("paused: ", paused)
+	get_tree().paused = false
+	globals.gameplaymusic.playing = false
+	globals.laserbeam.playing = false
+	globals.retrygame = true
+#	globals.gameintro.play()
+#	if paused:
+#		$PausePopup.hide()
+#		get_tree().paused = false
+#	else:
+#		$PausePopup.show()
+#		get_tree().paused = true
+	var _main = get_tree().change_scene("res://Scenes/SceneSwitcher.tscn")
+
+
+func _on_Player_spirit():
+	if $Arrow/Swipe.is_playing():
+		$Arrow/Swipe.stop()
+		$Arrow.visible = false	
+		
 	
