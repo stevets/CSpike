@@ -65,7 +65,7 @@ var bannerinst = 20
 var achieveinst = 5
 var next_scene
 var skill_gun_fires = 0
-var tutorial = true
+var tutorial = false
 var retrygame = false
 
 onready var game_data = {"finalscore": finalscore,

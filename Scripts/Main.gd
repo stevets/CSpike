@@ -83,8 +83,8 @@ func _process(_delta):
 		var tutorialelement = tutoriallist[tutorialstep]
 		if !$Arrow/Swipe.is_playing(): 
 			$Arrow/Label.text = tutorialtext[tutorialstep]
-			$Arrow.visible = true
 			$Arrow/Swipe.play(tutorialelement)
+			$Arrow.visible = true
 			if tutorialstep < 1:
 				tutorialstep += 1
 		

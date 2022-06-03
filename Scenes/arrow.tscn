@@ -64,3 +64,4 @@ margin_right = 723.071
 margin_bottom = 1728.65
 custom_fonts/font = ExtResource( 1 )
 text = "Swipe left or right"
+autowrap = true

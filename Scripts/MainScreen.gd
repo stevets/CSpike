@@ -33,6 +33,9 @@ func _process(_delta):
 					if loadbuttons_delay>140:
 						$Menu/VBoxContainer/NoAdsButton.disabled = false
 						$Menu/VBoxContainer/NoAdsButton.modulate = Color(1,1,1,1)
+						if loadbuttons_delay>160:
+							$Menu/VBoxContainer/Tutorial.disabled = false
+							$Menu/VBoxContainer/Tutorial.modulate = Color(1,1,1,1)
 	else:
 		_on_Play_pressed()
 
@@ -40,6 +43,7 @@ func set_visibility(isvisible):
 	self.visible = isvisible
 
 func _on_Play_pressed():
+	globals.tutorial = false
 	globals.menubutton.play()
 	globals.retrygame = false
 	globals.titlemusic.playing = false
@@ -73,3 +77,11 @@ func seteffectvolumes():
 func _exit_tree():
 	self.queue_free()
 
+
+
+func _on_Tutorial_pressed():
+	globals.tutorial = true
+	globals.menubutton.play()
+	globals.retrygame = false
+	globals.titlemusic.playing = false
+	emit_signal("scene_changed")

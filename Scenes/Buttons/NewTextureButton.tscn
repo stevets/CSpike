@@ -16,14 +16,8 @@ texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 1 )
 expand = true
 stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 800, 150 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
