@@ -47,7 +47,10 @@ func _on_Play_pressed():
 	globals.menubutton.play()
 	globals.retrygame = false
 	globals.titlemusic.playing = false
+#	get_tree().get_root().get_node("SceneSwitcher/MainScreen").queue_free()
+#	get_tree().get_root().get_node("SceneSwitcher").add_child(globals.next_scene1)
 	emit_signal("scene_changed")
+	print("Play pressed")
 
 func _on_SettingsButton_pressed():
 	globals.menubutton.play()

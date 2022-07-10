@@ -3,7 +3,7 @@ extends KinematicBody
 signal destroy(objID) 
 signal laser(laserdatanew)
 #signal createbanner()
-signal spirit()
+
 
 
 onready var globals = $"/root/Globalnode"
@@ -54,8 +54,6 @@ func _ready():
 
 
 func _on_Main_swiped(direction):
-	if globals.tutorial:
-		emit_signal("spirit")
 	globals.fired_weapon = false
 	originx = ply.get_global_transform().origin.x
 	originy = ply.get_global_transform().origin.y
@@ -513,9 +511,8 @@ func _on_AmmoGun_pressed():
 
 func _on_Main_JumpForward():
 	_on_GameTick_timeout()
-
-
-
+	
 func save():
 	var save_dict = globals.game_data
 	return save_dict
+		

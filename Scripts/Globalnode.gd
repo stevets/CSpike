@@ -22,6 +22,7 @@ onready var laserbeam = $LaserBeamPlayer
 onready var effectplayerarray = [swipe, magicspell, alarmgun, alarmswipe, gunshot, hitsound, rowchangetick, bombexplode, bombticking, menubutton]
 onready var musicplayerarray = [titlemusic, gameintro, gamemusic, gameplaymusic, endgame]
 #onready var bombtimer = get_tree().get_node("BombTimer")
+#onready var next_scene = load("res://Scenes/main.tscn").instance()
 
 
 var finalscore = 0
@@ -67,6 +68,10 @@ var next_scene
 var skill_gun_fires = 0
 var tutorial = false
 var retrygame = false
+var tutorialstep = 0
+var tutorialtext = ["Swipe left or right to move white block(player) .... Try It.", "Don't pass your spirit! They don't like that!", "Shoot the colored blocks in front of you that match the color under player to clear the way and collect coins, ammo and health.",\
+				 "Press this button to jump forward. Be careful. Make sure the way forward is clear!", "Press this button to move the spirit to a block in front of the player. Watch out for hidden bombs!", "Press this button to break blocks without having to match the colors",\
+				 "You can PAUSE the game if you need a break!", "Monitor progress in the game. Raise your spirit to new levels.", "The player will auto jump to next row every 10 seconds at first. New levels will jump faster! The tutorial does not auto jump.", " "]
 
 onready var game_data = {"finalscore": finalscore,
 						"highscore": highscore,
@@ -77,7 +82,6 @@ onready var game_data = {"finalscore": finalscore,
 						"effectbuttons" : effect_buttons,
 						"highlevel" : highlevel,
 						"skill" : skill,
-						"tutorial" : tutorial,
 #						"health": health
 						}
 
@@ -133,29 +137,32 @@ func load_game():
 	load_game.close()
 
 func save_game():
-	var save_game = File.new()
-	save_game.open("user://savegame.save", File.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("persist")
-	for node in save_nodes:
-#		print("node  ",node.name)
-		# Check the node is an instanced scene so it can be instanced again during load
-		#		if node.filename.empty():
-		#			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-		#			continue
-		if node.filename.empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-			continue
-		# Check the node has a save function
-		if !node.has_method("save"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
-			continue
+	if tutorial:
+		pass
+	else:
+		var save_game = File.new()
+		save_game.open("user://savegame.save", File.WRITE)
+		var save_nodes = get_tree().get_nodes_in_group("persist")
+		for node in save_nodes:
+	#		print("node  ",node.name)
+			# Check the node is an instanced scene so it can be instanced again during load
+			#		if node.filename.empty():
+			#			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			#			continue
+			if node.filename.empty():
+				print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+				continue
+			# Check the node has a save function
+			if !node.has_method("save"):
+				print("persistent node '%s' is missing a save() function, skipped" % node.name)
+				continue
 
-		# Call the node's save function
-		var node_data = node.call("save")
-		# Store the save dictionary as a new line in the save file
-		save_game.store_line(to_json(node_data))
-		break
-	save_game.close()	
+			# Call the node's save function
+			var node_data = node.call("save")
+			# Store the save dictionary as a new line in the save file
+			save_game.store_line(to_json(node_data))
+			break
+		save_game.close()	
 	
 func calc_achievements():
 	var achieve = 0

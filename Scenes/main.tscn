@@ -225,6 +225,9 @@ visible = false
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
+[node name="Arrow" parent="." instance=ExtResource( 24 )]
+visible = false
+
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = -4
 script = ExtResource( 21 )
@@ -235,9 +238,6 @@ anchor_bottom = 1.0
 margin_top = 118.0
 theme = ExtResource( 22 )
 split_offset = 300
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScoreBox" type="MarginContainer" parent="HUD/VSplitContainer"]
 margin_right = 1005.0
@@ -396,9 +396,6 @@ custom_colors/font_color = Color( 0.0831897, 0.922482, 0.0312045, 1 )
 text = "Level
 0"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/TextureProgress"]
 show_behind_parent = true
@@ -407,9 +404,6 @@ margin_top = 7.0
 margin_right = 207.0
 margin_bottom = 207.0
 texture = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HSplitContainer" type="HSplitContainer" parent="HUD/VSplitContainer"]
 margin_top = 723.0
@@ -771,15 +765,11 @@ __meta__ = {
 "_editor_description_": "Records total play time."
 }
 
-[node name="Arrow" parent="." instance=ExtResource( 24 )]
-visible = false
-
 [connection signal="JumpForward" from="." to="Player" method="_on_Main_JumpForward"]
 [connection signal="selfdestruct" from="." to="newcube" method="_on_Main_selfdestruct"]
 [connection signal="swiped" from="." to="Player" method="_on_Main_swiped"]
 [connection signal="destroy" from="Player" to="newcube" method="_on_Player_destroy"]
 [connection signal="laser" from="Player" to="." method="_on_Player_laser"]
-[connection signal="spirit" from="Player" to="." method="_on_Player_spirit"]
 [connection signal="timeout" from="GameTick" to="Player" method="_on_GameTick_timeout"]
 [connection signal="pressed" from="HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="HUD/VSplitContainer/HSplitContainer/Control/VBoxContainer/ForwardJump" to="." method="_on_ForwardJump_pressed"]
