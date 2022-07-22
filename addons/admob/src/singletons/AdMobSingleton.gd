@@ -54,7 +54,22 @@ func get_is_initialized() -> bool:
 
 func initialize() -> void:
 	if _plugin:
-		_plugin.initialize(config.general.is_for_child_directed_treatment, config.general.max_ad_content_rating, OS.has_feature("release"), config.debug.is_test_europe_user_consent)
+		var is_release : bool = OS.has_feature("release")
+		
+		var is_debug_on_release : bool = config.debug.is_debug_on_release
+
+		var is_real : bool = false
+		var is_test_europe_user_consent : bool = config.debug.is_test_europe_user_consent
+
+		if is_release:
+			is_real = true
+			is_test_europe_user_consent = false
+
+			if is_debug_on_release:
+				is_real = config.debug.is_real 
+				is_test_europe_user_consent = config.debug.is_test_europe_user_consent
+		
+		_plugin.initialize(config.general.is_for_child_directed_treatment, config.general.max_ad_content_rating, is_real, is_test_europe_user_consent)
 
 
 

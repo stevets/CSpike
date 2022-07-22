@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/admob/test/Example.gd" type="Script" id=1]
 [ext_resource path="res://addons/admob/assets/icon-500.png" type="Texture" id=2]
 [ext_resource path="res://addons/admob/assets/poing.jpeg" type="Texture" id=3]
 [ext_resource path="res://addons/admob/assets/music.ogg" type="AudioStream" id=4]
+[ext_resource path="res://addons/admob/test/MusicCheckButton.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.36377, 0.23226, 0.0795746, 1 )
@@ -14,6 +15,9 @@ bg_color = Color( 0.36377, 0.23226, 0.0795746, 1 )
 TabContainer/styles/panel = SubResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0, 0, 0, 1 )
 
 [node name="Example" type="Control"]
@@ -99,14 +103,14 @@ __meta__ = {
 }
 
 [node name="Banner" type="HBoxContainer" parent="Background/TabContainer/AdFormats/VBoxContainer"]
-margin_top = 31.0
-margin_right = 355.0
-margin_bottom = 51.0
+margin_top = 46.0
+margin_right = 426.0
+margin_bottom = 66.0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="EnableBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner"]
-margin_right = 175.0
+margin_right = 211.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 disabled = true
@@ -116,22 +120,22 @@ __meta__ = {
 }
 
 [node name="DisableBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner"]
-margin_left = 179.0
-margin_right = 355.0
+margin_left = 215.0
+margin_right = 426.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 disabled = true
 text = "DISABLE BANNER"
 
 [node name="Banner2" type="HBoxContainer" parent="Background/TabContainer/AdFormats/VBoxContainer"]
-margin_top = 55.0
-margin_right = 355.0
-margin_bottom = 75.0
+margin_top = 70.0
+margin_right = 426.0
+margin_bottom = 90.0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="ShowBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner2"]
-margin_right = 175.0
+margin_right = 211.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 disabled = true
@@ -141,31 +145,31 @@ __meta__ = {
 }
 
 [node name="HideBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner2"]
-margin_left = 179.0
-margin_right = 355.0
+margin_left = 215.0
+margin_right = 426.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 disabled = true
 text = "HIDE BANNER"
 
 [node name="Interstitial" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
-margin_top = 79.0
-margin_right = 355.0
-margin_bottom = 99.0
+margin_top = 94.0
+margin_right = 426.0
+margin_bottom = 114.0
 disabled = true
 text = "INTERSTITIAL"
 
 [node name="Rewarded" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
-margin_top = 103.0
-margin_right = 355.0
-margin_bottom = 123.0
+margin_top = 118.0
+margin_right = 426.0
+margin_bottom = 138.0
 disabled = true
 text = "REWARDED"
 
 [node name="RewardedInterstitial" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
-margin_top = 127.0
-margin_right = 355.0
-margin_bottom = 147.0
+margin_top = 142.0
+margin_right = 426.0
+margin_bottom = 162.0
 disabled = true
 text = "REWARDED INTERSTITIAL"
 
@@ -184,15 +188,15 @@ __meta__ = {
 }
 
 [node name="Control" type="Control" parent="Background/TabContainer/Banner/VBoxContainer"]
-margin_top = 68.0
+margin_top = 58.0
 margin_right = 355.0
-margin_bottom = 78.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="Position" type="CheckBox" parent="Background/TabContainer/Banner/VBoxContainer"]
-margin_top = 82.0
+margin_top = 72.0
 margin_right = 355.0
-margin_bottom = 98.0
+margin_bottom = 88.0
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/normal = SubResource( 4 )
@@ -202,10 +206,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BannerSizes" type="ItemList" parent="Background/TabContainer/Banner/VBoxContainer"]
-margin_top = 102.0
+[node name="RespectSafeArea" type="CheckBox" parent="Background/TabContainer/Banner/VBoxContainer"]
+margin_top = 92.0
 margin_right = 355.0
-margin_bottom = 111.0
+margin_bottom = 108.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+text = "Respect Safe Area (RECOMMENDED TRUE)"
+
+[node name="BannerSizes" type="ItemList" parent="Background/TabContainer/Banner/VBoxContainer"]
+margin_top = 112.0
+margin_right = 355.0
+margin_bottom = 121.0
 auto_height = true
 same_column_width = true
 __meta__ = {
@@ -296,9 +309,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
+[node name="MusicCheckButton" type="CheckButton" parent="Background"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -110.0
+margin_top = -84.0
+margin_bottom = -44.0
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+pressed = true
+text = "MUSIC"
+script = ExtResource( 5 )
+
+[node name="Music" type="AudioStreamPlayer" parent="Background/MusicCheckButton"]
 stream = ExtResource( 4 )
-autoplay = true
 
 [connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner/EnableBanner" to="." method="_on_EnableBanner_pressed"]
 [connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner/DisableBanner" to="." method="_on_DisableBanner_pressed"]
@@ -308,6 +335,7 @@ autoplay = true
 [connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Rewarded" to="." method="_on_Rewarded_pressed"]
 [connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/RewardedInterstitial" to="." method="_on_RewardedInterstitial_pressed"]
 [connection signal="pressed" from="Background/TabContainer/Banner/VBoxContainer/Position" to="." method="_on_Position_pressed"]
+[connection signal="pressed" from="Background/TabContainer/Banner/VBoxContainer/RespectSafeArea" to="." method="_on_RespectSafeArea_pressed"]
 [connection signal="item_selected" from="Background/TabContainer/Banner/VBoxContainer/BannerSizes" to="." method="_on_BannerSizes_item_selected"]
 [connection signal="pressed" from="Background/TabContainer/UMP/VBoxContainer/RequestUserConsent" to="." method="_on_RequestUserConsent_pressed"]
 [connection signal="pressed" from="Background/TabContainer/UMP/VBoxContainer/ResetConsentState" to="." method="_on_ResetConsentState_pressed"]
@@ -316,3 +344,4 @@ autoplay = true
 [connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsInterstitialLoaded" to="." method="_on_IsInterstitialLoaded_pressed"]
 [connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsRewardedLoaded" to="." method="_on_IsRewardedLoaded_pressed"]
 [connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsRewardedInterstitialLoaded" to="." method="_on_IsRewardedInterstitialLoaded_pressed"]
+[connection signal="pressed" from="Background/MusicCheckButton" to="Background/MusicCheckButton" method="_on_MusicCheckButton_pressed"]
