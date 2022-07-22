@@ -13,23 +13,30 @@ onready var RequestUserConsent : Button = $Background/TabContainer/UMP/VBoxConta
 onready var ResetConsentState : Button = $Background/TabContainer/UMP/VBoxContainer/ResetConsentState
 
 onready var Advice : RichTextLabel = $Background/Advice
-onready var Music : AudioStreamPlayer = $Music
 
 onready var BannerPosition : CheckBox = $Background/TabContainer/Banner/VBoxContainer/Position
+onready var RespectSafeArea : CheckBox = $Background/TabContainer/Banner/VBoxContainer/RespectSafeArea
 onready var BannerSizes : ItemList = $Background/TabContainer/Banner/VBoxContainer/BannerSizes
 
 func _add_text_Advice_Node(text_value : String) -> void:
 	Advice.bbcode_text += text_value + "\n"
 
 func _ready() -> void:
+	BannerPosition.pressed = MobileAds.AdMobSettings.config.banner.position
+	RespectSafeArea.pressed = MobileAds.AdMobSettings.config.banner.respect_safe_area
+
 	OS.center_window()
-	Music.play()
 	for banner_size in MobileAds.AdMobSettings.BANNER_SIZE:
 		BannerSizes.add_item(banner_size)
 	if OS.get_name() == "Android" or OS.get_name() == "iOS":
-		BannerPosition.pressed = MobileAds.AdMobSettings.config.banner.position
+		# warning-ignore:return_value_discarded
+		MobileAds.connect("consent_form_dismissed", self, "_on_MobileAds_consent_form_dismissed")
+		# warning-ignore:return_value_discarded
+		MobileAds.connect("consent_form_load_failure", self, "_on_MobileAds_consent_form_load_failure")
 		# warning-ignore:return_value_discarded
 		MobileAds.connect("consent_info_update_failure", self, "_on_MobileAds_consent_info_update_failure")
+		# warning-ignore:return_value_discarded
+		MobileAds.connect("consent_info_update_success", self, "_on_MobileAds_consent_info_update_success")
 		# warning-ignore:return_value_discarded
 		MobileAds.connect("consent_status_changed", self, "_on_MobileAds_consent_status_changed")
 		# warning-ignore:return_value_discarded
@@ -140,13 +147,22 @@ func _on_MobileAds_rewarded_interstitial_ad_closed() -> void:
 func _on_MobileAds_user_earned_rewarded(currency : String, amount : int) -> void:
 	Advice.bbcode_text += "EARNED " + currency + " with amount: " + str(amount) + "\n"
 
-func _on_MobileAds_consent_info_update_failure(_error_code : int, error_message : String) -> void:
-	_add_text_Advice_Node("Request Consent from European Users failure: " + error_message)
+func _on_MobileAds_consent_form_dismissed() -> void:
+	_add_text_Advice_Node("Request Consent from European Users Form dismissed")
+
+func _on_MobileAds_consent_form_load_failure(error_code, error_message) -> void:
+	_add_text_Advice_Node("Request Consent from European Users load_failure: " + error_message)
 	_add_text_Advice_Node("---------------------------------------------------")
 
-func _on_MobileAds_consent_status_changed(status_message : String) -> void:
-	_add_text_Advice_Node(status_message)
+func _on_MobileAds_consent_info_update_failure(_error_code : int, error_message : String) -> void:
+	_add_text_Advice_Node("Request Consent from European Users update failure: " + error_message)
+	_add_text_Advice_Node("---------------------------------------------------")
 
+func _on_MobileAds_consent_info_update_success(status_message : String) -> void:
+	_add_text_Advice_Node("Consent info update success: " + status_message)
+
+func _on_MobileAds_consent_status_changed(status_message : String) -> void:
+	_add_text_Advice_Node("Consent status changed: " + status_message)
 
 func _on_BannerSizes_item_selected(index : int) -> void:
 	if MobileAds.get_is_initialized():
@@ -168,6 +184,10 @@ func _on_Position_pressed() -> void:
 	if MobileAds.get_is_banner_loaded():
 		MobileAds.load_banner()
 
+func _on_RespectSafeArea_pressed():
+	MobileAds.config.banner.respect_safe_area = RespectSafeArea.pressed
+	if MobileAds.get_is_banner_loaded():
+		MobileAds.load_banner()
 
 func _on_IsInitialized_pressed() -> void:
 	_add_text_Advice_Node("Is initialized: " + str(MobileAds.get_is_initialized()))
@@ -194,3 +214,5 @@ func _on_ShowBanner_pressed() -> void:
 
 func _on_HideBanner_pressed() -> void:
 	MobileAds.hide_banner()
+
+

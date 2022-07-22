@@ -23,23 +23,26 @@ _global_script_class_icons={
 config={
 "banner": {
 "position": 0,
-"show_instantly": false,
+"respect_safe_area": true,
+"show_instantly": true,
 "size": "BANNER",
 "unit_ids": {
 "Android": {
-"standard": "ca-app-pub-3940256099942544/6300978111"
+"standard": "ca-app-pub-5318668415543079/5971676434"
 },
 "iOS": {
-"standard": "ca-app-pub-3940256099942544/2934735716"
+"standard": "ca-app-pub-5318668415543079/1078695998"
 }
 }
 },
 "debug": {
+"is_debug_on_release": false,
+"is_real": true,
 "is_test_europe_user_consent": false
 },
 "general": {
 "is_enabled": true,
-"is_for_child_directed_treatment": true,
+"is_for_child_directed_treatment": false,
 "max_ad_content_rating": "G"
 },
 "interstitial": {
@@ -86,6 +89,10 @@ config/icon="res://icon.png"
 
 Globalnode="*res://Scenes/Globalnode.tscn"
 MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
+
+[debug]
+
+gdscript/warnings/exclude_addons=false
 
 [display]
 

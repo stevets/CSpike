@@ -5,6 +5,7 @@ signal laser(laserdatanew)
 #signal createbanner()
 
 
+
 onready var globals = $"/root/Globalnode"
 onready var didstart = get_tree().get_root().get_node("SceneSwitcher/Main")
 onready var gametick = get_tree().get_root().get_node("SceneSwitcher/Main/GameTick")
@@ -173,6 +174,7 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 		resultroot = _hitobj.collider.get_parent().get_parent()
 		if globals.skillgun:
 				if !spiritdetected:
+					globals.skill_gun_fires += 1
 					objID = _hitobj.collider
 					if objID:
 						globals.game_data["coins"] -= 15
@@ -215,8 +217,9 @@ func firedweapon(fired, _hitobj, _name, _ccolormatch):
 								if resultgone.collider != objID:
 									result.collider.get_parent().get_surface_material(0).emission_enabled = false
 								resultfront = null
+				else:
+					globals.alarmgun.play()
 				globals.raycast_length = -8
-				globals.skill_gun_fires += 1
 				get_parent().get_node("HUD/VSplitContainer/HSplitContainer/Control//VBoxContainer/SkillGun/SkillGunFires").text = str(globals.skill_gun_fires)
 		elif colorbasecube: #skillgun is false
 #			checkLeftRight(_hitobj)
@@ -383,8 +386,8 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/VBoxContainer/SpiritGun").visible = false
 		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/HSplitContainer/VBoxContainer/AmmoGun").visible = false
 #		get_tree().get_root().get_node("SceneSwitcher/Main/HUD/VSplitContainer/ScoreBox/VBoxContainer/HBoxContainer/PauseButton").visible = false
-		get_tree().paused = true
 		globals.save_game()
+		get_tree().paused = true
 	elif globals.ammo == 0:# or globals.health == 0:
 		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
@@ -402,8 +405,8 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.noammo
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
-		get_tree().paused = true
 		globals.save_game()
+		get_tree().paused = true
 	elif globals.health <= 0:
 		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
@@ -421,8 +424,8 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.nohealth
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
-		get_tree().paused = true
 		globals.save_game()
+		get_tree().paused = true
 	elif globals.spiritdied:
 		if globals.level >= globals.game_data["highlevel"]:
 			globals.game_data["highlevel"] = globals.level
@@ -440,8 +443,8 @@ func _on_GameTick_timeout():
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/HighScore/outputfeedback").text = globals.spiritdeath
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup").visible = true
 		get_tree().get_root().get_node("SceneSwitcher/Main/PausePopup/ColorRect").visible = true
-		get_tree().paused = true
 		globals.save_game()
+		get_tree().paused = true
 	else:
 		globals.rowchangetick.play()
 		var cam = get_tree().get_root().get_node("SceneSwitcher/Main/Camera")
@@ -508,9 +511,8 @@ func _on_AmmoGun_pressed():
 
 func _on_Main_JumpForward():
 	_on_GameTick_timeout()
-
-
-
+	
 func save():
 	var save_dict = globals.game_data
 	return save_dict
+		

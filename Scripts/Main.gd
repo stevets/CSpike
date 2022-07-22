@@ -7,6 +7,7 @@ signal selfdestruct(plyposz)
 signal JumpForward()
 
 
+
 onready var playinst = preload("res://Scenes/Player.tscn")
 onready var cubetexinst = preload("res://Scenes/newcube.tscn")
 onready var ammobox = preload("res://Scenes/AmmoBox.tscn")
@@ -14,7 +15,7 @@ onready var medicbox = preload("res://Scenes/MedicBox.tscn")
 onready var bombinst = preload("res://Scenes/bomb.tscn")
 onready var laserbeam = preload("res://Scenes/laser.tscn")
 onready var bannerinst = preload("res://Scenes/floor.tscn")
-onready var switch = preload("res://Scenes/SceneSwitcher.tscn")
+onready var switch = load("res://Scenes/SceneSwitcher.tscn")
 #onready var Leveltextinst = preload("res://Scenes/3d text.tscn")
 onready var timer = $Timer
 onready var gametick = $GameTick
@@ -47,6 +48,9 @@ var time1 = 200
 var lastrow = rows
 var firstrow = 0
 var swipe_start_position = Vector2(0,0)
+var tutoriallist = ["swipe", "spirit", "fireammo", "jump", "movespirit", "spellammo", "pausegame", "level", "rowchange", "playgame"]
+var arrowpos = [Vector2(113,1843)]
+
 
 func _ready():
 	globals.level = 0
@@ -56,10 +60,17 @@ func _ready():
 	globals.game_data["finalscore"] = globals.finalscore
 	globals.gameplaymusic.play()
 	$HUD.show()
-	gametick.start(globals.levelspeed)
+	if globals.tutorial:
+		gametick.stop()
+		$PausePopup/HighScore/HBoxContainer/SettingRetry.visible = false
+#		$Arrow/Swipe.play("resettutorial")
+	else:
+		gametick.start(globals.levelspeed)
 	playtime.start(1000)
 	game_started = true
+	print("create game board start")
 	_createGameBoard(firstrow, lastrow)
+	print("create game board completed")
 #	_create_Banner()
 	#Add Player-----------------------------------------------------------------------------
 	ply = playinst.instance()
@@ -69,18 +80,29 @@ func _ready():
 	add_child(ply)
 	ply.global_translate(Vector3(0, 0.8 ,0))
 	$HUD/VSplitContainer/ScoreBox/Container.visible = true
-#------Swipe dectection and Click-----------------------------------------------
-
+	globals.tutorialstep = 0
+	print("Ready main completed")
 	
+#------Swipe dectection and Click-----------------------------------------------
 func _process(_delta):
-#	if globals.game_data["finalscore"] % globals.bannerinst == 0:
-#		_create_Banner()
-#	var cube = cubetexinst.instance()
-#	#print("creating level banner")
-#	var unique_mat0 = cube.get_child(0).get_surface_material(0).duplicate()
-#	cube.get_child(0).set_surface_material(0, unique_mat0)
-#	add_child(cube)
-#	cube.global_translate(Vector3(2, 1.5, -1))
+	if globals.tutorial:
+		if tutoriallist[globals.tutorialstep] == "playgame":
+			$Arrow/TextureRect.visible = false
+			$Arrow/Button.visible = false
+			$Arrow/Label.visible = false
+			$Arrow/Polygon2D.visible = false
+		else:
+			$Arrow/TextureRect.visible = true
+			$Arrow/Button.visible = true
+			$Arrow/Label.visible = true
+			if tutoriallist[globals.tutorialstep] == "rowchange":
+				$Arrow/Polygon2D.visible = false
+			else:
+				$Arrow/Polygon2D.visible = true
+		if !$Arrow/Swipe.is_playing(): 
+			$Arrow/Label.text = globals.tutorialtext[globals.tutorialstep]
+			$Arrow/Swipe.play(tutoriallist[globals.tutorialstep])
+			$Arrow.visible = true
 	$HUD/VSplitContainer/ScoreBox/VBoxContainer/ProgressBar.value = gametick.time_left/globals.levelspeed * 100
 	time1 -= 1
 	$HUD.update_score()
@@ -297,7 +319,28 @@ func _on_AmmoGun2_pressed():
 
 
 func _on_ForwardJump_pressed():
-	$GameTick.start()
+#	if !globals.tutorial:
+#		$GameTick.start()
 	emit_signal("JumpForward")
 	
 	
+
+
+func _on_SettingRetry_pressed():
+	if !globals.tutorial:
+		var paused = get_tree().paused
+		print("paused: ", paused)
+		get_tree().paused = false
+		globals.gameplaymusic.playing = false
+		globals.laserbeam.playing = false
+		globals.retrygame = true
+	#	globals.gameintro.play()
+	#	if paused:
+	#		$PausePopup.hide()
+	#		get_tree().paused = false
+	#	else:
+	#		$PausePopup.show()
+	#		get_tree().paused = true
+		var _main = get_tree().change_scene("res://Scenes/SceneSwitcher.tscn")
+	else:
+		pass
